@@ -26,51 +26,41 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: MainTaskTables/FilterIndex
+        //[ChildActionOnly]
         //[GroupAuthorize("ITMesAdmin", "ITMesTechnician", "ITHaeczMesSection")]
-        public ViewResult FilterIndex(int? page)
+        public PartialViewResult FilterIndex(string filterMT, DateTime? mtFromDT, DateTime? mtToDT, int? mtPage)
         {
             var mainTaskTable = db.MainTaskTable.Include(p => p.ReportTable);
 
             int pageSize = 20;
-            int pageNumber = (page ?? 1);
-            return View(mainTaskTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time).ToPagedList(pageNumber, pageSize));
-        }
-
-        // POST : MainTaskTables/FilterIndex > Filter
-        public ViewResult FilterIndexFilter(string filter, DateTime? fromDT, DateTime? toDT, int? page)
-        {
-            var mainTaskTable = db.MainTaskTable.Include(p => p.ReportTable);
-
-            int pageSize = 20;
-            int pageNumber = (page ?? 1);
+            int pageNumber = (mtPage ?? 1);
 
             // Filter by company
-            if (filter == "GLOVIS" || filter == "TRANSYS")
+            if (filterMT == "GLOVIS" || filterMT == "TRANSYS")
             {
-                var filtered = mainTaskTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time).Where(w => w.Shop == filter);
-                return View("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
+                var filtered = mainTaskTable.Where(w => w.Shop == filterMT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
+                return PartialView("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
             }
 
             // Filter by Date - From date to Date || only From date || only to Date
-            //(fromDT != DateTime.MinValue && toDT != DateTime.MinValue) || 
-            if ((fromDT != null && toDT != null))
+            if ((mtFromDT != null && mtToDT != null))
             {
-                var filteredDate = mainTaskTable.Where(w => w.ReportTable.Date >= fromDT && w.ReportTable.Date <= toDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
-                return View("FilterIndex", filteredDate.ToPagedList(pageNumber, pageSize));
+                var filteredDate = mainTaskTable.Where(w => w.ReportTable.Date >= mtFromDT && w.ReportTable.Date <= mtToDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
+                return PartialView("FilterIndex", filteredDate.ToPagedList(pageNumber, pageSize));
             }
-            else if ((fromDT != null && toDT == null))
+            else if ((mtFromDT != null && mtToDT == null))
             {
-                var filteredDate = mainTaskTable.Where(w => w.ReportTable.Date >= fromDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
-                return View("FilterIndex", filteredDate.ToPagedList(pageNumber, pageSize));
+                var filteredDate = mainTaskTable.Where(w => w.ReportTable.Date >= mtFromDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
+                return PartialView("FilterIndex", filteredDate.ToPagedList(pageNumber, pageSize));
             }
-            else if ((fromDT == null && toDT != null))
+            else if ((mtFromDT == null && mtToDT != null))
             {
-                var filteredDate = mainTaskTable.Where(w => w.ReportTable.Date <= toDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
-                return View("FilterIndex", filteredDate.ToPagedList(pageNumber, pageSize));
+                var filteredDate = mainTaskTable.Where(w => w.ReportTable.Date <= mtToDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
+                return PartialView("FilterIndex", filteredDate.ToPagedList(pageNumber, pageSize));
             }
             else
             {
-                return View("FilterIndex", mainTaskTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time));
+                return PartialView("FilterIndex", mainTaskTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time).ToPagedList(pageNumber, pageSize));
             }
         }
 

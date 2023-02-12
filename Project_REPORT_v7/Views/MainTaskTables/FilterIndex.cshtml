@@ -9,10 +9,10 @@
 
 <script>
     $(function () {
-        $(".radiobtn").checkboxradio({
+        $("#radioMT input").checkboxradio({
             icon: false
         });
-        from = $("#fromDT")
+        mtFrom = $("#mtFromDT")
             .datepicker({
                 defaultDate: "",
                 changeMonth: true,
@@ -20,15 +20,15 @@
                 dateFormat: "dd.mm.yy"
             })
             .on("change", function () {
-                to.datepicker("option", "minDate", getDate(this));
+                mtTo.datepicker("option", "minDate", getDate(this));
             }),
-            to = $("#toDT").datepicker({
+            mtTo = $("#mtToDT").datepicker({
                 changeMonth: true,
                 numberOfMonths: 1,
                 dateFormat: "dd.mm.yy"
             })
                 .on("change", function () {
-                    from.datepicker("option", "maxDate", getDate(this));
+                    mtFrom.datepicker("option", "maxDate", getDate(this));
                 });
 
         function getDate(element) {
@@ -43,110 +43,80 @@
     });
 </script>
 
-<h2>Filter Main Task</h2>
+<div>
+    
 
-<div class="navbar navbar-default">
-    <div class="container-fluid">
-        @using (Html.BeginForm("FilterIndexFilter", "MainTaskTables", FormMethod.Post, htmlAttributes: new { @class = "navbar-form", @style="padding: 5px 0 0 0;" }))
-        {
-            <div class="navbar navbar-left">
-                <div class="form-group " role="group">
-                    <div class="btn-group">
-                        <label for="ALL" class="btn btn-default">ALL</label>
-                        @Html.RadioButton("Filter", "ALL", true, htmlAttributes: new { @title = "ALL", @class = "radiobtn", @id = "ALL", @style = "visibility: hidden; width:0; height:0;" })
+    <br />
+    <div @*id="tab_MainTask"*@>
+        <table class="table table-responsive table-striped table-condensed table-hover">
+            <tr>
+                <th class="text-center">
+                    @Html.DisplayName("Date")
+                </th>
+                <th class="text-center">
+                    @Html.DisplayName("Shift")
+                </th>
+                <th class="text-center">
+                    @Html.DisplayName("CCR")
+                </th>
+                <th class="text-center">
+                    @Html.DisplayName("Office")
+                </th>
+                <th class="text-center">
+                    @Html.DisplayName("Time")
+                </th>
+                <th class="text-center">
+                    @Html.DisplayName("Shop")
+                </th>
+                <th class="text-center">
+                    @Html.DisplayName("System")
+                </th>
+                <th class="text-center col-md-3">
+                    @Html.DisplayName("What happened")
+                </th>
+                <th class="text-center col-md-4">
+                    @Html.DisplayName("How it was solved")
+                </th>
+            </tr>
 
-                        <label for="GLOVIS" class="btn btn-default">GLOVIS</label>
-                        @Html.RadioButton("Filter", "GLOVIS", htmlAttributes: new { @title = "GLOVIS", @class = "radiobtn", @id = "GLOVIS", @style = "visibility: hidden; width:0; height:0;" })
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.ReportTable.Date)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.ReportTable.Shift[0])
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReportTable.MembersTable.FirstName[0]). @Html.DisplayFor(modelItem => item.ReportTable.MembersTable.LastName) <br />
+                        @Html.DisplayFor(modelItem => item.ReportTable.MembersTable1.FirstName[0]). @Html.DisplayFor(modelItem => item.ReportTable.MembersTable1.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cooperation)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Duration)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Shop)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.System)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Problem)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Solution)
+                    </td>
+                </tr>
+            }
 
-                        <label for="TRANSYS" class="btn btn-default">TRANSYS</label>
-                        @Html.RadioButton("Filter", "TRANSYS", htmlAttributes: new { @title = "TRANSYS", @class = "radiobtn", @id = "TRANSYS", @style = "visibility: hidden; width:0; height:0;" })
-                    </div>
-                </div>
+        </table>
 
-                <div class="form-group">
-                    <label for="fromDT">From</label>
-                    <input type="text" id="fromDT" name="fromDT" class="form-control" placeholder="@DateTime.MinValue.ToString("dd.MM.yyyy")" />
-                </div>
-                <div class="form-group">
-                    <label for="toDT">To</label>
-                    <input type="text" id="toDT" name="toDT" class="form-control" placeholder="@DateTime.Now.ToString("dd.MM.yyyy")" />
-                </div>
-            </div>
-            <div class="navbar-right" style="padding: 0 15px 0 0;">
-                <input type="submit" value="Apply" class="btn btn-default" />
-            </div>
-        }
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, mtPage => Url.Action("FilterIndex", new { mtPage }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "tab_MainTask", InsertionMode = InsertionMode.ReplaceWith }))
     </div>
 </div>
-
-<br />
-<table class="table table-responsive table-striped table-condensed table-hover">
-    <tr>
-        <th class="text-center">
-            @Html.DisplayName("Date")
-        </th>
-        <th class="text-center">
-            @Html.DisplayName("Shift")
-        </th>
-        <th class="text-center">
-            @Html.DisplayName("CCR")
-        </th>
-        <th class="text-center">
-            @Html.DisplayName("Office")
-        </th>
-        <th class="text-center">
-            @Html.DisplayName("Time")
-        </th>
-        <th class="text-center">
-            @Html.DisplayName("Shop")
-        </th>
-        <th class="text-center">
-            @Html.DisplayName("System")
-        </th>
-        <th class="text-center col-md-3">
-            @Html.DisplayName("What happened")
-        </th>
-        <th class="text-center col-md-4">
-            @Html.DisplayName("How it was solved")
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td class="text-center">
-                @Html.DisplayFor(modelItem => item.ReportTable.Date)
-            </td>
-            <td class="text-center">
-                @Html.DisplayFor(modelItem => item.ReportTable.Shift[0])
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReportTable.MembersTable.FirstName[0]). @Html.DisplayFor(modelItem => item.ReportTable.MembersTable.LastName) <br />
-                @Html.DisplayFor(modelItem => item.ReportTable.MembersTable1.FirstName[0]). @Html.DisplayFor(modelItem => item.ReportTable.MembersTable1.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cooperation)
-            </td>
-            <td class="text-center">
-                @Html.DisplayFor(modelItem => item.Duration)
-            </td>
-            <td class="text-center">
-                @Html.DisplayFor(modelItem => item.Shop)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.System)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Problem)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Solution)
-            </td>
-        </tr>
-    }
-
-</table>
-
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("FilterIndex", new { page }))

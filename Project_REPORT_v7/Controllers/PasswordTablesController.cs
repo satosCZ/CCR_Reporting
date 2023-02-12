@@ -24,20 +24,12 @@ namespace Project_REPORT_v7.Controllers
             return PartialView(passwordTable.OrderBy(s => s.Time).ToList());
         }
 
-        public PartialViewResult FilterIndex(int? page)
-        {
-            var passwordTable = db.PasswordTable.Include(p => p.ReportTable);
-            int pageSize = 20;
-            int pageNumber = (page ?? 1);
-            return PartialView(passwordTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time).ToPagedList(pageNumber, pageSize));
-        }
-
-        public ActionResult FilterIndexFilter(string filter, DateTime? fromDT, DateTime? toDT, int? page)
+        public PartialViewResult FilterIndex(string filterPW, DateTime? pwFromDT, DateTime? pwToDT, int? pwPage)
         {
             var passwordTable = db.PasswordTable.Include(p => p.ReportTable);
 
             int pageSize = 20;
-            int pageNumber = (page ?? 1);
+            int pageNumber = (pwPage ?? 1);
 
             //if (filter == "GWMS" || filter == "GCS" || filter == "ELIS" || filter == "GLOVIS AD")
             //{
@@ -46,35 +38,34 @@ namespace Project_REPORT_v7.Controllers
             //}
 
             // Array of Strings for filtering passwords systems
-            string[] glovisPass = new string[] { "ELIS", "GWMS", "GCS", "GLOVIS AD" };
-            foreach (var pass in glovisPass)
+            if (filterPW == "GLOVIS")
             {
-                if (filter.Contains(pass))
-                {
-                    var filtered = passwordTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time).Where(w => glovisPass.Any(w.System.Contains));
-                    return View("FilterIndex", filtered);
-                }
+                string[] glovisPass = new string[] { "ELIS", "GWMS", "GCS", "GLOVIS AD" };
+                // var filtered = passwordTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time).Where(w => glovisPass.Any(w.System.Contains));
+                var filters = glovisPass.Select(s => s.ToString()).ToList();
+                var filtered = passwordTable.Where(w => filters.Contains(w.System)).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
+                return PartialView("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
             }
 
             // Filter by Date - From Date to Date || only From Date || only To Date
-            if (fromDT != null && toDT != null)
+            if (pwFromDT != null && pwToDT != null)
             {
-                var filtered = passwordTable.Where(w => w.ReportTable.Date >= fromDT && w.ReportTable.Date <= toDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
-                return View("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
+                var filtered = passwordTable.Where(w => w.ReportTable.Date >= pwFromDT && w.ReportTable.Date <= pwToDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
+                return PartialView("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
             }
-            else if(fromDT != null && toDT == null)
+            else if(pwFromDT != null && pwToDT == null)
             {
-                var filtered = passwordTable.Where(w => w.ReportTable.Date >= fromDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
-                return View("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
+                var filtered = passwordTable.Where(w => w.ReportTable.Date >= pwFromDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
+                return PartialView("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
             }
-            else if (fromDT == null && toDT != null)
+            else if (pwFromDT == null && pwToDT != null)
             {
-                var filtered = passwordTable.Where(w => w.ReportTable.Date <= toDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
-                return View("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
+                var filtered = passwordTable.Where(w => w.ReportTable.Date <= pwToDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
+                return PartialView("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
             }
             else
             {
-                return View("FilterIndex", passwordTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time)); 
+                return PartialView("FilterIndex", passwordTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time).ToPagedList(pageNumber, pageSize)); 
             }            
         }
 

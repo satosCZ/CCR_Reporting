@@ -1,137 +1,67 @@
 ﻿@model PagedList.IPagedList<Project_REPORT_v7.Models.PasswordTable>
 @using PagedList.Mvc;
 
-<script>
-    $(function () {
-        $(".radiobtn").checkboxradio({
-            icon: false
-        });
-
-        from = $("#fromDT")
-            .datepicker({
-                defaultDate: "",
-                changeMonth: true,
-                numberOfMonths: 1,
-                dateFormat: "dd.mm.yy"
-            })
-            .on("change", function () {
-                to.datepicker("option", "minDate", getDate(this));
-            }),
-            to = $("#toDT").datepicker({
-                changeMonth: true,
-                numberOfMonths: 1,
-                dateFormat: "dd.mm.yy"
-            })
-                .on("chamge", function () {
-                    from.datepicker("option", "maxDate", getDate(this));
-                });
-
-        function getDate(element) {
-            var date;
-            try {
-                date = $.datepicker.parseDate(dateFormat, element.value);
-            } catch (error) {
-                date = null;
-            }
-            return date;
-        }
-    });
-</script>
-
-
-<div class="navbar navbar-default">
-    <div class="container-fluid">
-        @using (Html.BeginForm("FilterIndexFilter", "PasswordTables", FormMethod.Post, htmlAttributes: new { @class = "navbar-form", @style = "padding 5px 0 0 0;" }))
-        {
-            <div class="navbar navbar-left">
-                <div class="form-group" role="group">
-                    <div class="btn-group">
-                        <label for="ALL" class="btn btn-default">ALL</label>
-                        @Html.RadioButton("Filter", "ALL", true, htmlAttributes: new { @title = "ALL", @class = "radiobtn", @id = "ALL", @style = "visibility: hidden; width:0; height:0;" })
-
-                        <label for="GLOVIS" class="btn btn-default">GLOVIS</label>
-                        @Html.RadioButton("Filter", "GLOVIS", htmlAttributes: new { @title = "GLOVIS", @class = "radiobtn", @id = "GLOVIS", @style = "visibility: hidden; width:0; height:0;" })
-
-                        @*<label for="TRANSYS" class="btn btn-default">TRANSYS</label>
-                        @Html.RadioButton("Filter", "TRANSYS", htmlAttributes: new { @title = "TRANSYS", @class = "radiobtn", @id = "TRANSYS", @style = "visibility: hidden; width:0; height:0;" })*@
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="fromDT">From</label>
-                    <input type="text" id="fromDT" name="fromDT" class="form-control" placeholder="@DateTime.MinValue.ToString("dd.MM.yyyy")" />
-                </div>
-                <div class="form-group">
-                    <label for="toDT">To</label>
-                    <input type="text" id="toDT" name="toDT" class="form-control" placeholder="@DateTime.Now.ToString("dd.MM.yyyy")" />
-                </div>
-            </div>
-            <div class="navbar-right" stle="padding: 0 15px 0 0;">
-                <input type="submit" value="Apply" class="btn btn-default" />
-            </div>
-        }
-    </div>
-</div>
-
-<br />
-<table class="table table-responsive table-striped table-condensed table-hover">
-    <tr>
-        <th class="text-center">
-            @Html.DisplayName("Date")
-        </th>
-        <th class="text-center">
-            @Html.DisplayName("Shift")
-        </th>
-        <th class="text-center">
-            @Html.DisplayName("CCR")
-        </th>
-        <th class="text-center">
-            @Html.DisplayName("Time")
-        </th>
-        <th class="text-center">
-            @Html.DisplayName("Full Name")
-        </th>
-        <th class="text-center">
-            @Html.DisplayName("User ID")
-        </th>
-        <th class="text-center">
-            @Html.DisplayName("System")
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<div @*id="tab_Password"*@>
+    <table class="table table-responsive table-striped table-condensed table-hover">
         <tr>
-            @*<td>
-            @Html.DisplayFor(modelItem => item.Time)
-        </td>*@
-            <td class="text-center">
-                @Html.DisplayFor(modelItem => item.ReportTable.Date)
-            </td>
-            <td class="text-center">
-                @Html.DisplayFor(modelItem => item.ReportTable.Shift[0])
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReportTable.MembersTable.FirstName[0]). @Html.DisplayFor(modelItem => item.ReportTable.MembersTable.LastName) <br />
-                @Html.DisplayFor(modelItem => item.ReportTable.MembersTable1.FirstName[0]). @Html.DisplayFor(modelItem => item.ReportTable.MembersTable1.LastName)
-            </td>
-            <td class="text-center">
-                @Html.DisplayFor(modelItem => item.Time)
-            </td>
-            <td class="text-center">
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-            <td class="text-center">
-                @Html.DisplayFor(modelItem => item.UserID)
-            </td>
-            <td class="text-center">
-                @Html.DisplayFor(modelItem => item.System)
-            </td>
+            <th class="text-center">
+                @Html.DisplayName("Date")
+            </th>
+            <th class="text-center">
+                @Html.DisplayName("Shift")
+            </th>
+            <th class="text-center">
+                @Html.DisplayName("CCR")
+            </th>
+            <th class="text-center">
+                @Html.DisplayName("Time")
+            </th>
+            <th class="text-center">
+                @Html.DisplayName("Full Name")
+            </th>
+            <th class="text-center">
+                @Html.DisplayName("User ID")
+            </th>
+            <th class="text-center">
+                @Html.DisplayName("System")
+            </th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>*@
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.ReportTable.Date)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.ReportTable.Shift[0])
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReportTable.MembersTable.FirstName[0]). @Html.DisplayFor(modelItem => item.ReportTable.MembersTable.LastName) <br />
+                    @Html.DisplayFor(modelItem => item.ReportTable.MembersTable1.FirstName[0]). @Html.DisplayFor(modelItem => item.ReportTable.MembersTable1.LastName)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.UserID)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.System)
+                </td>
+            </tr>
+        }
 
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    </table>
 
-@Html.PagedListPager(Model, page => Url.Action("FilterIndex", new { page }))
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, pwPage => Url.Action("FilterIndex", new { pwPage }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "tab_Password", InsertionMode = InsertionMode.ReplaceWith }));
+</div>
 

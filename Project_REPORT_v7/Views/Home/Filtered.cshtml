@@ -37,9 +37,126 @@
 
 <div id="tabs">
     <ul>
-        <li><a href="@Url.Action("FilterIndex", "MainTaskTables")">Main Task</a></li>
-        <li><a href="@Url.Action("FilterIndex", "PasswordTables")">Passwords</a></li>
+        @*<li><a href="@Url.Action("FilterIndex", "MainTaskTables")">Main Task</a></li>
+        <li><a href="@Url.Action("FilterIndex", "PasswordTables")">Passwords</a></li>*@
+        <li><a href="#tab1">Main Task</a></li>
+        <li><a href="#tab2">Passwords</a></li>
     </ul>
+    <div id="tab1">
+        <h2>Filter Main Task</h2>
+
+        <div class="navbar navbar-default">
+            <div class="container-fluid">
+                @*@using (Html.BeginForm("FilterIndex", "MainTaskTables", FormMethod.Post, htmlAttributes: new { @class = "navbar-form", @style = "padding: 5px 0 0 0;" }))*@
+                @using (Ajax.BeginForm("FilterIndex", "MainTaskTables", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "tab_MainTask", InsertionMode = InsertionMode.ReplaceWith }, htmlAttributes: new { @class = "navbar-form", @style = "padding: 5px 0 0 0;" }))
+                {
+                    <div class="navbar navbar-left">
+                        <div class="form-group">
+                            <div class="btn-group clearfix" id="radioMT" role="radiogroup">
+                                <label for="ALL" class="btn btn-default">ALL</label>
+                                @Html.RadioButton("FilterMT", "ALL", true, htmlAttributes: new { @title = "ALL", @id = "ALL", @style = "visibility: hidden; width:0; height:0;", @class = "radioMT" })
+
+                                <label for="GLOVIS" class="btn btn-default">GLOVIS</label>
+                                @Html.RadioButton("FilterMT", "GLOVIS", htmlAttributes: new { @title = "GLOVIS", @id = "GLOVIS", @style = "visibility: hidden; width:0; height:0;", @class = "radioMT" })
+
+                                <label for="TRANSYS" class="btn btn-default">TRANSYS</label>
+                                @Html.RadioButton("FilterMT", "TRANSYS", htmlAttributes: new { @title = "TRANSYS", @id = "TRANSYS", @style = "visibility: hidden; width:0; height:0;", @class = "radioMT" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fromDT">From</label>
+                            <input type="text" id="mtFromDT" name="mtFromDT" class="form-control" placeholder="@DateTime.MinValue.ToString("dd.MM.yyyy")" />
+                        </div>
+                        <div class="form-group">
+                            <label for="toDT">To</label>
+                            <input type="text" id="mtToDT" name="mtToDT" class="form-control" placeholder="@DateTime.Now.ToString("dd.MM.yyyy")" />
+                        </div>
+                    </div>
+                    <div class="navbar-right" style="padding: 0 15px 0 0;">
+                        <input type="submit" value="Apply" class="btn btn-default" />
+                    </div>
+                }
+            </div>
+        </div>
+        
+        <div id="tab_MainTask">@{Html.RenderAction("FilterIndex", "MainTaskTables"); }</div>
+    </div>
+    <div id="tab2">
+        <script>
+            $(function () {
+                $("#radioPW input").checkboxradio({
+                    icon: false
+                });
+
+                pwFrom = $("#pwFromDT")
+                    .datepicker({
+                        defaultDate: "",
+                        changeMonth: true,
+                        numberOfMonths: 1,
+                        dateFormat: "dd.mm.yy"
+                    })
+                    .on("change", function () {
+                        pwTo.datepicker("option", "minDate", getDate(this));
+                    }),
+                    pwTo = $("#pwToDT").datepicker({
+                        changeMonth: true,
+                        numberOfMonths: 1,
+                        dateFormat: "dd.mm.yy"
+                    })
+                        .on("chamge", function () {
+                            pwFrom.datepicker("option", "maxDate", getDate(this));
+                        });
+
+                function getDate(element) {
+                    var date;
+                    try {
+                        date = $.datepicker.parseDate(dateFormat, element.value);
+                    } catch (error) {
+                        date = null;
+                    }
+                    return date;
+                }
+            });
+        </script>
+
+        <div class="navbar navbar-default">
+            <div class="container-fluid">
+                @*@using (Html.BeginForm("FilterIndex", "PasswordTables", FormMethod.Post, htmlAttributes: new { @class = "navbar-form", @style = "padding 5px 0 0 0;" }))*@
+                @using (Ajax.BeginForm("FilterIndex", "PasswordTables", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "tab_Password" }, htmlAttributes: new { @class = "navbar-form", @style = "padding 5px 0 0 0;" }))
+                {
+                    <div class="navbar navbar-left">
+                        <div class="form-group">
+                            <div class="btn-group clearfix radioPW" id="radioPW" role="radiogroup">
+                                <label for="ALL" class="btn btn-default text-uppercase">ALL</label>
+                                @Html.RadioButton("FilterPW", "ALL", true, htmlAttributes: new { @checked = "checked", @title = "ALL", @id = "ALL", @style = "visibility: hidden; width:0; height:0;", @class = "radioPW" })
+
+                                <label for="GLOVIS" class="btn btn-default">GLOVIS</label>
+                                @Html.RadioButton("FilterPW", "GLOVIS", htmlAttributes: new { @title = "GLOVIS", @id = "GLOVIS", @style = "visibility: hidden; width:0; height:0;", @class = "radioPW" })
+
+                                @*<label for="TRANSYS" class="btn btn-default">TRANSYS</label>
+                                @Html.RadioButton("FilterMT", "TRANSYS", htmlAttributes: new { @title = "TRANSYS", @id = "TRANSYS", @style = "visibility: hidden; width:0; height:0;", @class = "radioPW" })*@
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fromDT">From</label>
+                            <input type="text" id="pwFromDT" name="pwFromDT" class="form-control" placeholder="@DateTime.MinValue.ToString("dd.MM.yyyy")" />
+                        </div>
+                        <div class="form-group">
+                            <label for="toDT">To</label>
+                            <input type="text" id="pwToDT" name="pwToDT" class="form-control" placeholder="@DateTime.Now.ToString("dd.MM.yyyy")" />
+                        </div>
+                    </div>
+                    <div class="navbar-right" stle="padding: 0 15px 0 0;" id="submit">
+                        <input type="submit" value="Apply" class="btn btn-default" />
+                    </div>
+                }
+            </div>
+        </div>
+
+
+        <div id="tab_Password">@{Html.RenderAction("FilterIndex", "PasswordTables");}</div>
+    </div>
 </div>
 
 
