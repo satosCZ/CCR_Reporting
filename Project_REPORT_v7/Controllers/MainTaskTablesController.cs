@@ -63,7 +63,7 @@ namespace Project_REPORT_v7.Controllers
                 var filteredDate = mainTaskTable.Where(w => w.ReportTable.Date >= fromDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
                 return View("FilterIndex", filteredDate.ToPagedList(pageNumber, pageSize));
             }
-            else if ((fromDT != null && toDT == null))
+            else if ((fromDT == null && toDT != null))
             {
                 var filteredDate = mainTaskTable.Where(w => w.ReportTable.Date <= toDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
                 return View("FilterIndex", filteredDate.ToPagedList(pageNumber, pageSize));
