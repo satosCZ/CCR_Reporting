@@ -6,13 +6,42 @@
         $(".radiobtn").checkboxradio({
             icon: false
         });
-    })
+
+        from = $("#fromDT")
+            .datepicker({
+                defaultDate: "",
+                changeMonth: true,
+                numberOfMonths: 1,
+                dateFormat: "dd.mm.yy"
+            })
+            .on("change", function () {
+                to.datepicker("option", "minDate", getDate(this));
+            }),
+            to = $("#toDT").datepicker({
+                changeMonth: true,
+                numberOfMonths: 1,
+                dateFormat: "dd.mm.yy"
+            })
+                .on("chamge", function () {
+                    from.datepicker("option", "maxDate", getDate(this));
+                });
+
+        function getDate(element) {
+            var date;
+            try {
+                date = $.datepicker.parseDate(dateFormat, element.value);
+            } catch (error) {
+                date = null;
+            }
+            return date;
+        }
+    });
 </script>
 
 
 <div class="navbar navbar-default">
     <div class="container-fluid">
-        @using (Html.BeginForm("FilterIndexFilter", "PasswordTables", FormMethod.Post, htmlAttributes: new { @class = "navbar-form", @style="padding 5px 0 0 0;" }))
+        @using (Html.BeginForm("FilterIndexFilter", "PasswordTables", FormMethod.Post, htmlAttributes: new { @class = "navbar-form", @style = "padding 5px 0 0 0;" }))
         {
             <div class="navbar navbar-left">
                 <div class="form-group" role="group">
@@ -35,9 +64,9 @@
                     <label for="toDT">To</label>
                     <input type="text" id="toDT" name="toDT" class="form-control" placeholder="@DateTime.Now.ToString("dd.MM.yyyy")" />
                 </div>
-                <div class="navbar-right" stle="padding: 0 15px 0 0;">
-                    <input type="submit" value="Apply" class="btn btn-default" />
-                </div>
+            </div>
+            <div class="navbar-right" stle="padding: 0 15px 0 0;">
+                <input type="submit" value="Apply" class="btn btn-default" />
             </div>
         }
     </div>
