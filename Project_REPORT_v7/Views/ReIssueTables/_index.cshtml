@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Project_REPORT_v7.Models.ReIssueTable>
+
+@*@if (TempData["Closed"].Equals("false"))
+{*@
+
+    <p>
+        <a class="btn btn-success" data-modal="" href="/ReIssueTables/CreateMultiple" id="btnReIssueCreate">
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+    </p>
+@*}*@
+<table class="table table-bordered table-condensed table-striped table-responsive" id="ReIssueTable">
+    <tr>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.Time)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.User)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.Objective)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.BodyNum)
+        </th>
+        @if (TempData["Closed"].Equals("false"))
+        {
+            <th class="text-center">Actions</th>
+        }
+    </tr>
+
+    @foreach (var item in Model.OrderBy(o => o.Time))
+    {
+        <tr>
+            <td class="text-center col-md-1">
+                @Html.DisplayFor(modelItem => item.Time)
+            </td>
+            <td class="text-center col-md-1">
+                @Html.DisplayFor(modelItem => item.User)
+            </td>
+            <td class="col-md-7">
+                @Html.DisplayFor(modelItem => item.Objective)
+            </td>
+            <td class="text-center col-md-2">
+                @Html.DisplayFor(modelItem => item.BodyNum)
+            </td>
+
+            @*@if (TempData["Closed"].Equals("false"))
+            {*@
+                <td class="text-center col-md-1">
+                    <input type="hidden" value="@item.ReIssueID" class="reissueID" />
+                    <a data-modal="" href="/ReIssueTables/Edit/@item.ReIssueID" id="@item.ReIssueID" title="Edit" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-edit" /></a>
+                    <a data-modal="" href="/ReIssueTables/Delete/@item.ReIssueID" id="@item.ReIssueID" title="Delete" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-trash" /></a>
+                </td>
+            @* } *@
+        </tr>
+    }
+</table>
+
+

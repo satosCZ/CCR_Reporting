@@ -1,0 +1,191 @@
+﻿@model Project_REPORT_v7.Models.MainTaskTable
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<script>
+    $(function () {
+        $("#System").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/MainTaskTables/GetSystem",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        term: request.term
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        response($.map(data, function (item) {
+                            return { label: item.System, value: item.System };
+                        }))
+                    }
+                });
+            },
+            minLength: 2,
+            select: function (event, ui) {
+                console.log(ui);
+            }
+        });
+
+        $("#Problem").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/MainTaskTables/GetProblem",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        term: request.term
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        response($.map(data, function (item) {
+                            return { label: item.Problem, value: item.Problem };
+                        }))
+                    }
+                });
+            },
+            minLength: 2,
+            select: function (event, ui) {
+                console.log(ui);
+            }
+        });
+
+        $("#Solution").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/MainTaskTables/GetSolution",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        term: request.term
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        response($.map(data, function (item) {
+                            return { label: item.Solution, value: item.Solution };
+                        }))
+                    }
+                });
+            },
+            minLength: 2,
+            select: function (event, ui) {
+                console.log(ui);
+            }
+        });
+
+        $("#radio input").checkboxradio({
+            icon: false
+        });
+    });
+</script>
+
+<div class="modal-header">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+        <h2>Add Main Task</h2>
+    </div>
+
+</div>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="modal-body">
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control" } })
+                <div>
+                    @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
+                <div>
+                    @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Shop, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 clearfix">
+                <div id="radio" class="btn-group">
+                    <label class="btn btn-default" for="HMMC">HMMC</label>
+                    @Html.RadioButtonFor(model => model.Shop, "HMMC", htmlAttributes: new { @checked = "checked", @title = "HMMC", @id = "HMMC", @style = "visibility: hidden; width: 0; height: 0;" })
+                    <label class="btn btn-default" for="GLOVIS">GLOVIS</label>
+                    @Html.RadioButtonFor(model => model.Shop, "GLOVIS", htmlAttributes: new { @title = "GLOVIS", @id = "GLOVIS", @style = "visibility: hidden; width: 0; height: 0;" })
+                    <label class="btn btn-default" for="TRANSYS">TRANSYS</label>
+                    @Html.RadioButtonFor(model => model.Shop, "TRANSYS", htmlAttributes: new { @title = "TRANSYS", @id = "TRANSYS", @style = "visibility: hidden; width: 0; height: 0;" })
+                </div>
+                <div>
+                    @Html.ValidationMessageFor(model => model.Shop, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.System, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.System, new { htmlAttributes = new { @class = "form-control" } })
+                <div>
+                    @Html.ValidationMessageFor(model => model.System, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Problem, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Problem, new { htmlAttributes = new { @class = "form-control" } })
+                <div>
+                    @Html.ValidationMessageFor(model => model.Problem, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Solution, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Solution, new { htmlAttributes = new { @class = "form-control" } })
+                <div>
+                    @Html.ValidationMessageFor(model => model.Solution, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cooperation, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Cooperation, new { htmlAttributes = new { @class = "form-control" } })
+                <div>
+                    @Html.ValidationMessageFor(model => model.Cooperation, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <span id="progress" class="text-center">
+        <img src="~/Content/Animation/Rhombus.gif" alt="Wait" />
+        Wait...
+    </span>
+    <input class="btn btn-primary" type="submit" value="Save" />
+    <button class="btn btn-warning" data-dismiss="modal">Close</button>
+</div>
+}
+
+<script>
+    $('form').removeData("validator").removeData("unobtrusiveValidation");
+    $.validator.unobtrusive.parse($('form'));
+</script>

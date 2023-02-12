@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Project_REPORT_v7.Models.ReportTable>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Project REPORT</h1>
+    <p class="lead">Prototype version 7.</p>
+</div>
+
+<div>
+    @{
+        //Html.Partial("~/Views/ReportTables/IndexHome.cshtml");
+        Html.RenderAction("IndexHome", "ReportTables");
+     }
+
+</div>
+
+@*<div class="row">
+    <div class="col-md-4">
+        <h2>Home</h2>
+        <p>
+            Design is mostly default, no tables in one lines, horible show of table borders. Like in upper level this is PROTOTYPE.
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2>Reports</h2>
+        <p>Page with reports, upon creation GUID is generated and assigned to the ID of report. Later used to connect with inner reports by "TempData".</p>
+        <h5>ToDo:</h5>
+        <ul>
+            <li>In inner reports/tables prepare for bulk data insert, mostly for multiple re-issues</li>
+            <li>In inner report/table MainTask > Details - could be another inner inner table for more detailed report</li>
+            <li>In inner report/table MainTask > Details - prepare for possible images (autocrop, lower resolution, ?multiple images at time?)</li>
+            <li>Reports could be filtered shops? If in reports are task done for Glovis or Transys it could show only reports for these shops</li>
+        </ul>
+    </div>
+    <div class="col-md-4">
+        <h2>Members</h2>
+        <p>Right now is only as reference for report creation and usage. This would be hidden and used as loggin and reference for reports. In reality this could upgraded for multiple privileges:</p>
+        <ul>
+            <li>Admins/Super Users - Edit, Delete, Create all data (Reports, InnerReports, Members)</li>
+            <li>Technicians - Create (Reports + InnerReports), Edit, Delete (InnerReports)</li>
+            <li>Viewers - Only for view Reports and their inner reports</li>
+        </ul>
+    </div>
+</div>*@

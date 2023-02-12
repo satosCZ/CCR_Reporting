@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Project_REPORT_v7.Models.PreCheckTable>
+
+
+@*@if (TempData["Closed"].Equals("false"))
+{*@
+    <p>
+        <a class="btn btn-success" data-modal="" href="/PreCheckTables/Create" id="btnPreCheckCreate">
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+    </p>
+@*}*@
+<table class="table table-bordered table-condensed table-striped table-responsive" id="PreCheckTable">
+    <tr>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.Time)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.System)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.Check)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.EmailTime)
+        </th>
+        @if (TempData["Closed"].Equals("false"))
+        {
+            <th class="text-center">Actions</th>
+        }
+    </tr>
+
+    @foreach (var item in Model.OrderBy(o => o.Time))
+    {
+        <tr>
+            <td class="text-center col-md-1">
+                @Html.DisplayFor(modelItem => item.Time)
+            </td>
+            <td class="col-md-8">
+                @Html.DisplayFor(modelItem => item.System)
+            </td>
+            <td class="text-center col-md-1">
+                @Html.DisplayFor(modelItem => item.Check)
+            </td>
+            <td class="text-center col-md-1">
+                @Html.DisplayFor(modelItem => item.EmailTime)
+            </td>
+
+            @*@if (TempData["Closed"].Equals("false"))
+            {*@
+                <td class="text-center col-md-1">
+                    <input type="hidden" value="@item.PreCheckID" class="preCheckID" />
+                    <a data-modal="" href="/PreCheckTables/Edit/@item.PreCheckID" id="@item.PreCheckID" title="Edit" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
+                    <a data-modal="" href="/PreCheckTables/Delete/@item.PreCheckID" id="@item.PreCheckID" title="Delete" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
+                </td>
+            @*}*@
+        </tr>
+    }
+</table>

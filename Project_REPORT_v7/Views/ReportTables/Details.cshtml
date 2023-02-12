@@ -1,0 +1,159 @@
+﻿@model Project_REPORT_v7.Models.ReportTable
+
+@{
+    ViewBag.Title = Model.Date;
+    if (Model.Date >= DateTime.Now.AddHours(-8).AddMinutes(-10))
+    { TempData["Closed"] = "false"; }
+    else
+    { TempData["Closed"] = "true"; }
+    //TempData["Closed"] = false;
+}
+
+<script>
+    $(function () {
+        $('.jquery-ui-accordion h3').bind('click', function () {
+            var self = this;
+            setTimeout(function () {
+                theOffset = $(self).offset();
+                $('body,html').animate({
+                    scrollTop: theOffset.top - 100
+                });
+            }, 310);
+        });
+
+        var headers = $('#accordion')
+        var expandLink = $('.accordion-expand-all');
+
+        headers.click(function () {
+            var panel = $(this).next();
+            var isOpen = panel.is(':visible');
+
+            panel[isOpen ? 'slideUp' : 'slideDown']()
+                .trigger(isOpen ? 'hide' : 'show');
+            return false;
+        });
+        expandLink.click(function () {
+            $(".ui-accordion-content").show();
+        });
+
+        //var act = 0;
+        //var lact = 0;
+        //$("#accordion").accordion({
+        //    create: function (event, ui) {
+        //        //get index in cookie on accordion create event
+        //        if ($.cookie('saved_index') != null) {
+        //            act = parseInt($.cookie('saved_index'));
+        //        }
+        //        if (localStorage.getItem('saved_index') != null) {
+        //            lact = localStorage.getItem('saved_index');
+        //        }
+        //    },
+        //    change: function (event, ui) {
+        //        //set cookie for current index on change event
+        //        $.cookie('saved_index', null);
+        //        $.cookie('saved_index', ui.options.active);
+        //        localStorage.setItem('saved_index') = ui.options.active;
+        //    },
+        //    //active: parseInt($.cookie('saved_index')),
+        //    active: lact,
+        //    collapsible: true,
+        //    heightStyle: "content",
+        //    animate: 200
+        //});
+
+        var index = 'accordion';
+        var dataStore = window.sessionStorage;
+
+        try {
+            var lastIndex = parseInt(dataStore.getItem(index));
+            var message = "Loaded from sessionStorage a lastIndex as " + lastIndex;
+        }
+        catch (e) {
+            var lastIndex = 0;
+            var message = "Initializing variable lastIndex with " + lastIndex;
+            console.log(message);
+        }
+
+        $("#accordion").accordion({
+            active: lastIndex,
+            animate: 200,
+            collapsible: true,
+            heightStyle: "content",
+            activate: function (event, ui) {
+                //var newIndex = ui.newAccordion.parent().children().index(ui.accordion);
+                var newIndex = $(this).accordion('option',"active");
+                dataStore.setItem(index, newIndex)
+            }
+        });
+    });
+</script>
+
+
+<div class="bg-info clearfix" style="padding:15px;">
+    <h1 class="text-center">ReportTable</h1>
+    <table class="table table-condensed text-center table-bordered">
+        <tr>
+            <td><strong>@Html.DisplayNameFor(model => model.Date)</strong></td>
+            <td><strong>@Html.DisplayNameFor(model => model.Shift)</strong></td>
+            <td colspan="2"><strong>@Html.DisplayName("Members")</strong></td>
+        </tr>
+        <tr class="text-center">
+            <td>@Html.DisplayFor(model => model.Date)</td>
+            <td>@Html.DisplayFor(model => model.Shift)</td>
+            <td>@Html.DisplayFor(model => model.MembersTable.FirstName) @Html.DisplayFor(model => model.MembersTable.LastName)</td>
+            <td>@Html.DisplayFor(model => model.MembersTable1.FirstName) @Html.DisplayFor(model => model.MembersTable1.LastName)</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <a class="accordion-expand-all" href="#">Expand all</a>
+</div>
+
+<div>
+    <div id="accordion">
+        <h3>Re-Issue</h3>
+        <div class="contentFrame">
+            @Html.Partial("../ReIssueTables/_index", Model.ReIssueTable)
+        </div>
+        <h3>Printers</h3>
+        <div class="contentFrame">
+            @Html.Partial("../PrintersTables/_index", Model.PrintersTable)
+        </div>
+        <h3>PreCheck</h3>
+        <div class="contentFrame">
+            @Html.Partial("../PreCheckTables/_index", Model.PreCheckTable)
+        </div>
+        <h3>Password</h3>
+        <div class="contentFrame">
+            @Html.Partial("../PasswordTables/_index", Model.PasswordTable)
+        </div>
+        <h3>Hour Overtime</h3>
+        <div class="contentFrame">
+            @Html.Partial("../HourOvertimeTables/_index", Model.HourOvertimeTable)
+        </div>
+    </div>
+</div>
+
+<div id="MainTask">
+    <h3>Main Task</h3>
+    @Html.Partial("../MainTaskTables/_index", Model.MainTaskTable)
+</div>
+
+<div id="ModalPopup" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="ModalPopupContent"></div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts 
+{
+    @Scripts.Render("~/Scripts/Custom/Modal.js")    
+}
+
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

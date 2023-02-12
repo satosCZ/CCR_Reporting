@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Filtered";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(function () {
+        var index = 'key';
+
+        var dataStore = window.sessionStorage;
+
+        try {
+            var lastIndex = dataStore.getItem(index);
+        }
+        catch (e) {
+            var lastIndex = 0;
+        };
+
+        $("#tabs").tabs({
+            active: lastIndex,
+            beforeLoad: function (event, ui) {
+                ui.jqXHR.fail(function () {
+                    ui.panel.html(
+                        "Couldn't load this tab. Contact me and I'll try to fix this as soon as possible. ");
+                });
+            },
+            activate: function (event, ui) {
+                var newIndex = ui.newTab.parent().children().index(ui.newTab);
+                dataStore.setItem(index, newIndex)
+            }
+        });
+    });
+</script>
+
+<h2>Filtered GLOVIS & TRANSYS</h2>
+
+<div id="tabs">
+    <ul>
+        <li><a href="@Url.Action("FilterIndex", "MainTaskTables")">Main Task</a></li>
+        <li><a href="@Url.Action("FilterIndex", "PasswordTables")">Passwords</a></li>
+    </ul>
+</div>
+
+

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Project_REPORT_v7.Models.ReportTable>
+<p class="h3">Latest Report</p>
+<hr />
+<table class="table table-condensed table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Shift)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MembersTable.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MembersTable1.FirstName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Shift)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MembersTable.FirstName) @Html.DisplayFor(modelItem => item.MembersTable.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MembersTable1.FirstName) @Html.DisplayFor(modelItem => item.MembersTable1.LastName)
+        </td>
+        <td>
+            @*@Html.ActionLink("Details", "Details", new { id=item.ReportID })*@
+            <a href="@Url.Action("Details", "ReportTables", new { id = item.ReportID })"><span class="glyphicon glyphicon-open" aria-hidden="true"/></a>
+        </td>
+    </tr>
+}
+
+</table>

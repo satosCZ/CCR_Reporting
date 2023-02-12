@@ -1,0 +1,708 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ReportDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="HourOvertimeTable">
+          <Key>
+            <PropertyRef Name="OvertimeID" />
+          </Key>
+          <Property Name="OvertimeID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Duration" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Shop" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="varchar(max)" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" Nullable="false" />
+          <Property Name="Cooperation" Type="varchar(max)" />
+          <Property Name="ReportID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LogTable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="L_DATE" Type="datetime" />
+          <Property Name="L_TYPE" Type="nvarchar" MaxLength="50" />
+          <Property Name="L_MESSAGE" Type="nvarchar(max)" />
+          <Property Name="L_USER_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="MainTaskTable">
+          <Key>
+            <PropertyRef Name="MainTaskID" />
+          </Key>
+          <Property Name="MainTaskID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Duration" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Shop" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="System" Type="varchar" MaxLength="150" />
+          <Property Name="Problem" Type="varchar(max)" />
+          <Property Name="Solution" Type="varchar(max)" />
+          <Property Name="Cooperation" Type="varchar" MaxLength="255" />
+          <Property Name="ReportID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MembersTable">
+          <Key>
+            <PropertyRef Name="MemberID" />
+          </Key>
+          <Property Name="MemberID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="PermisionId" Type="int" />
+        </EntityType>
+        <EntityType Name="PasswordTable">
+          <Key>
+            <PropertyRef Name="PasswordID" />
+          </Key>
+          <Property Name="PasswordID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="System" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ReportID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PermisionTable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Permision" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PreCheckTable">
+          <Key>
+            <PropertyRef Name="PreCheckID" />
+          </Key>
+          <Property Name="PreCheckID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="System" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Check" Type="varchar" MaxLength="5" />
+          <Property Name="EmailTime" Type="varchar" MaxLength="50" />
+          <Property Name="ReportID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PrintersTable">
+          <Key>
+            <PropertyRef Name="PrinterID" />
+          </Key>
+          <Property Name="PrinterID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="User" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Objective" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Printer" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ReportID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReIssueTable">
+          <Key>
+            <PropertyRef Name="ReIssueID" />
+          </Key>
+          <Property Name="ReIssueID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="User" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Objective" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BodyNum" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ReportID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportTable">
+          <Key>
+            <PropertyRef Name="ReportID" />
+          </Key>
+          <Property Name="ReportID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Shift" Type="varchar" MaxLength="63" Nullable="false" />
+          <Property Name="Member_One_ID" Type="int" />
+          <Property Name="Member_Two_ID" Type="int" />
+        </EntityType>
+        <Association Name="FK_HourOvertimeTable_ReportTable">
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="1" />
+          <End Role="HourOvertimeTable" Type="Self.HourOvertimeTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportTable">
+              <PropertyRef Name="ReportID" />
+            </Principal>
+            <Dependent Role="HourOvertimeTable">
+              <PropertyRef Name="ReportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MainTaskTable">
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="1" />
+          <End Role="MainTaskTable" Type="Self.MainTaskTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportTable">
+              <PropertyRef Name="ReportID" />
+            </Principal>
+            <Dependent Role="MainTaskTable">
+              <PropertyRef Name="ReportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MembersTable_PermisionTable">
+          <End Role="PermisionTable" Type="Self.PermisionTable" Multiplicity="0..1" />
+          <End Role="MembersTable" Type="Self.MembersTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PermisionTable">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MembersTable">
+              <PropertyRef Name="PermisionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PasswordTable_ReportTable">
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="1" />
+          <End Role="PasswordTable" Type="Self.PasswordTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportTable">
+              <PropertyRef Name="ReportID" />
+            </Principal>
+            <Dependent Role="PasswordTable">
+              <PropertyRef Name="ReportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PreCheckTable_ReportTable">
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="1" />
+          <End Role="PreCheckTable" Type="Self.PreCheckTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportTable">
+              <PropertyRef Name="ReportID" />
+            </Principal>
+            <Dependent Role="PreCheckTable">
+              <PropertyRef Name="ReportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrintersTable_ReportID">
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="1" />
+          <End Role="PrintersTable" Type="Self.PrintersTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportTable">
+              <PropertyRef Name="ReportID" />
+            </Principal>
+            <Dependent Role="PrintersTable">
+              <PropertyRef Name="ReportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReIssueTable_ReportID">
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="1" />
+          <End Role="ReIssueTable" Type="Self.ReIssueTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportTable">
+              <PropertyRef Name="ReportID" />
+            </Principal>
+            <Dependent Role="ReIssueTable">
+              <PropertyRef Name="ReportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReportTable_Member_One_ID">
+          <End Role="MembersTable" Type="Self.MembersTable" Multiplicity="0..1" />
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MembersTable">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="ReportTable">
+              <PropertyRef Name="Member_One_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReportTable_Member_Two_ID">
+          <End Role="MembersTable" Type="Self.MembersTable" Multiplicity="0..1" />
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MembersTable">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="ReportTable">
+              <PropertyRef Name="Member_Two_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ReportDBModelStoreContainer">
+          <EntitySet Name="HourOvertimeTable" EntityType="Self.HourOvertimeTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LogTable" EntityType="Self.LogTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MainTaskTable" EntityType="Self.MainTaskTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MembersTable" EntityType="Self.MembersTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PasswordTable" EntityType="Self.PasswordTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PermisionTable" EntityType="Self.PermisionTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PreCheckTable" EntityType="Self.PreCheckTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PrintersTable" EntityType="Self.PrintersTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReIssueTable" EntityType="Self.ReIssueTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportTable" EntityType="Self.ReportTable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_HourOvertimeTable_ReportTable" Association="Self.FK_HourOvertimeTable_ReportTable">
+            <End Role="ReportTable" EntitySet="ReportTable" />
+            <End Role="HourOvertimeTable" EntitySet="HourOvertimeTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MainTaskTable" Association="Self.FK_MainTaskTable">
+            <End Role="ReportTable" EntitySet="ReportTable" />
+            <End Role="MainTaskTable" EntitySet="MainTaskTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MembersTable_PermisionTable" Association="Self.FK_MembersTable_PermisionTable">
+            <End Role="PermisionTable" EntitySet="PermisionTable" />
+            <End Role="MembersTable" EntitySet="MembersTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PasswordTable_ReportTable" Association="Self.FK_PasswordTable_ReportTable">
+            <End Role="ReportTable" EntitySet="ReportTable" />
+            <End Role="PasswordTable" EntitySet="PasswordTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PreCheckTable_ReportTable" Association="Self.FK_PreCheckTable_ReportTable">
+            <End Role="ReportTable" EntitySet="ReportTable" />
+            <End Role="PreCheckTable" EntitySet="PreCheckTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrintersTable_ReportID" Association="Self.FK_PrintersTable_ReportID">
+            <End Role="ReportTable" EntitySet="ReportTable" />
+            <End Role="PrintersTable" EntitySet="PrintersTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReIssueTable_ReportID" Association="Self.FK_ReIssueTable_ReportID">
+            <End Role="ReportTable" EntitySet="ReportTable" />
+            <End Role="ReIssueTable" EntitySet="ReIssueTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReportTable_Member_One_ID" Association="Self.FK_ReportTable_Member_One_ID">
+            <End Role="MembersTable" EntitySet="MembersTable" />
+            <End Role="ReportTable" EntitySet="ReportTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReportTable_Member_Two_ID" Association="Self.FK_ReportTable_Member_Two_ID">
+            <End Role="MembersTable" EntitySet="MembersTable" />
+            <End Role="ReportTable" EntitySet="ReportTable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ReportDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="HourOvertimeTable">
+          <Key>
+            <PropertyRef Name="OvertimeID" />
+          </Key>
+          <Property Name="OvertimeID" Type="Guid" Nullable="false" />
+          <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Duration" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Shop" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Cooperation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ReportID" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="ReportTable" Relationship="Self.FK_HourOvertimeTable_ReportTable" FromRole="HourOvertimeTable" ToRole="ReportTable" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="MainTaskTable">
+          <Key>
+            <PropertyRef Name="MainTaskID" />
+          </Key>
+          <Property Name="MainTaskID" Type="Guid" Nullable="false" />
+          <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Duration" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Shop" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="System" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Problem" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Solution" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Cooperation" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ReportID" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="ReportTable" Relationship="Self.FK_MainTaskTable" FromRole="MainTaskTable" ToRole="ReportTable" />
+        </EntityType>
+        <EntityType Name="MembersTable">
+          <Key>
+            <PropertyRef Name="MemberID" />
+          </Key>
+          <Property Name="MemberID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PermisionId" Type="Int32" />
+          <NavigationProperty Name="PermisionTable" Relationship="ReportDBModel.FK_MembersTable_PermisionTable" FromRole="MembersTable" ToRole="PermisionTable" />
+          <NavigationProperty Name="ReportTable" Relationship="ReportDBModel.FK_ReportTable_Member_One_ID" FromRole="MembersTable" ToRole="ReportTable" />
+          <NavigationProperty Name="ReportTable1" Relationship="ReportDBModel.FK_ReportTable_Member_Two_ID" FromRole="MembersTable" ToRole="ReportTable" />
+        </EntityType>
+        <EntityType Name="PasswordTable">
+          <Key>
+            <PropertyRef Name="PasswordID" />
+          </Key>
+          <Property Name="PasswordID" Type="Guid" Nullable="false" />
+          <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="System" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ReportID" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="ReportTable" Relationship="Self.FK_PasswordTable_ReportTable" FromRole="PasswordTable" ToRole="ReportTable" />
+        </EntityType>
+        <EntityType Name="PreCheckTable">
+          <Key>
+            <PropertyRef Name="PreCheckID" />
+          </Key>
+          <Property Name="PreCheckID" Type="Guid" Nullable="false" />
+          <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="System" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Check" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="EmailTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReportID" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="ReportTable" Relationship="Self.FK_PreCheckTable_ReportTable" FromRole="PreCheckTable" ToRole="ReportTable" />
+        </EntityType>
+        <EntityType Name="PrintersTable">
+          <Key>
+            <PropertyRef Name="PrinterID" />
+          </Key>
+          <Property Name="PrinterID" Type="Guid" Nullable="false" />
+          <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="User" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Objective" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Printer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ReportID" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="ReportTable" Relationship="Self.FK_PrintersTable_ReportID" FromRole="PrintersTable" ToRole="ReportTable" />
+        </EntityType>
+        <EntityType Name="ReIssueTable">
+          <Key>
+            <PropertyRef Name="ReIssueID" />
+          </Key>
+          <Property Name="ReIssueID" Type="Guid" Nullable="false" />
+          <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="User" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Objective" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BodyNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ReportID" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="ReportTable" Relationship="Self.FK_ReIssueTable_ReportID" FromRole="ReIssueTable" ToRole="ReportTable" />
+        </EntityType>
+        <EntityType Name="ReportTable">
+          <Key>
+            <PropertyRef Name="ReportID" />
+          </Key>
+          <Property Name="ReportID" Type="Guid" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Shift" Type="String" MaxLength="63" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Member_One_ID" Type="Int32" />
+          <Property Name="Member_Two_ID" Type="Int32" />
+          <NavigationProperty Name="HourOvertimeTable" Relationship="Self.FK_HourOvertimeTable_ReportTable" FromRole="ReportTable" ToRole="HourOvertimeTable" />
+          <NavigationProperty Name="MainTaskTable" Relationship="Self.FK_MainTaskTable" FromRole="ReportTable" ToRole="MainTaskTable" />
+          <NavigationProperty Name="PasswordTable" Relationship="Self.FK_PasswordTable_ReportTable" FromRole="ReportTable" ToRole="PasswordTable" />
+          <NavigationProperty Name="PreCheckTable" Relationship="Self.FK_PreCheckTable_ReportTable" FromRole="ReportTable" ToRole="PreCheckTable" />
+          <NavigationProperty Name="PrintersTable" Relationship="Self.FK_PrintersTable_ReportID" FromRole="ReportTable" ToRole="PrintersTable" />
+          <NavigationProperty Name="ReIssueTable" Relationship="Self.FK_ReIssueTable_ReportID" FromRole="ReportTable" ToRole="ReIssueTable" />
+          <NavigationProperty Name="MembersTable" Relationship="ReportDBModel.FK_ReportTable_Member_One_ID" FromRole="ReportTable" ToRole="MembersTable" />
+          <NavigationProperty Name="MembersTable1" Relationship="ReportDBModel.FK_ReportTable_Member_Two_ID" FromRole="ReportTable" ToRole="MembersTable" />
+        </EntityType>
+        <Association Name="FK_HourOvertimeTable_ReportTable">
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="1" />
+          <End Role="HourOvertimeTable" Type="Self.HourOvertimeTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportTable">
+              <PropertyRef Name="ReportID" />
+            </Principal>
+            <Dependent Role="HourOvertimeTable">
+              <PropertyRef Name="ReportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MainTaskTable">
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="1" />
+          <End Role="MainTaskTable" Type="Self.MainTaskTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportTable">
+              <PropertyRef Name="ReportID" />
+            </Principal>
+            <Dependent Role="MainTaskTable">
+              <PropertyRef Name="ReportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PasswordTable_ReportTable">
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="1" />
+          <End Role="PasswordTable" Type="Self.PasswordTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportTable">
+              <PropertyRef Name="ReportID" />
+            </Principal>
+            <Dependent Role="PasswordTable">
+              <PropertyRef Name="ReportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PreCheckTable_ReportTable">
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="1" />
+          <End Role="PreCheckTable" Type="Self.PreCheckTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportTable">
+              <PropertyRef Name="ReportID" />
+            </Principal>
+            <Dependent Role="PreCheckTable">
+              <PropertyRef Name="ReportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrintersTable_ReportID">
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="1" />
+          <End Role="PrintersTable" Type="Self.PrintersTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportTable">
+              <PropertyRef Name="ReportID" />
+            </Principal>
+            <Dependent Role="PrintersTable">
+              <PropertyRef Name="ReportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReIssueTable_ReportID">
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="1" />
+          <End Role="ReIssueTable" Type="Self.ReIssueTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportTable">
+              <PropertyRef Name="ReportID" />
+            </Principal>
+            <Dependent Role="ReIssueTable">
+              <PropertyRef Name="ReportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ReportDBEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="HourOvertimeTable" EntityType="Self.HourOvertimeTable" />
+          <EntitySet Name="MainTaskTable" EntityType="Self.MainTaskTable" />
+          <EntitySet Name="MembersTable" EntityType="Self.MembersTable" />
+          <EntitySet Name="PasswordTable" EntityType="Self.PasswordTable" />
+          <EntitySet Name="PreCheckTable" EntityType="Self.PreCheckTable" />
+          <EntitySet Name="PrintersTable" EntityType="Self.PrintersTable" />
+          <EntitySet Name="ReIssueTable" EntityType="Self.ReIssueTable" />
+          <EntitySet Name="ReportTable" EntityType="Self.ReportTable" />
+          <AssociationSet Name="FK_HourOvertimeTable_ReportTable" Association="Self.FK_HourOvertimeTable_ReportTable">
+            <End Role="ReportTable" EntitySet="ReportTable" />
+            <End Role="HourOvertimeTable" EntitySet="HourOvertimeTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MainTaskTable" Association="Self.FK_MainTaskTable">
+            <End Role="ReportTable" EntitySet="ReportTable" />
+            <End Role="MainTaskTable" EntitySet="MainTaskTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PasswordTable_ReportTable" Association="Self.FK_PasswordTable_ReportTable">
+            <End Role="ReportTable" EntitySet="ReportTable" />
+            <End Role="PasswordTable" EntitySet="PasswordTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PreCheckTable_ReportTable" Association="Self.FK_PreCheckTable_ReportTable">
+            <End Role="ReportTable" EntitySet="ReportTable" />
+            <End Role="PreCheckTable" EntitySet="PreCheckTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrintersTable_ReportID" Association="Self.FK_PrintersTable_ReportID">
+            <End Role="ReportTable" EntitySet="ReportTable" />
+            <End Role="PrintersTable" EntitySet="PrintersTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReIssueTable_ReportID" Association="Self.FK_ReIssueTable_ReportID">
+            <End Role="ReportTable" EntitySet="ReportTable" />
+            <End Role="ReIssueTable" EntitySet="ReIssueTable" />
+          </AssociationSet>
+          <EntitySet Name="PermisionTable" EntityType="ReportDBModel.PermisionTable" />
+          <AssociationSet Name="FK_MembersTable_PermisionTable" Association="ReportDBModel.FK_MembersTable_PermisionTable">
+            <End Role="PermisionTable" EntitySet="PermisionTable" />
+            <End Role="MembersTable" EntitySet="MembersTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReportTable_Member_One_ID" Association="ReportDBModel.FK_ReportTable_Member_One_ID">
+            <End Role="MembersTable" EntitySet="MembersTable" />
+            <End Role="ReportTable" EntitySet="ReportTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReportTable_Member_Two_ID" Association="ReportDBModel.FK_ReportTable_Member_Two_ID">
+            <End Role="MembersTable" EntitySet="MembersTable" />
+            <End Role="ReportTable" EntitySet="ReportTable" />
+          </AssociationSet>
+          <EntitySet Name="LogTable" EntityType="ReportDBModel.LogTable" />
+        </EntityContainer>
+        <EntityType Name="PermisionTable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Permision" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MembersTable" Relationship="ReportDBModel.FK_MembersTable_PermisionTable" FromRole="PermisionTable" ToRole="MembersTable" />
+        </EntityType>
+        <Association Name="FK_MembersTable_PermisionTable">
+          <End Type="ReportDBModel.PermisionTable" Role="PermisionTable" Multiplicity="0..1" />
+          <End Type="ReportDBModel.MembersTable" Role="MembersTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PermisionTable">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MembersTable">
+              <PropertyRef Name="PermisionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReportTable_Member_One_ID">
+          <End Type="ReportDBModel.MembersTable" Role="MembersTable" Multiplicity="0..1" />
+          <End Type="ReportDBModel.ReportTable" Role="ReportTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MembersTable">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="ReportTable">
+              <PropertyRef Name="Member_One_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReportTable_Member_Two_ID">
+          <End Type="ReportDBModel.MembersTable" Role="MembersTable" Multiplicity="0..1" />
+          <End Type="ReportDBModel.ReportTable" Role="ReportTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MembersTable">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="ReportTable">
+              <PropertyRef Name="Member_Two_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="LogTable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="L_DATE" Type="DateTime" Precision="3" />
+          <Property Name="L_TYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="L_MESSAGE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="L_USER_ID" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ReportDBModelStoreContainer" CdmEntityContainer="ReportDBEntities1">
+          <EntitySetMapping Name="HourOvertimeTable">
+            <EntityTypeMapping TypeName="ReportDBModel.HourOvertimeTable">
+              <MappingFragment StoreEntitySet="HourOvertimeTable">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="OvertimeID" ColumnName="OvertimeID" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Shop" ColumnName="Shop" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Cooperation" ColumnName="Cooperation" />
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MainTaskTable">
+            <EntityTypeMapping TypeName="ReportDBModel.MainTaskTable">
+              <MappingFragment StoreEntitySet="MainTaskTable">
+                <ScalarProperty Name="MainTaskID" ColumnName="MainTaskID" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Shop" ColumnName="Shop" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="Problem" ColumnName="Problem" />
+                <ScalarProperty Name="Solution" ColumnName="Solution" />
+                <ScalarProperty Name="Cooperation" ColumnName="Cooperation" />
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MembersTable">
+            <EntityTypeMapping TypeName="ReportDBModel.MembersTable">
+              <MappingFragment StoreEntitySet="MembersTable">
+                <ScalarProperty Name="PermisionId" ColumnName="PermisionId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PasswordTable">
+            <EntityTypeMapping TypeName="ReportDBModel.PasswordTable">
+              <MappingFragment StoreEntitySet="PasswordTable">
+                <ScalarProperty Name="PasswordID" ColumnName="PasswordID" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PreCheckTable">
+            <EntityTypeMapping TypeName="ReportDBModel.PreCheckTable">
+              <MappingFragment StoreEntitySet="PreCheckTable">
+                <ScalarProperty Name="PreCheckID" ColumnName="PreCheckID" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="Check" ColumnName="Check" />
+                <ScalarProperty Name="EmailTime" ColumnName="EmailTime" />
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PrintersTable">
+            <EntityTypeMapping TypeName="ReportDBModel.PrintersTable">
+              <MappingFragment StoreEntitySet="PrintersTable">
+                <ScalarProperty Name="PrinterID" ColumnName="PrinterID" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="Objective" ColumnName="Objective" />
+                <ScalarProperty Name="Printer" ColumnName="Printer" />
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReIssueTable">
+            <EntityTypeMapping TypeName="ReportDBModel.ReIssueTable">
+              <MappingFragment StoreEntitySet="ReIssueTable">
+                <ScalarProperty Name="ReIssueID" ColumnName="ReIssueID" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="Objective" ColumnName="Objective" />
+                <ScalarProperty Name="BodyNum" ColumnName="BodyNum" />
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportTable">
+            <EntityTypeMapping TypeName="ReportDBModel.ReportTable">
+              <MappingFragment StoreEntitySet="ReportTable">
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Shift" ColumnName="Shift" />
+                <ScalarProperty Name="Member_One_ID" ColumnName="Member_One_ID" />
+                <ScalarProperty Name="Member_Two_ID" ColumnName="Member_Two_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PermisionTable">
+            <EntityTypeMapping TypeName="ReportDBModel.PermisionTable">
+              <MappingFragment StoreEntitySet="PermisionTable">
+                <ScalarProperty Name="Permision" ColumnName="Permision" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogTable">
+            <EntityTypeMapping TypeName="ReportDBModel.LogTable">
+              <MappingFragment StoreEntitySet="LogTable">
+                <ScalarProperty Name="L_USER_ID" ColumnName="L_USER_ID" />
+                <ScalarProperty Name="L_MESSAGE" ColumnName="L_MESSAGE" />
+                <ScalarProperty Name="L_TYPE" ColumnName="L_TYPE" />
+                <ScalarProperty Name="L_DATE" ColumnName="L_DATE" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

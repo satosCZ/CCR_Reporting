@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6cc120bd84c24c1c81c60ab26c171b6b" Name="Diagram1">
+        <EntityTypeShape EntityType="ReportDBModel.HourOvertimeTable" Width="1.5" PointX="11.25" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReportDBModel.MainTaskTable" Width="1.5" PointX="12.875" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReportDBModel.MembersTable" Width="1.5" PointX="11.125" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReportDBModel.PasswordTable" Width="1.5" PointX="9.625" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReportDBModel.PreCheckTable" Width="1.5" PointX="6.25" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReportDBModel.PrintersTable" Width="1.5" PointX="7.875" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReportDBModel.ReIssueTable" Width="1.5" PointX="4.625" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReportDBModel.ReportTable" Width="1.5" PointX="8.875" PointY="7.5" IsExpanded="true" />
+        <AssociationConnector Association="ReportDBModel.FK_HourOvertimeTable_ReportTable" ManuallyRouted="false" />
+        <AssociationConnector Association="ReportDBModel.FK_MainTaskTable" ManuallyRouted="false" />
+        <AssociationConnector Association="ReportDBModel.FK_PasswordTable_ReportTable" ManuallyRouted="false" />
+        <AssociationConnector Association="ReportDBModel.FK_PreCheckTable_ReportTable" ManuallyRouted="false" />
+        <AssociationConnector Association="ReportDBModel.FK_PrintersTable_ReportID" ManuallyRouted="false" />
+        <AssociationConnector Association="ReportDBModel.FK_ReIssueTable_ReportID" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ReportDBModel.PermisionTable" Width="1.5" PointX="8.875" PointY="5.125" />
+        <AssociationConnector Association="ReportDBModel.FK_MembersTable_PermisionTable" />
+        <AssociationConnector Association="ReportDBModel.FK_ReportTable_Member_One_ID" />
+        <AssociationConnector Association="ReportDBModel.FK_ReportTable_Member_Two_ID" />
+        <EntityTypeShape EntityType="ReportDBModel.LogTable" Width="1.5" PointX="13.5" PointY="5.125" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

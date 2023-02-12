@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=100%, initial-scale=1.0">
+    <title>@ViewBag.Title - Project Report</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/jquery-ui")
+    @Scripts.Render("~/bundles/jquery-ajax")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/js-cookie")*@
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" title="more options">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("CCR Report", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar navbar-left">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Report", "Index", "ReportTables")</li>
+                    <li>@Html.ActionLink("Members", "_index", "MembersTables")</li>
+                    @*<li>@Html.ActionLink("Filtered", "FilterIndex", "MainTaskTables")</li>*@
+                    <li>@Html.ActionLink("Filtered", "Filtered", "Home")</li>
+                </ul>
+            </div>
+            <div class="navbar navbar-right">
+                <div class="">
+                        <p class="text-uppercase navbar-text">Hi @Session["User"]</p>
+                        @*<a href="@Url.Action("Logout", "Home")" class="btn btn-default navbar-btn btn-xs">Logout</a>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Report application</p>
+            <p>Developed & maintained by: Jiří Kukuczka - 90000090</p>
+            <p>Created for Hyundai AutoEVER - IT MES > Systems & Vehicle Section</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

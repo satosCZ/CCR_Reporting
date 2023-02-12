@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Project_REPORT_v7.Models.HourOvertimeTable>
+
+
+@*@if (TempData["Closed"].Equals("false"))
+{*@
+    <p>
+        @*@Html.ActionLink("Add", "Create", "HourOvertimeTables", null, htmlAttributes: new { @class = "btn btn-info btn-sm" })*@
+        <a class="btn btn-success" data-modal="" href="/HourOvertimeTables/Create" id="btnHourOvertimeCreate">
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+    </p>
+@*}*@
+<table class="table table-bordered table-condensed table-striped table-responsive" id="HourOvertimeTable">
+    <tr>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.Time)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.Duration)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.Shop)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th class="text-center">
+            @Html.DisplayNameFor(model => model.Cooperation)
+        </th>
+        @if (TempData["Closed"].Equals("false"))
+        {
+            <th class="text-center">Actions</th>
+        }
+    </tr>
+
+    @foreach (var item in Model.OrderBy(o => o.Time))
+    {
+        <tr>
+            <td class="text-center" style="vertical-align:middle;">
+                @Html.DisplayFor(modelItem => item.Time)
+            </td>
+            <td class="text-center" style="vertical-align:middle;">
+                @Html.DisplayFor(modelItem => item.Duration)
+            </td>
+            <td class="text-center" style="vertical-align:middle;">
+                @Html.DisplayFor(modelItem => item.Shop)
+            </td>
+            <td class="text-center" style="vertical-align:middle;">
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td class="text-center" style="vertical-align:middle;">
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td class="text-center" style="vertical-align:middle;">
+                @Html.DisplayFor(modelItem => item.Cooperation)
+            </td>
+
+            @*@if (TempData["Closed"].Equals("false"))
+            {*@
+                <td class="text-center" style="vertical-align:middle;">
+                    <input type="hidden" value="@item.OvertimeID" class="overtimeID" />
+                    <a data-modal="" href="/HourOvertimeTables/Edit/@item.OvertimeID" id="@item.OvertimeID" title="Edit" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-edit" /></a>
+                    <a data-modal="" href="/HourOvertimeTables/Delete/@item.OvertimeID" id="@item.OvertimeID" title="Delete" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-trash" /></a>
+                </td>
+            @*}*@
+        </tr>    
+    }
+</table>
