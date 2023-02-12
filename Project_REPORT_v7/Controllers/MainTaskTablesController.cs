@@ -43,12 +43,15 @@ namespace Project_REPORT_v7.Controllers
 
             int pageSize = 20;
             int pageNumber = (page ?? 1);
+
+            // Filter by company
             if (filter == "GLOVIS" || filter == "TRANSYS")
             {
                 var filtered = mainTaskTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time).Where(w => w.Shop == filter);
                 return View("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
             }
 
+            // Filter by Date - From date to Date || only From date || only to Date
             //(fromDT != DateTime.MinValue && toDT != DateTime.MinValue) || 
             if ((fromDT != null && toDT != null))
             {
