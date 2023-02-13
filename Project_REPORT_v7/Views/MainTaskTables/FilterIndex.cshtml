@@ -1,11 +1,8 @@
-﻿@*@model IEnumerable<Project_REPORT_v7.Models.MainTaskTable>*@
-@model PagedList.IPagedList<Project_REPORT_v7.Models.MainTaskTable>
+﻿@model PagedList.IPagedList<Project_REPORT_v7.Models.MainTaskTable>
 @using PagedList.Mvc;
 
-@*@{
-    ViewBag.Title = "FilterIndex";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}*@
+@{
+}
 
 <script>
     $(function () {
@@ -44,7 +41,40 @@
 </script>
 
 <div>
-    
+    <h2>Filter Main Task</h2>
+
+    <div class="navbar navbar-default">
+        <div class="container-fluid">
+            @using (Ajax.BeginForm("FilterIndex", "MainTaskTables", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "tab_MainTask", InsertionMode = InsertionMode.ReplaceWith }, htmlAttributes: new { @class = "navbar-form", @style = "padding: 5px 0 0 0;" }))
+            {
+                <div class="navbar navbar-left">
+                    <div class="form-group">
+                        <div class="btn-group clearfix" id="radioMT">
+                            <label for="ALL" class="btn btn-group btn-default">ALL</label>
+                            @Html.RadioButton("FilterMT", "ALL", htmlAttributes: new { @title = "ALL", @id = "ALL", @style = "visibility: hidden; width:0; height:0;" })
+
+                            <label for="GLOVIS" class="btn btn-group btn-default">GLOVIS</label>
+                            @Html.RadioButton("FilterMT", "GLOVIS", htmlAttributes: new { @title = "GLOVIS", @id = "GLOVIS", @style = "visibility: hidden; width:0; height:0;" })
+
+                            <label for="TRANSYS" class="btn btn-group btn-default">TRANSYS</label>
+                            @Html.RadioButton("FilterMT", "TRANSYS", htmlAttributes: new { @title = "TRANSYS", @id = "TRANSYS", @style = "visibility: hidden; width:0; height:0;" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fromDT">From</label>
+                        <input type="text" id="mtFromDT" name="mtFromDT" class="form-control" placeholder="@DateTime.MinValue.ToString("dd.MM.yyyy")" />
+                    </div>
+                    <div class="form-group">
+                        <label for="toDT">To</label>
+                        <input type="text" id="mtToDT" name="mtToDT" class="form-control" placeholder="@DateTime.Now.ToString("dd.MM.yyyy")" />
+                    </div>
+                </div>
+                <div class="navbar-right" style="padding: 0 15px 0 0;">
+                    <input type="submit" value="Apply" class="btn btn-default" />
+                </div>
+            }
+        </div>
+    </div>
 
     <br />
     <div @*id="tab_MainTask"*@>
