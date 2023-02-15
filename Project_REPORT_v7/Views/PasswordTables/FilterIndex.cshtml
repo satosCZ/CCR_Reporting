@@ -58,15 +58,15 @@
                     </div>
                     <div class="form-group">
                         <label for="fromDT">From</label>
-                        <input type="text" id="pwFromDT" name="pwFromDT" class="form-control" placeholder="@DateTime.MinValue.ToString("dd.MM.yyyy")" />
+                        <input type="text" id="pwFromDT" name="pwFromDT" class="form-control" placeholder="@DateTime.MinValue.ToString("dd.MM.yyyy")" aria-autocomplete="none" autocomplete="off"/>
                     </div>
                     <div class="form-group">
                         <label for="toDT">To</label>
-                        <input type="text" id="pwToDT" name="pwToDT" class="form-control" placeholder="@DateTime.Now.ToString("dd.MM.yyyy")" />
+                        <input type="text" id="pwToDT" name="pwToDT" class="form-control" placeholder="@DateTime.Now.ToString("dd.MM.yyyy")" aria-autocomplete="none" autocomplete="off"  />
                     </div>
                 </div>
                 <div class="navbar-right" stle="padding: 0 15px 0 0;" id="submit">
-                    <input type="submit" value="Apply" class="btn btn-default" />
+                    <input type="submit" value="Apply" class="btn btn-default" onmousedown='ReadValues()'/>
                 </div>
             }
         </div>

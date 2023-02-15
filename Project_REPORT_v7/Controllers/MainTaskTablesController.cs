@@ -32,36 +32,38 @@ namespace Project_REPORT_v7.Controllers
         {
             var mainTaskTable = db.MainTaskTable.Include(p => p.ReportTable);
 
+            IOrderedQueryable<MainTaskTable> filtered;
+
             int pageSize = 20;
             int pageNumber = (mtPage ?? 1);
+
+            DateTime from = mtFromDT.GetValueOrDefault();
+            DateTime to = mtToDT.GetValueOrDefault().AddDays(1);
 
             // Filter by company
             if (filterMT == "GLOVIS" || filterMT == "TRANSYS")
             {
-                var filtered = mainTaskTable.Where(w => w.Shop == filterMT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
-                return PartialView("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
-            }
-
-            // Filter by Date - From date to Date || only From date || only to Date
-            if ((mtFromDT != null && mtToDT != null))
-            {
-                var filteredDate = mainTaskTable.Where(w => w.ReportTable.Date >= mtFromDT && w.ReportTable.Date <= mtToDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
-                return PartialView("FilterIndex", filteredDate.ToPagedList(pageNumber, pageSize));
-            }
-            else if ((mtFromDT != null && mtToDT == null))
-            {
-                var filteredDate = mainTaskTable.Where(w => w.ReportTable.Date >= mtFromDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
-                return PartialView("FilterIndex", filteredDate.ToPagedList(pageNumber, pageSize));
-            }
-            else if ((mtFromDT == null && mtToDT != null))
-            {
-                var filteredDate = mainTaskTable.Where(w => w.ReportTable.Date <= mtToDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
-                return PartialView("FilterIndex", filteredDate.ToPagedList(pageNumber, pageSize));
+                filtered = mainTaskTable.Where(w => w.Shop == filterMT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
             }
             else
             {
-                return PartialView("FilterIndex", mainTaskTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time).ToPagedList(pageNumber, pageSize));
+                filtered = mainTaskTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
             }
+
+            if (mtFromDT != null && mtToDT != null)
+            {
+                filtered = filtered.Where(w => w.ReportTable.Date >= from && w.ReportTable.Date <= to).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
+            }
+            else if (mtFromDT != null && mtToDT == null)
+            {
+                filtered = filtered.Where(w => w.ReportTable.Date >= from).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
+            }
+            else if (mtFromDT == null && mtToDT != null)
+            {
+                filtered = filtered.Where(w => w.ReportTable.Date <= to).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
+            }
+
+            return PartialView("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: MainTaskTables/Create
