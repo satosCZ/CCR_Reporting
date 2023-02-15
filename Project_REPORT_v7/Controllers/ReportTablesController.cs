@@ -47,25 +47,26 @@ namespace Project_REPORT_v7.Controllers
             int pageSize = 20;
             int pageNumber = (page ?? 1);
 
-            if (fromDT == null && toDT == null)
-            { var yes = "tes"; }
+            DateTime from = fromDT.GetValueOrDefault();
+            DateTime to = toDT.GetValueOrDefault().AddDays(1);
 
             //(fromDT != DateTime.MinValue) && (toDT == DateTime.MinValue) && 
             if ((fromDT != null && toDT == null))
             {
-                var filteredDate = reportTable.Where(w => w.Date >= fromDT).OrderByDescending(s => s.Date);
+
+                var filteredDate = reportTable.Where(w => w.Date >= from).OrderByDescending(s => s.Date);
                 return View("Index", filteredDate.ToPagedList(pageNumber, pageSize));
             }
             //(fromDT == DateTime.MinValue) && (toDT != DateTime.MinValue) && 
             else if ((fromDT == null && toDT != null))
             {
-                var filteredDate = reportTable.Where(w => w.Date <= toDT).OrderByDescending(s => s.Date);
+                var filteredDate = reportTable.Where(w => w.Date <= to).OrderByDescending(s => s.Date);
                 return View("Index", filteredDate.ToPagedList(pageNumber, pageSize));
             }
             //(fromDT != DateTime.MinValue) && (toDT != DateTime.MinValue) &&
             else if ((fromDT != null && toDT != null))
             {
-                var filteredDate = reportTable.Where(w => w.Date >= fromDT && w.Date <= toDT).OrderByDescending(s => s.Date);
+                var filteredDate = reportTable.Where(w => w.Date >= from && w.Date <= to).OrderByDescending(s => s.Date);
                 return View("Index", filteredDate.ToPagedList(pageNumber, pageSize));
             }
             else
