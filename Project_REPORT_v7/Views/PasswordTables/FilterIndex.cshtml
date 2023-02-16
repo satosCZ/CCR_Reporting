@@ -40,6 +40,10 @@
                 return date;
             }
         });
+        $(document).ready(function () {
+            $('#pwFromDT').keepValue();
+            $('#pwToDT').keepValue();
+        });
     </script>
 
     <div class="navbar navbar-default">
@@ -66,7 +70,7 @@
                     </div>
                 </div>
                 <div class="navbar-right" stle="padding: 0 15px 0 0;" id="submit">
-                    <input type="submit" value="Apply" class="btn btn-default" onmousedown='ReadValues()'/>
+                    <input type="submit" value="Apply" class="btn btn-default"/>
                 </div>
             }
         </div>

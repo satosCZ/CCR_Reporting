@@ -28,6 +28,30 @@
                 dataStore.setItem(index, newIndex)
             }
         });
+        $.fn.keepValue = function (name) {
+            if (!name) {
+                name = "";
+            }
+            return this.each(function () {
+                var $this = $(this);
+                var id = $this.attr('id');
+                var storage_name = name + id;
+                var value;
+
+                // Store from changes in a cookie
+                $this.change(function () {
+                    sessionStorage.setItem(storage_name, $this.val());
+                });
+                if (sessionStorage.getItem(id) != null) {
+                    value = sessionStorage.getItem(id);
+                }
+
+                // Don't overwrite value if it's allready exist
+                if (!$this.val()) {
+                    $this.val(name + value);
+                }
+            })
+        };
     });
 </script>
 
