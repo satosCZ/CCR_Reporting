@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -83,21 +84,28 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "MainTaskID,Time,Duration,Shop,System,Problem,Solution,Cooperation,ReportID")] MainTaskTable mainTaskTable)
         {
-            Guid passID = (Guid)TempData["ActiveGUID"];
-            if (ModelState.IsValid)
+            try
             {
-                mainTaskTable.MainTaskID = Guid.NewGuid();
-                mainTaskTable.ReportID = passID;
-                db.MainTaskTable.Add(mainTaskTable);
-                //int userID;
-                //if (int.TryParse(Session["User"].ToString(), out userID))
-                //    LogClass.AddLog(DateTime.Now, "MainTaskTable|Create", $"Created new Main task, Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
-                db.SaveChanges();
-                return Json(new { success = true });
+                Guid passID = (Guid)TempData["ActiveGUID"];
+                if (ModelState.IsValid)
+                {
+                    mainTaskTable.MainTaskID = Guid.NewGuid();
+                    mainTaskTable.ReportID = passID;
+                    db.MainTaskTable.Add(mainTaskTable);
+                    //int userID;
+                    //if (int.TryParse(Session["User"].ToString(), out userID))
+                    //    LogClass.AddLog(DateTime.Now, "MainTaskTable|Create", $"Created new Main task, Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
+                    db.SaveChanges();
+                    return Json(new { success = true });
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex);
             }
 
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", mainTaskTable.ReportID);
-            return Json(mainTaskTable, JsonRequestBehavior.AllowGet);
+            return Json(new { success = false });
         }
 
         // GET: MainTaskTables/Edit/5

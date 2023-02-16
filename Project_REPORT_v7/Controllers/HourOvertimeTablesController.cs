@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -40,18 +41,25 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "OvertimeID,Time,Duration,Shop,Type,Description,Cooperation,ReportID")] HourOvertimeTable hourOvertimeTable)
         {
-            Guid passID = (Guid)TempData["ActiveGUID"];
-            if (ModelState.IsValid)
+            try
             {
-                hourOvertimeTable.OvertimeID = Guid.NewGuid();
-                hourOvertimeTable.ReportID = passID;
-                db.HourOvertimeTable.Add(hourOvertimeTable);
-                db.SaveChanges();
-                return Json(new { success = true });    
+                Guid passID = (Guid)TempData["ActiveGUID"];
+                if (ModelState.IsValid)
+                {
+                    hourOvertimeTable.OvertimeID = Guid.NewGuid();
+                    hourOvertimeTable.ReportID = passID;
+                    db.HourOvertimeTable.Add(hourOvertimeTable);
+                    db.SaveChanges();
+                    return Json(new { success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
             }
 
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", hourOvertimeTable.ReportID);
-            return Json(hourOvertimeTable, JsonRequestBehavior.AllowGet);    
+            return Json(new { success = false });    
         }
 
         // GET: HourOvertimeTables/Edit/5
@@ -80,16 +88,23 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "OvertimeID,Time,Duration,Shop,Type,Description,Cooperation,ReportID")] HourOvertimeTable hourOvertimeTable)
         {
-            Guid passID = (Guid)TempData["ActiveGUID"];
-            if (ModelState.IsValid)
+            try
             {
-                hourOvertimeTable.ReportID = passID;
-                db.Entry(hourOvertimeTable).State = EntityState.Modified;
-                db.SaveChanges();
-                return Json(new { success = true });
+                Guid passID = (Guid)TempData["ActiveGUID"];
+                if (ModelState.IsValid)
+                {
+                    hourOvertimeTable.ReportID = passID;
+                    db.Entry(hourOvertimeTable).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return Json(new { success = true });
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
             }
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", hourOvertimeTable.ReportID);
-            return PartialView("Edit", hourOvertimeTable);
+            return Json(new { success = false });
         }
 
         // GET: HourOvertimeTables/Delete/5

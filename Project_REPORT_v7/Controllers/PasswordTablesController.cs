@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -86,21 +87,28 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "PasswordID,Time,FullName,UserID,System,ReportID")] PasswordTable passwordTable)
         {
-            Guid passID = (Guid)TempData["ActiveGUID"];
-            if (ModelState.IsValid)
+            try
             {
-                passwordTable.PasswordID = Guid.NewGuid();
-                passwordTable.ReportID = passID;
-                db.PasswordTable.Add(passwordTable);
-                //int userID;
-                //if (int.TryParse(Session["User"].ToString(), out userID))
-                //    LogClass.AddLog(DateTime.Now, "PasswordTable|Create", $"Created new Password issue, Time:{passwordTable.Time} Full Name:{passwordTable.FullName} UserID:{passwordTable.UserID} System:{passwordTable.System} ", userID);
-                db.SaveChanges();
-                return Json (new { success = true });
+                Guid passID = (Guid)TempData["ActiveGUID"];
+                if (ModelState.IsValid)
+                {
+                    passwordTable.PasswordID = Guid.NewGuid();
+                    passwordTable.ReportID = passID;
+                    db.PasswordTable.Add(passwordTable);
+                    //int userID;
+                    //if (int.TryParse(Session["User"].ToString(), out userID))
+                    //    LogClass.AddLog(DateTime.Now, "PasswordTable|Create", $"Created new Password issue, Time:{passwordTable.Time} Full Name:{passwordTable.FullName} UserID:{passwordTable.UserID} System:{passwordTable.System} ", userID);
+                    db.SaveChanges();
+                    return Json(new { success = true });
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex);
             }
 
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", passwordTable.ReportID);
-            return Json(passwordTable, JsonRequestBehavior.AllowGet);
+            return Json( new { success = false });
         }
 
         // GET: PasswordTables/Edit/5
