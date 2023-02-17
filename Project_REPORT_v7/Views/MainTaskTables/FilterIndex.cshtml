@@ -47,8 +47,6 @@
     </script>
 
     <div>
-        <h2>Filter Main Task</h2>
-
         <div class="navbar navbar-default">
             <div class="container-fluid">
                 @using (Ajax.BeginForm("FilterIndex", "MainTaskTables", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "tab_MainTask", InsertionMode = InsertionMode.Replace }, htmlAttributes: new { @class = "navbar-form", @style = "padding: 5px 0 0 0;" }))
@@ -66,16 +64,20 @@
                                 @Html.RadioButton("FilterMT", "TRANSYS", htmlAttributes: new { @title = "TRANSYS", @id = "TRANSYS", @style = "visibility: hidden; width:0; height:0;", @class = "mtRadio" })
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="fromDT">From</label>
-                            <input type="text" id="mtFromDT" name="mtFromDT" class="form-control" placeholder="@DateTime.MinValue.ToString("dd.MM.yyyy")" />
+                        <div class="form-group" style="padding-left:10px;">
+                            <label for="mtFromDT">From</label>
+                            <input type="text" id="mtFromDT" name="mtFromDT" class="form-control" placeholder="@DateTime.MinValue.ToString("dd.MM.yyyy")" style="width:100px;" />
                         </div>
-                        <div class="form-group">
-                            <label for="toDT">To</label>
-                            <input type="text" id="mtToDT" name="mtToDT" class="form-control" placeholder="@DateTime.Now.ToString("dd.MM.yyyy")" />
+                        <div class="form-group" style="padding-left:5px;">
+                            <label for="mtToDT">To</label>
+                            <input type="text" id="mtToDT" name="mtToDT" class="form-control" placeholder="@DateTime.Now.ToString("dd.MM.yyyy")" style="width:100px;"/>
+                        </div>
+                        <div class="form-group" style="padding-left:10px;">
+                            <label for="mtFultex">Fultext:</label>
+                            <input type="text" id="mtFultex" name="mtFultex" class="form-control" />
                         </div>
                     </div>
-                    <div class="navbar-right" style="padding: 0 15px 0 0;">
+                    <div class="navbar-right" style="padding-top: 3px;">
                         <input type="submit" value="Apply" class="btn btn-default" />
                     </div>
                 }

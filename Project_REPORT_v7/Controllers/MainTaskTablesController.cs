@@ -29,7 +29,7 @@ namespace Project_REPORT_v7.Controllers
         // GET: MainTaskTables/FilterIndex
         //[ChildActionOnly]
         //[GroupAuthorize("ITMesAdmin", "ITMesTechnician", "ITHaeczMesSection")]
-        public PartialViewResult FilterIndex(string filterMT, DateTime? mtFromDT, DateTime? mtToDT, int? mtPage)
+        public PartialViewResult FilterIndex(string filterMT, DateTime? mtFromDT, DateTime? mtToDT, string mtFultex, int? mtPage)
         {
             var mainTaskTable = db.MainTaskTable.Include(p => p.ReportTable);
 
@@ -62,6 +62,11 @@ namespace Project_REPORT_v7.Controllers
             else if (mtFromDT == null && mtToDT != null)
             {
                 filtered = filtered.Where(w => w.ReportTable.Date <= to).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
+            }
+
+            if (!string.IsNullOrEmpty(mtFultex))
+            {
+                filtered = filtered.Where(w => w.System.Contains(mtFultex) || w.Problem.Contains(mtFultex) || w.Solution.Contains(mtFultex)).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
             }
 
             return PartialView("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));

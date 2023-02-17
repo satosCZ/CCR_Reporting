@@ -26,7 +26,13 @@
             activate: function (event, ui) {
                 var newIndex = ui.newTab.parent().children().index(ui.newTab);
                 dataStore.setItem(index, newIndex)
-            }
+            },
+            classes: {
+                "ui-tabs": null,
+                "ui-tabs-nav": null,
+                "ui-tabs-tab": null,
+                "ui-tabs-panel": null
+                }
         });
         $.fn.keepValue = function (name) {
             if (!name) {
@@ -58,7 +64,7 @@
 <h2>Filtered GLOVIS & TRANSYS</h2>
 
 <div id="tabs">
-    <ul>
+    <ul class="nav nav-tabs nav-justified">
         <li><a href="#tab1">Main Task</a></li>
         <li><a href="#tab2">Passwords</a></li>
     </ul>
