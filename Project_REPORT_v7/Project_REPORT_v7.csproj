@@ -138,6 +138,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Addon\AppSettings.cs" />
     <Compile Include="Controllers\Addon\CustomWindowsTokenRoleProvider.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HourOvertimeTablesController.cs" />
     <Compile Include="Controllers\LogClass.cs" />
@@ -355,6 +356,8 @@
     <Content Include="Views\PasswordTables\FilterIndex.cshtml">
       <BrowseToURL>~/PasswordTables/FilterIndex</BrowseToURL>
     </Content>
+    <Content Include="Views\Error\Error.cshtml" />
+    <Content Include="Views\Error\Error404.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\LogIn\" />

@@ -1,0 +1,23 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@TempData["Status"]</h1>
+<div>
+    <div class="alert alert-danger lead">
+        An unexpected error has occurred. Please contact the web developer.
+    </div>
+    <div>
+        <h4>Error Message</h4>
+        <pre>
+            @Model.Exception.Message
+        </pre>
+        <br />
+        <hr />
+        <br />
+        <h4>Error Stack Trace</h4>
+        <pre>@Model.Exception.StackTrace</pre>
+    </div>
+</div>
+
