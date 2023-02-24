@@ -3,25 +3,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@TempData["Status"]</h1>
-<div>
-    <div class="alert alert-danger lead">
+
+<div class="pull-left" style="width:70%; padding:10px;">
+    <div class="page-header"><h1>ERROR! D'OH</h1></div>
+    <div class="alert alert-danger" role="alert">
         An unexpected error has occurred. Please contact the web developer.
     </div>
     <div>
-        <div>
-            <p>@Model.ControllerName</p>
-            <p>@Model.ActionName</p>
-        </div>
-        <h4>Error Message</h4>
-        <pre>
+        <h3>Error Message</h3>
+        <blockquote>
             @Model.Exception.Message
-        </pre>
-        <br />
+        </blockquote>
         <hr />
-        <br />
-        <h4>Error Stack Trace</h4>
-        <pre>@Model.Exception.StackTrace</pre>
+        <h3>Error Stack Trace</h3>
+        <div class="well">
+            @Model.Exception.StackTrace
+        </div>
     </div>
 </div>
+<div class="pull-right" style="width:30%; padding-left:50px; padding-top:100px;">
+    <img src="~/Content/Images/doh.png" alt="DOH!" class="img-responsive" style="height:500px;" />
+</div>
+<span class="clearfix"></span>
 
