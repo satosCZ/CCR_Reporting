@@ -36,31 +36,6 @@
             $(".ui-accordion-content").show();
         });
 
-        //var act = 0;
-        //var lact = 0;
-        //$("#accordion").accordion({
-        //    create: function (event, ui) {
-        //        //get index in cookie on accordion create event
-        //        if ($.cookie('saved_index') != null) {
-        //            act = parseInt($.cookie('saved_index'));
-        //        }
-        //        if (localStorage.getItem('saved_index') != null) {
-        //            lact = localStorage.getItem('saved_index');
-        //        }
-        //    },
-        //    change: function (event, ui) {
-        //        //set cookie for current index on change event
-        //        $.cookie('saved_index', null);
-        //        $.cookie('saved_index', ui.options.active);
-        //        localStorage.setItem('saved_index') = ui.options.active;
-        //    },
-        //    //active: parseInt($.cookie('saved_index')),
-        //    active: lact,
-        //    collapsible: true,
-        //    heightStyle: "content",
-        //    animate: 200
-        //});
-
         var index = 'accordion';
         var dataStore = window.sessionStorage;
 
@@ -80,10 +55,15 @@
             collapsible: true,
             heightStyle: "content",
             activate: function (event, ui) {
-                //var newIndex = ui.newAccordion.parent().children().index(ui.accordion);
                 var newIndex = $(this).accordion('option',"active");
                 dataStore.setItem(index, newIndex)
             }
+        });
+        
+    });
+    $(document).ready(function () {
+        $("#ModalPopup").on('shown.bs.modal', function () {
+            $('#Time').focus();
         });
     });
 </script>

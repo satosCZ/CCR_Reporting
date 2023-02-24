@@ -59,13 +59,17 @@
         $("#radio input").checkboxradio({
             icon: false
         });
+
+        $('#ReportCreate').on('shown', function () {
+            $('#Date').focus();
+        })
     });
 </script>
 
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "ReportTables", FormMethod.Post, htmlAttributes: new {@id = "ReportCreate" }))
 {
     @Html.AntiForgeryToken()
     
@@ -76,7 +80,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", autofocus = "autofocus" } })
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -126,6 +130,6 @@
     @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
 </div>
 
-@section Scripts {
+@*@section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
+}*@

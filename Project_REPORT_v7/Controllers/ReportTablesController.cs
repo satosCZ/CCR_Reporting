@@ -47,25 +47,26 @@ namespace Project_REPORT_v7.Controllers
             int pageSize = 20;
             int pageNumber = (page ?? 1);
 
-            if (fromDT == null && toDT == null)
-            { var yes = "tes"; }
+            DateTime from = fromDT.GetValueOrDefault();
+            DateTime to = toDT.GetValueOrDefault().AddDays(1);
 
             //(fromDT != DateTime.MinValue) && (toDT == DateTime.MinValue) && 
             if ((fromDT != null && toDT == null))
             {
-                var filteredDate = reportTable.Where(w => w.Date >= fromDT).OrderByDescending(s => s.Date);
+
+                var filteredDate = reportTable.Where(w => w.Date >= from).OrderByDescending(s => s.Date);
                 return View("Index", filteredDate.ToPagedList(pageNumber, pageSize));
             }
             //(fromDT == DateTime.MinValue) && (toDT != DateTime.MinValue) && 
             else if ((fromDT == null && toDT != null))
             {
-                var filteredDate = reportTable.Where(w => w.Date <= toDT).OrderByDescending(s => s.Date);
+                var filteredDate = reportTable.Where(w => w.Date <= to).OrderByDescending(s => s.Date);
                 return View("Index", filteredDate.ToPagedList(pageNumber, pageSize));
             }
             //(fromDT != DateTime.MinValue) && (toDT != DateTime.MinValue) &&
             else if ((fromDT != null && toDT != null))
             {
-                var filteredDate = reportTable.Where(w => w.Date >= fromDT && w.Date <= toDT).OrderByDescending(s => s.Date);
+                var filteredDate = reportTable.Where(w => w.Date >= from && w.Date <= to).OrderByDescending(s => s.Date);
                 return View("Index", filteredDate.ToPagedList(pageNumber, pageSize));
             }
             else
@@ -108,46 +109,50 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ReportID,Date,Shift,Member_One_ID,Member_Two_ID")] ReportTable reportTable)
         {
-            if (ModelState.IsValid)
+            try
             {
-                reportTable.ReportID = Guid.NewGuid();
-                try
+                if (ModelState.IsValid)
                 {
-                    switch (reportTable.Shift)
+                    reportTable.ReportID = Guid.NewGuid();
+                    try
                     {
-                        case "Morning":
-                            reportTable.Date = reportTable.Date.AddHours(6);
-                            break;
-                        case "Afternoon":
-                            reportTable.Date = reportTable.Date.AddHours(14);
-                            break;
-                        case "Night":
-                            reportTable.Date = reportTable.Date.AddHours(22);
-                            break;
+                        switch (reportTable.Shift)
+                        {
+                            case "Morning":
+                                reportTable.Date = reportTable.Date.AddHours(6);
+                                break;
+                            case "Afternoon":
+                                reportTable.Date = reportTable.Date.AddHours(14);
+                                break;
+                            case "Night":
+                                reportTable.Date = reportTable.Date.AddHours(22);
+                                break;
+                        }
                     }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("ReportTablesController || Create || " + ex.Message);
+                    }
+                    finally
+                    {
+                        //try
+                        //{
+                        //    int userID;
+                        //    if (int.TryParse(Session["User"].ToString(), out userID))
+                        //        LogClass.AddLog(DateTime.Now, "ReportTable|Create", $"Created new Report,ID:{reportTable.ReportID} Date:{reportTable.Date} Shift:{reportTable.Shift} M1:{reportTable.Member_One_ID} M2:{reportTable.Member_Two_ID}", userID);
+                        //}
+                        //catch (Exception ex)
+                        //{
+                        //    Debug.WriteLine("ReportTablesController || Create-LOG || " + ex.Message);
+                        //}
+
+                    }
+                    db.ReportTable.Add(reportTable);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("ReportTablesController || Create || " + ex.Message);
-                }
-                finally
-                {
-                    //try
-                    //{
-                    //    int userID;
-                    //    if (int.TryParse(Session["User"].ToString(), out userID))
-                    //        LogClass.AddLog(DateTime.Now, "ReportTable|Create", $"Created new Report,ID:{reportTable.ReportID} Date:{reportTable.Date} Shift:{reportTable.Shift} M1:{reportTable.Member_One_ID} M2:{reportTable.Member_Two_ID}", userID);
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    Debug.WriteLine("ReportTablesController || Create-LOG || " + ex.Message);
-                    //}
-                    
-                }
-                db.ReportTable.Add(reportTable);
-                db.SaveChanges();
-                return RedirectToAction("Index");
             }
+            catch { }
 
             ViewBag.Member_One_ID = new SelectList(db.MembersTable, "MemberID", "FirstName", reportTable.Member_One_ID);
             ViewBag.Member_Two_ID = new SelectList(db.MembersTable, "MemberID", "FirstName", reportTable.Member_Two_ID);
@@ -181,14 +186,21 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ReportID,Date,Shift,Member_One_ID,Member_Two_ID")] ReportTable reportTable)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(reportTable).State = EntityState.Modified;
-                //int userID;
-                //if (int.TryParse(Session["User"].ToString(), out userID))
-                //    LogClass.AddLog(DateTime.Now, "ReportTable|Edit", $"Edited Report,ID:{reportTable.ReportID} Date:{reportTable.Date} Shift:{reportTable.Shift} M1:{reportTable.Member_One_ID} M2:{reportTable.Member_Two_ID}", userID);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(reportTable).State = EntityState.Modified;
+                    //int userID;
+                    //if (int.TryParse(Session["User"].ToString(), out userID))
+                    //    LogClass.AddLog(DateTime.Now, "ReportTable|Edit", $"Edited Report,ID:{reportTable.ReportID} Date:{reportTable.Date} Shift:{reportTable.Shift} M1:{reportTable.Member_One_ID} M2:{reportTable.Member_Two_ID}", userID);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
             }
             ViewBag.Member_One_ID = new SelectList(db.MembersTable, "MemberID", "FirstName", reportTable.Member_One_ID);
             ViewBag.Member_Two_ID = new SelectList(db.MembersTable, "MemberID", "FirstName", reportTable.Member_Two_ID);

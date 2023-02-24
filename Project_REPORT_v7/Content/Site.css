@@ -33,7 +33,7 @@ textarea {
     .body-content {
         padding: 5px;
         max-width: none;
-        width: 1200px;
+        width: 90%;
     }
     .container {
         max-width: 100%;
@@ -50,4 +50,8 @@ ul.ui-autocomplete {
 
 #MainTask {
     display:initial;
+}
+
+ui-tabs-nav {
+    background-color: #ffffff;
 }

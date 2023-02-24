@@ -1,9 +1,7 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Filtered";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <script>
     $(function () {
         var index = 'key';
@@ -28,18 +26,58 @@
             activate: function (event, ui) {
                 var newIndex = ui.newTab.parent().children().index(ui.newTab);
                 dataStore.setItem(index, newIndex)
-            }
+            },
+            classes: {
+                "ui-tabs": null,
+                "ui-tabs-nav": null,
+                "ui-tabs-tab": null,
+                "ui-tabs-panel": null
+                }
         });
+        $.fn.keepValue = function (name) {
+            if (!name) {
+                name = "";
+            }
+            return this.each(function () {
+                var $this = $(this);
+                var id = $this.attr('id');
+                var storage_name = name + id;
+                var value;
+
+                // Store from changes in a cookie
+                $this.change(function () {
+                    sessionStorage.setItem(storage_name, $this.val());
+                });
+                if (sessionStorage.getItem(id) != null) {
+                    value = sessionStorage.getItem(id);
+                }
+
+                // Don't overwrite value if it's allready exist
+                if (!$this.val()) {
+                    $this.val(name + value);
+                }
+            })
+        };
     });
 </script>
 
 <h2>Filtered GLOVIS & TRANSYS</h2>
 
 <div id="tabs">
-    <ul>
-        <li><a href="@Url.Action("FilterIndex", "MainTaskTables")">Main Task</a></li>
-        <li><a href="@Url.Action("FilterIndex", "PasswordTables")">Passwords</a></li>
+    <ul class="nav nav-tabs nav-justified">
+        <li><a href="#tab1">Main Task</a></li>
+        <li><a href="#tab2">Passwords</a></li>
     </ul>
+    <div id="tab1">
+        @{
+            Html.RenderAction("FilterIndex", "MainTaskTables"); 
+        }
+    </div>
+    <div id="tab2">
+        @{
+            Html.RenderAction("FilterIndex", "PasswordTables");
+        }
+    </div>
 </div>
 
 

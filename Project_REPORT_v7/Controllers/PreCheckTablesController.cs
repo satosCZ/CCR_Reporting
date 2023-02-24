@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -38,23 +39,29 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "PreCheckID,Time,System,Check,EmailTime,ReportID")] PreCheckTable preCheckTable)
         {
-            Guid passID = (Guid)TempData["ActiveGUID"];
-            if (ModelState.IsValid)
+            try
             {
-                preCheckTable.PreCheckID = Guid.NewGuid();
-                preCheckTable.ReportID = passID;
-                db.PreCheckTable.Add(preCheckTable);
-                //int userID;
-                //if (int.TryParse(Session["User"].ToString(), out userID))
-                //    LogClass.AddLog(DateTime.Now, "PreCheckTable|Create", $"Created new Pre-Check, Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
-                db.SaveChanges();
-                return Json(new { success = true });
-                
+                Guid passID = (Guid)TempData["ActiveGUID"];
+                if (ModelState.IsValid)
+                {
+                    preCheckTable.PreCheckID = Guid.NewGuid();
+                    preCheckTable.ReportID = passID;
+                    db.PreCheckTable.Add(preCheckTable);
+                    //int userID;
+                    //if (int.TryParse(Session["User"].ToString(), out userID))
+                    //    LogClass.AddLog(DateTime.Now, "PreCheckTable|Create", $"Created new Pre-Check, Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
+                    db.SaveChanges();
+                    return Json(new { success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
             }
 
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", preCheckTable.ReportID);
            
-            return Json (preCheckTable, JsonRequestBehavior.AllowGet);
+            return Json (new { success = false });
         }
 
         // GET: PreCheckTables/Edit/5
@@ -83,21 +90,28 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "PreCheckID,Time,System,Check,EmailTime,ReportID")] PreCheckTable preCheckTable)
         {
-            Guid passID = (Guid)TempData["ActiveGUID"];
-            if (ModelState.IsValid)
+            try
             {
-                preCheckTable.ReportID = passID;
-                db.Entry(preCheckTable).State = EntityState.Modified;
+                Guid passID = (Guid)TempData["ActiveGUID"];
+                if (ModelState.IsValid)
+                {
+                    preCheckTable.ReportID = passID;
+                    db.Entry(preCheckTable).State = EntityState.Modified;
 
-                //int userID;
-                //if (int.TryParse(Session["User"].ToString(), out userID))
-                //    LogClass.AddLog(DateTime.Now, "PreCheckTable|Edit", $"Edited Pre-Check, Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
+                    //int userID;
+                    //if (int.TryParse(Session["User"].ToString(), out userID))
+                    //    LogClass.AddLog(DateTime.Now, "PreCheckTable|Edit", $"Edited Pre-Check, Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
 
-                db.SaveChanges();
-                return Json(new { success = true });
+                    db.SaveChanges();
+                    return Json(new { success = true });
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
             }
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", preCheckTable.ReportID);
-            return PartialView("Edit", preCheckTable);
+            return Json(new { success = true });
         }
 
         // GET: PreCheckTables/Delete/5

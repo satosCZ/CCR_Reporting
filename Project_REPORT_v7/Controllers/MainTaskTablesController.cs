@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -26,49 +27,49 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: MainTaskTables/FilterIndex
+        //[ChildActionOnly]
         //[GroupAuthorize("ITMesAdmin", "ITMesTechnician", "ITHaeczMesSection")]
-        public ViewResult FilterIndex(int? page)
+        public PartialViewResult FilterIndex(string filterMT, DateTime? mtFromDT, DateTime? mtToDT, string mtFultex, int? mtPage)
         {
             var mainTaskTable = db.MainTaskTable.Include(p => p.ReportTable);
 
-            int pageSize = 20;
-            int pageNumber = (page ?? 1);
-            return View(mainTaskTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time).ToPagedList(pageNumber, pageSize));
-        }
-
-        // POST : MainTaskTables/FilterIndex > Filter
-        public ViewResult FilterIndexFilter(string filter, DateTime? fromDT, DateTime? toDT, int? page)
-        {
-            var mainTaskTable = db.MainTaskTable.Include(p => p.ReportTable);
+            IOrderedQueryable<MainTaskTable> filtered;
 
             int pageSize = 20;
-            int pageNumber = (page ?? 1);
-            if (filter == "GLOVIS" || filter == "TRANSYS")
-            {
-                var filtered = mainTaskTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time).Where(w => w.Shop == filter);
-                return View("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
-            }
+            int pageNumber = (mtPage ?? 1);
 
-            //(fromDT != DateTime.MinValue && toDT != DateTime.MinValue) || 
-            if ((fromDT != null && toDT != null))
+            DateTime from = mtFromDT.GetValueOrDefault();
+            DateTime to = mtToDT.GetValueOrDefault().AddDays(1);
+
+            // Filter by company
+            if (filterMT == "GLOVIS" || filterMT == "TRANSYS")
             {
-                var filteredDate = mainTaskTable.Where(w => w.ReportTable.Date >= fromDT && w.ReportTable.Date <= toDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
-                return View("FilterIndex", filteredDate.ToPagedList(pageNumber, pageSize));
-            }
-            else if ((fromDT != null && toDT == null))
-            {
-                var filteredDate = mainTaskTable.Where(w => w.ReportTable.Date >= fromDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
-                return View("FilterIndex", filteredDate.ToPagedList(pageNumber, pageSize));
-            }
-            else if ((fromDT != null && toDT == null))
-            {
-                var filteredDate = mainTaskTable.Where(w => w.ReportTable.Date <= toDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
-                return View("FilterIndex", filteredDate.ToPagedList(pageNumber, pageSize));
+                filtered = mainTaskTable.Where(w => w.Shop == filterMT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
             }
             else
             {
-                return View("FilterIndex", mainTaskTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time));
+                filtered = mainTaskTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
             }
+
+            if (mtFromDT != null && mtToDT != null)
+            {
+                filtered = filtered.Where(w => w.ReportTable.Date >= from && w.ReportTable.Date <= to).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
+            }
+            else if (mtFromDT != null && mtToDT == null)
+            {
+                filtered = filtered.Where(w => w.ReportTable.Date >= from).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
+            }
+            else if (mtFromDT == null && mtToDT != null)
+            {
+                filtered = filtered.Where(w => w.ReportTable.Date <= to).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
+            }
+
+            if (!string.IsNullOrEmpty(mtFultex))
+            {
+                filtered = filtered.Where(w => w.System.Contains(mtFultex) || w.Problem.Contains(mtFultex) || w.Solution.Contains(mtFultex)).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
+            }
+
+            return PartialView("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: MainTaskTables/Create
@@ -88,21 +89,28 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "MainTaskID,Time,Duration,Shop,System,Problem,Solution,Cooperation,ReportID")] MainTaskTable mainTaskTable)
         {
-            Guid passID = (Guid)TempData["ActiveGUID"];
-            if (ModelState.IsValid)
+            try
             {
-                mainTaskTable.MainTaskID = Guid.NewGuid();
-                mainTaskTable.ReportID = passID;
-                db.MainTaskTable.Add(mainTaskTable);
-                //int userID;
-                //if (int.TryParse(Session["User"].ToString(), out userID))
-                //    LogClass.AddLog(DateTime.Now, "MainTaskTable|Create", $"Created new Main task, Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
-                db.SaveChanges();
-                return Json(new { success = true });
+                Guid passID = (Guid)TempData["ActiveGUID"];
+                if (ModelState.IsValid)
+                {
+                    mainTaskTable.MainTaskID = Guid.NewGuid();
+                    mainTaskTable.ReportID = passID;
+                    db.MainTaskTable.Add(mainTaskTable);
+                    //int userID;
+                    //if (int.TryParse(Session["User"].ToString(), out userID))
+                    //    LogClass.AddLog(DateTime.Now, "MainTaskTable|Create", $"Created new Main task, Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
+                    db.SaveChanges();
+                    return Json(new { success = true });
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex);
             }
 
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", mainTaskTable.ReportID);
-            return Json(mainTaskTable, JsonRequestBehavior.AllowGet);
+            return Json(new { success = false });
         }
 
         // GET: MainTaskTables/Edit/5

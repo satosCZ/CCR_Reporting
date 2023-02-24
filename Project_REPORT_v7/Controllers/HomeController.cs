@@ -27,7 +27,6 @@ namespace Project_REPORT_v7.Controllers
             return View();
         }
 
-
         //public ActionResult Register()
         //{
         //    return View();
@@ -123,7 +122,8 @@ namespace Project_REPORT_v7.Controllers
 
         public ActionResult Filtered()
         {
-            return View("Filtered");
+            var table = db.ReportTable;//.Include(r => r.MembersTable).Include(r => r.MembersTable1);
+            return View("Filtered", table);
         }
     }
 }
