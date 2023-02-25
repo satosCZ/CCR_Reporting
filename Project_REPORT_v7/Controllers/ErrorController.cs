@@ -8,21 +8,25 @@ namespace Project_REPORT_v7.Controllers
 {
     public class ErrorController : Controller
     {
-        // GET: Error
-        [HandleError]
-        public ActionResult Error404(int statusCode, Exception exception)
+        public ActionResult Error(HandleErrorInfo exception)
         {
-            //Response.StatusCode = 404;
-            //Exception ex = new Exception();
-            //ex = Server.GetLastError().GetBaseException();
-            //TempData["Message"] = ex.Message;
-            //return View("Error_404");
-            Response.StatusCode = statusCode;
-            TempData["Status"] = statusCode + " Error";
-            return View();
+            return View("ERROR", exception);
         }
 
-        [HandleError]
+        // GET: Error
+        public ActionResult Error404(HandleErrorInfo exception)
+        {
+            ////Response.StatusCode = 404;
+            ////Exception ex = new Exception();
+            ////ex = Server.GetLastError().GetBaseException();
+            ////TempData["Message"] = ex.Message;
+            ////return View("Error_404");
+            //Response.StatusCode = statusCode;
+            //TempData["Status"] = statusCode + " Error";
+            return View(exception);
+        }
+
+
         public ActionResult Error500()
         {
             return View();

@@ -9,10 +9,6 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery-other")
-    @*@Scripts.Render("~/bundles/jquery-ui")
-        @Scripts.Render("~/bundles/jquery-ajax")
-        @Scripts.Render("~/bundles/jqueryval")
-        @Scripts.Render("~/bundles/js-cookie")*@
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -30,7 +26,6 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Report", "Index", "ReportTables")</li>
                     <li>@Html.ActionLink("Members", "_index", "MembersTables")</li>
-                    @*<li>@Html.ActionLink("Filtered", "FilterIndex", "MainTaskTables")</li>*@
                     <li>@Html.ActionLink("Filtered", "Filtered", "Home")</li>
                 </ul>
             </div>
