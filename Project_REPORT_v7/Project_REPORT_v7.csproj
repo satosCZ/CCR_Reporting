@@ -138,6 +138,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Addon\AppSettings.cs" />
     <Compile Include="Controllers\Addon\CustomWindowsTokenRoleProvider.cs" />
+    <Compile Include="Controllers\Addon\ImageCompress.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HourOvertimeTablesController.cs" />
     <Compile Include="Controllers\LogClass.cs" />
@@ -211,6 +212,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\dropzone.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Animation\Rhombus.gif" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -280,6 +282,7 @@
     <Content Include="Scripts\Custom\_modal.cshtml" />
     <Content Include="Scripts\Custom\Modal.js" />
     <None Include="Scripts\jquery-3.6.3.intellisense.js" />
+    <Content Include="Scripts\dropzone.min.js" />
     <Content Include="Scripts\jquery-3.6.3.js" />
     <Content Include="Scripts\jquery-3.6.3.min.js" />
     <Content Include="Scripts\jquery-3.6.3.slim.js" />
