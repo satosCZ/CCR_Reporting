@@ -7,11 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-
 namespace Project_REPORT_v7.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
 
     public partial class PasswordTable
     {
@@ -21,6 +22,7 @@ namespace Project_REPORT_v7.Models
         [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         public System.TimeSpan Time { get; set; }
         [Required]
+        [DisplayName("Name")]
         public string FullName { get; set; }
         [Required]
         [DisplayName("User ID")]

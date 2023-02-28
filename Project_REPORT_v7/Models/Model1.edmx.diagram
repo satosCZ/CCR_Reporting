@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="6cc120bd84c24c1c81c60ab26c171b6b" Name="Diagram1" ZoomLevel="29">
+      <Diagram DiagramId="6cc120bd84c24c1c81c60ab26c171b6b" Name="Diagram1">
         <EntityTypeShape EntityType="ReportDBModel.HourOvertimeTable" Width="1.5" PointX="11.25" PointY="11.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ReportDBModel.MainTaskTable" Width="1.5" PointX="12.875" PointY="11.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ReportDBModel.MembersTable" Width="1.5" PointX="11.125" PointY="7.5" IsExpanded="true" />
@@ -24,8 +24,6 @@
         <AssociationConnector Association="ReportDBModel.FK_ReportTable_Member_One_ID" />
         <AssociationConnector Association="ReportDBModel.FK_ReportTable_Member_Two_ID" />
         <EntityTypeShape EntityType="ReportDBModel.LogTable" Width="1.5" PointX="13.5" PointY="5.125" />
-        <EntityTypeShape EntityType="ReportDBModel.MT_IMAGES" Width="1.5" PointX="15.125" PointY="12.125" />
-        <AssociationConnector Association="ReportDBModel.FK_MT_Images" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
