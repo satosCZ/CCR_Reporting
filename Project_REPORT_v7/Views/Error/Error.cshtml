@@ -1,11 +1,12 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
 @{
+    ViewBag.Title = "ERROR";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
 <div class="pull-left" style="width:70%; padding:10px;">
-    <div class="page-header"><h1>ERROR! D'OH</h1></div>
+    <div class="page-header"><h1>D'OH! - @ViewBag.Title</h1></div>
     <div class="alert alert-danger" role="alert">
         An unexpected error has occurred. Please contact the web developer.
     </div>
