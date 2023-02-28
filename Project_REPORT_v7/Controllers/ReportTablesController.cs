@@ -47,9 +47,6 @@ namespace Project_REPORT_v7.Controllers
             int pageSize = 20;
             int pageNumber = (page ?? 1);
 
-            if (fromDT == null && toDT == null)
-            { var yes = "tes"; }
-
             //(fromDT != DateTime.MinValue) && (toDT == DateTime.MinValue) && 
             if ((fromDT != null && toDT == null))
             {
