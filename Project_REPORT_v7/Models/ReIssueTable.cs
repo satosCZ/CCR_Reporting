@@ -13,7 +13,7 @@ namespace Project_REPORT_v7.Models
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class ReIssueTable
     {
         public System.Guid ReIssueID { get; set; }
