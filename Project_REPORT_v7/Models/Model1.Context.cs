@@ -35,5 +35,6 @@ namespace Project_REPORT_v7.Models
         public virtual DbSet<ReportTable> ReportTable { get; set; }
         public virtual DbSet<PermisionTable> PermisionTable { get; set; }
         public virtual DbSet<LogTable> LogTable { get; set; }
+        public virtual DbSet<MT_IMAGES> MT_IMAGES { get; set; }
     }
 }

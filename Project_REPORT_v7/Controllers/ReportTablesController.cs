@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
 using System.Diagnostics;
-using System.Drawing.Printing;
 using System.Linq;
 using System.Net;
-using System.Runtime.Remoting.Contexts;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using PagedList;
-using Project_REPORT_v7.App_Start;
 using Project_REPORT_v7.Models;
 
 namespace Project_REPORT_v7.Controllers

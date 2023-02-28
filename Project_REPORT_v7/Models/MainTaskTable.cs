@@ -16,6 +16,12 @@ namespace Project_REPORT_v7.Models
 
     public partial class MainTaskTable
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public MainTaskTable()
+        {
+            this.MT_IMAGES = new HashSet<MT_IMAGES>();
+        }
+    
         public System.Guid MainTaskID { get; set; }
         [Required]
         [DataType(DataType.Time)]
@@ -39,5 +45,7 @@ namespace Project_REPORT_v7.Models
         public System.Guid ReportID { get; set; }
     
         public virtual ReportTable ReportTable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MT_IMAGES> MT_IMAGES { get; set; }
     }
 }
