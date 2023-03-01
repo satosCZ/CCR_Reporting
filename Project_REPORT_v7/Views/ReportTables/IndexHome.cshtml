@@ -33,7 +33,6 @@
             @Html.DisplayFor(modelItem => item.MembersTable1.FirstName) @Html.DisplayFor(modelItem => item.MembersTable1.LastName)
         </td>
         <td>
-            @*@Html.ActionLink("Details", "Details", new { id=item.ReportID })*@
             <a href="@Url.Action("Details", "ReportTables", new { id = item.ReportID })"><span class="glyphicon glyphicon-open" aria-hidden="true"/></a>
         </td>
     </tr>

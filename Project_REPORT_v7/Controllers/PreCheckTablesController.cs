@@ -44,6 +44,8 @@ namespace Project_REPORT_v7.Controllers
                 preCheckTable.PreCheckID = Guid.NewGuid();
                 preCheckTable.ReportID = passID;
                 db.PreCheckTable.Add(preCheckTable);
+                // Remove comments to enable logging
+
                 //int userID;
                 //if (int.TryParse(Session["User"].ToString(), out userID))
                 //    LogClass.AddLog(DateTime.Now, "PreCheckTable|Create", $"Created new Pre-Check, Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
@@ -88,6 +90,7 @@ namespace Project_REPORT_v7.Controllers
             {
                 preCheckTable.ReportID = passID;
                 db.Entry(preCheckTable).State = EntityState.Modified;
+                // Remove comments to enable logging
 
                 //int userID;
                 //if (int.TryParse(Session["User"].ToString(), out userID))
@@ -127,6 +130,8 @@ namespace Project_REPORT_v7.Controllers
             {
                 PreCheckTable preCheckTable = db.PreCheckTable.Find(id);
                 db.PreCheckTable.Remove(preCheckTable);
+                // Remove comments to enable logging
+
                 //int userID;
                 //if (int.TryParse(Session["User"].ToString(), out userID))
                 //    LogClass.AddLog(DateTime.Now, "PreCheckTable|Delete", $"Deleted Pre-Check, Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
@@ -138,45 +143,6 @@ namespace Project_REPORT_v7.Controllers
                 throw;
             }
             
-        }
-
-        public PartialViewResult SortOrder(string sortCriteria)
-        {
-            List<PreCheckTable> preCheckTables = null;
-            if (sortCriteria.IsNullOrWhiteSpace())
-                sortCriteria = sortCriteria.Contains("DSC") ? sortCriteria.Split('_')[0] : string.Format("{0}_DSC", sortCriteria);
-            ViewBag.Time = "Time";
-            ViewBag.System = "System";
-            ViewBag.Check = "Check";
-
-            switch (sortCriteria)
-            {
-                case "Time":
-                    preCheckTables = db.PreCheckTable.Include(e => e.ReportTable).OrderBy(s => s.Time).ToList();
-                    ViewBag.Time = "Time";
-                    break;
-                case "Time_DSC":
-                    preCheckTables = db.PreCheckTable.Include(e => e.ReportTable).OrderByDescending(s => s.Time).ToList();
-                    ViewBag.Time = "Time_DSC";
-                    break;
-                case "System":
-                    preCheckTables = db.PreCheckTable.Include(e => e.ReportTable).OrderBy(s => s.System).ToList();
-                    ViewBag.System = "System";
-                    break;
-                case "System_DSC":
-                    preCheckTables= db.PreCheckTable.Include(e => e.ReportTable).OrderByDescending(s => s.System).ToList();
-                    ViewBag.System = "System_DSC";
-                    break;
-                case "Check":
-                    preCheckTables = db.PreCheckTable.Include(e => e.ReportTable).OrderBy(s => s.Check).ToList();
-                    ViewBag.Check = "Check";
-                    break;
-                case "Check_DSC":
-                    preCheckTables = db.PreCheckTable.Include(e => e.ReportTable).OrderByDescending(s => s.Check).ToList();
-                    ViewBag.Check = "Check_DSC";
-                    break;
-            }
-            return PartialView("_index", preCheckTables);
         }
 
         public JsonResult GetSystem(string term)

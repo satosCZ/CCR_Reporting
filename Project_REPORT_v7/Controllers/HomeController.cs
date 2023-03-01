@@ -17,6 +17,7 @@ namespace Project_REPORT_v7.Controllers
 
         public ActionResult Index()
         {
+                                // Temperaly non active code for future use
             //if (Session["MemberID"] != null)
             //    return View();
             //else
@@ -27,35 +28,7 @@ namespace Project_REPORT_v7.Controllers
             return View();
         }
 
-
-        //public ActionResult Register()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Register(MembersTable member)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var check = db.MembersTable.FirstOrDefault(s => s.MemberID == member.MemberID);
-        //        if (check == null)
-        //        {
-        //            member.Password = GetMD5(member.Password);
-        //            db.Configuration.ValidateOnSaveEnabled = false;
-        //            db.MembersTable.Add(member);
-        //            db.SaveChanges();
-        //            return RedirectToAction("Index");
-        //        }
-        //        else
-        //        {
-        //            ViewBag.Error = "Email already exists";
-        //            return View();
-        //        }
-        //    }
-        //    return View();
-        //}
+                                // Temperaly non active code for future use
 
         //public ActionResult Login()
         //{
@@ -104,21 +77,6 @@ namespace Project_REPORT_v7.Controllers
                 b2s += targetData[i].ToString("x2");
             }
             return b2s;
-        }
-
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
 
         public ActionResult Filtered()

@@ -127,18 +127,6 @@ namespace Project_REPORT_v7.Controllers
             return Json(members, JsonRequestBehavior.AllowGet);
         }
 
-        //[HttpPost]
-        //public JsonResult GetMembers(int id)
-        //{
-        //    var members = db.MembersTable.Select(q => new
-        //    {
-        //        Name = q.FirstName + " " + q.LastName,
-        //        Id = q.MemberID
-        //    }).Where(q => q.Id == id);
-        //    return Json(members, JsonRequestBehavior.AllowGet);
-        //}
-
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

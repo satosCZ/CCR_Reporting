@@ -47,19 +47,16 @@ namespace Project_REPORT_v7.Controllers
             int pageSize = 20;
             int pageNumber = (page ?? 1);
 
-            //(fromDT != DateTime.MinValue) && (toDT == DateTime.MinValue) && 
             if ((fromDT != null && toDT == null))
             {
                 var filteredDate = reportTable.Where(w => w.Date >= fromDT).OrderByDescending(s => s.Date);
                 return View("Index", filteredDate.ToPagedList(pageNumber, pageSize));
             }
-            //(fromDT == DateTime.MinValue) && (toDT != DateTime.MinValue) && 
             else if ((fromDT == null && toDT != null))
             {
                 var filteredDate = reportTable.Where(w => w.Date <= toDT).OrderByDescending(s => s.Date);
                 return View("Index", filteredDate.ToPagedList(pageNumber, pageSize));
             }
-            //(fromDT != DateTime.MinValue) && (toDT != DateTime.MinValue) &&
             else if ((fromDT != null && toDT != null))
             {
                 var filteredDate = reportTable.Where(w => w.Date >= fromDT && w.Date <= toDT).OrderByDescending(s => s.Date);
@@ -129,6 +126,8 @@ namespace Project_REPORT_v7.Controllers
                 }
                 finally
                 {
+                    // Remove comments to enable logging
+
                     //try
                     //{
                     //    int userID;
@@ -181,9 +180,16 @@ namespace Project_REPORT_v7.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(reportTable).State = EntityState.Modified;
+
+                // Remove comments to enable logging
+
+                //try
+                //{
                 //int userID;
                 //if (int.TryParse(Session["User"].ToString(), out userID))
                 //    LogClass.AddLog(DateTime.Now, "ReportTable|Edit", $"Edited Report,ID:{reportTable.ReportID} Date:{reportTable.Date} Shift:{reportTable.Shift} M1:{reportTable.Member_One_ID} M2:{reportTable.Member_Two_ID}", userID);
+                //}
+                //catch {}
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -241,6 +247,9 @@ namespace Project_REPORT_v7.Controllers
             }
             
             db.ReportTable.Remove(reportTable);
+
+            // Remove comments to enable logging
+
             //int userID;
             //if (int.TryParse(Session["User"].ToString(), out userID))
             //    LogClass.AddLog(DateTime.Now, "ReportTable|Delete", $"Deleted entire Report with everything that was inside,ID:{reportTable.ReportID} Date:{reportTable.Date} Shift:{reportTable.Shift} M1:{reportTable.Member_One_ID} M2:{reportTable.Member_Two_ID}", userID);

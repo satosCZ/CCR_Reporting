@@ -312,8 +312,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\ReportTables\Create.cshtml" />
     <Content Include="Views\ReportTables\Delete.cshtml" />
@@ -345,9 +343,6 @@
     <Content Include="Views\PasswordTables\_index.cshtml" />
     <Content Include="Views\HourOvertimeTables\_index.cshtml" />
     <Content Include="Views\MainTaskTables\_index.cshtml" />
-    <Content Include="Views\PreCheckTables\_create.cshtml">
-      <BrowseToURL>~/PreCheckTables/_create</BrowseToURL>
-    </Content>
     <Content Include="Views\MembersTables\_index.cshtml" />
     <Content Include="Views\ReportTables\IndexHome.cshtml" />
     <Content Include="Views\MainTaskTables\FilterIndex.cshtml" />

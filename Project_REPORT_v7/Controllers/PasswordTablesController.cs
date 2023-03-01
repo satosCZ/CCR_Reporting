@@ -35,11 +35,6 @@ namespace Project_REPORT_v7.Controllers
         public ActionResult FilterIndexFilter(string filter)
         {
             var passwordTable = db.PasswordTable.Include(p => p.ReportTable);
-            //if (filter == "GWMS" || filter == "GCS" || filter == "ELIS" || filter == "GLOVIS AD")
-            //{
-            //    var filtered = passwordTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time).Where(w => w.System == filter);
-            //    return View("FilterIndex", filtered);
-            //}
             string[] glovisPass = new string[] { "ELIS", "GWMS", "GCS", "GLOVIS AD" };
             foreach (var pass in glovisPass)
             {
@@ -77,6 +72,8 @@ namespace Project_REPORT_v7.Controllers
                 passwordTable.PasswordID = Guid.NewGuid();
                 passwordTable.ReportID = passID;
                 db.PasswordTable.Add(passwordTable);
+                // Remove comments to enable logging
+
                 //int userID;
                 //if (int.TryParse(Session["User"].ToString(), out userID))
                 //    LogClass.AddLog(DateTime.Now, "PasswordTable|Create", $"Created new Password issue, Time:{passwordTable.Time} Full Name:{passwordTable.FullName} UserID:{passwordTable.UserID} System:{passwordTable.System} ", userID);
@@ -119,6 +116,8 @@ namespace Project_REPORT_v7.Controllers
             {
                 passwordTable.ReportID = passID;
                 db.Entry(passwordTable).State = EntityState.Modified;
+                // Remove comments to enable logging
+
                 //int userID;
                 //if (int.TryParse(Session["User"].ToString(), out userID))
                 //    LogClass.AddLog(DateTime.Now, "PasswordTable|Edit", $"Edited Password issue, Time:{passwordTable.Time} Full Name:{passwordTable.FullName} UserID:{passwordTable.UserID} System:{passwordTable.System} ", userID);
@@ -154,6 +153,8 @@ namespace Project_REPORT_v7.Controllers
         {
             PasswordTable passwordTable = db.PasswordTable.Find(id);
             db.PasswordTable.Remove(passwordTable);
+            // Remove comments to enable logging
+
             //int userID;
             //if (int.TryParse(Session["User"].ToString(), out userID))
             //    LogClass.AddLog(DateTime.Now, "PasswordTable|Delete", $"Deleted Password issue, Time:{passwordTable.Time} Full Name:{passwordTable.FullName} UserID:{passwordTable.UserID} System:{passwordTable.System} ", userID);

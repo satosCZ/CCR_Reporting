@@ -49,7 +49,6 @@ namespace Project_REPORT_v7.Controllers
                 return View("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
             }
 
-            //(fromDT != DateTime.MinValue && toDT != DateTime.MinValue) || 
             if ((fromDT != null && toDT != null))
             {
                 var filteredDate = mainTaskTable.Where(w => w.ReportTable.Date >= fromDT && w.ReportTable.Date <= toDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
@@ -94,6 +93,8 @@ namespace Project_REPORT_v7.Controllers
                 mainTaskTable.MainTaskID = Guid.NewGuid();
                 mainTaskTable.ReportID = passID;
                 db.MainTaskTable.Add(mainTaskTable);
+                // Remove comments to enable logging
+
                 //int userID;
                 //if (int.TryParse(Session["User"].ToString(), out userID))
                 //    LogClass.AddLog(DateTime.Now, "MainTaskTable|Create", $"Created new Main task, Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
@@ -136,6 +137,8 @@ namespace Project_REPORT_v7.Controllers
             {
                 mainTaskTable.ReportID = passID;
                 db.Entry(mainTaskTable).State = EntityState.Modified;
+                // Remove comments to enable logging
+
                 //int userID;
                 //if (int.TryParse(Session["User"].ToString(), out userID))
                 //    LogClass.AddLog(DateTime.Now, "MainTaskTable|Edit", $"Edited Main task, Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
@@ -171,6 +174,8 @@ namespace Project_REPORT_v7.Controllers
         {
             MainTaskTable mainTaskTable = db.MainTaskTable.Find(id);
             db.MainTaskTable.Remove(mainTaskTable);
+            // Remove comments to enable logging
+
             //int userID;
             //if (int.TryParse(Session["User"].ToString(), out userID))
             //    LogClass.AddLog(DateTime.Now, "MainTaskTable|Delete", $"Deleted Main task, Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
@@ -218,19 +223,48 @@ namespace Project_REPORT_v7.Controllers
                 Shop = s.Shop
             }).Distinct().ToList();
 
-            ls = temp.ConvertAll(a =>
+
+            if (temp.Count > 2)
             {
-                return new SelectListItem()
+                ls = temp.ConvertAll(a =>
                 {
-                    Text = a.Shop.ToString(),
-                    Value = a.Shop.ToString(),
-                    Selected = false
-                };
-            });
+                    return new SelectListItem()
+                    {
+                        Text = a.Shop.ToString(),
+                        Value = a.Shop.ToString(),
+                        Selected = false
+                    };
+                });
+            }
+            else if(temp.Count == 0)
+            {
+                ls.Add(
+                    new SelectListItem()
+                    {
+                        Text = "HMMC",
+                        Value = "HMMC",
+                        Selected = false
+                    });
+                ls.Add(
+                    new SelectListItem()
+                    {
+                        Text = "GLOVIS",
+                        Value = "GLOVIS",
+                        Selected = false
+                    });
+                ls.Add(
+                    new SelectListItem()
+                    {
+                        Text = "TRANSYS",
+                        Value = "TRANSYS",
+                        Selected = false
+                    });
 
-            ls[1].Selected = true;
+            }
+            var result = ls.Distinct().ToList();
+            result[1].Selected = true;
 
-            return ls;
+            return result;
         }
 
         protected override void Dispose(bool disposing)

@@ -7,10 +7,6 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-    @*@Scripts.Render("~/bundles/jquery-ui")
-    @Scripts.Render("~/bundles/jquery-ajax")
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/js-cookie")*@
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -28,13 +24,13 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Report", "Index", "ReportTables")</li>
                     <li>@Html.ActionLink("Members", "_index", "MembersTables")</li>
-                    @*<li>@Html.ActionLink("Filtered", "FilterIndex", "MainTaskTables")</li>*@
                     <li>@Html.ActionLink("Filtered", "Filtered", "Home")</li>
                 </ul>
             </div>
             <div class="navbar navbar-right">
                 <div class="">
                         <p class="text-uppercase navbar-text">Hi @Session["User"]</p>
+                        @*Remove after AD login is active*@
                         @*<a href="@Url.Action("Logout", "Home")" class="btn btn-default navbar-btn btn-xs">Logout</a>*@
                 </div>
             </div>
