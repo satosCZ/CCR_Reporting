@@ -61,21 +61,23 @@
 </script>
 
 
-<div class="bg-info clearfix" style="padding:15px;">
-    <h1 class="text-center">ReportTable</h1>
-    <table class="table table-condensed text-center table-bordered">
-        <tr>
-            <td><strong>@Html.DisplayNameFor(model => model.Date)</strong></td>
-            <td><strong>@Html.DisplayNameFor(model => model.Shift)</strong></td>
-            <td colspan="2"><strong>@Html.DisplayName("Members")</strong></td>
-        </tr>
-        <tr class="text-center">
-            <td>@Html.DisplayFor(model => model.Date)</td>
-            <td>@Html.DisplayFor(model => model.Shift)</td>
-            <td>@Html.DisplayFor(model => model.MembersTable.FirstName) @Html.DisplayFor(model => model.MembersTable.LastName)</td>
-            <td>@Html.DisplayFor(model => model.MembersTable1.FirstName) @Html.DisplayFor(model => model.MembersTable1.LastName)</td>
-        </tr>
-    </table>
+<div class="panel panel-info" style="margin-top:15px;">
+    <div class="panel-heading">
+        <h1 class="text-center">ReportTable</h1>
+    </div>
+    <div class="panel-body" style="padding-bottom:15px;   ">
+        <div class="row">
+            <strong><span class="col-md-3 text-center" style="font-size:22px;">@Html.DisplayNameFor(model => model.Date)</span></strong>
+            <strong><span class="col-md-3 text-center" style="font-size:22px;">@Html.DisplayNameFor(model => model.Shift)</span></strong>
+            <strong><span class="col-md-6 text-center" style="font-size:22px;">@Html.DisplayName("Members")</span></strong>
+        </div>
+        <div class="row">
+            <span class="col-md-3 text-center" style="font-size:18px;">@Html.DisplayFor(model => model.Date)</span>
+            <span class="col-md-3 text-center" style="font-size:18px;">@Html.DisplayFor(model => model.Shift)</span>
+            <span class="col-md-3 text-center" style="font-size:18px;">@Html.DisplayFor(model => model.MembersTable.FirstName) @Html.DisplayFor(model => model.MembersTable.LastName)</span>
+            <span class="col-md-3 text-center" style="font-size:18px;">@Html.DisplayFor(model => model.MembersTable1.FirstName) @Html.DisplayFor(model => model.MembersTable1.LastName)</span>
+        </div>
+    </div>
 </div>
 
 <div>
