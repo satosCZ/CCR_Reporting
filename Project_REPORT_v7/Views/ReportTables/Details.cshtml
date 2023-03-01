@@ -6,7 +6,6 @@
     { TempData["Closed"] = "false"; }
     else
     { TempData["Closed"] = "true"; }
-    //TempData["Closed"] = false;
 }
 
 <script>
@@ -21,45 +20,19 @@
             }, 310);
         });
 
-        var headers = $('#accordion')
-        var expandLink = $('.accordion-expand-all');
+        var expandLink = $('#accordion-expand-all');
 
-        headers.click(function () {
-            var panel = $(this).next();
-            var isOpen = panel.is(':visible');
+        var accOpen = false;
 
-            panel[isOpen ? 'slideUp' : 'slideDown']()
-                .trigger(isOpen ? 'hide' : 'show');
-            return false;
-        });
         expandLink.click(function () {
-            $(".ui-accordion-content").show();
+            if (accOpen == false) {
+                $(".ui-accordion-content").show();
+                accOpen = true;
+            } else {
+                $(".ui-accordion-content").hide();
+                accOpen = false;
+            }
         });
-
-        //var act = 0;
-        //var lact = 0;
-        //$("#accordion").accordion({
-        //    create: function (event, ui) {
-        //        //get index in cookie on accordion create event
-        //        if ($.cookie('saved_index') != null) {
-        //            act = parseInt($.cookie('saved_index'));
-        //        }
-        //        if (localStorage.getItem('saved_index') != null) {
-        //            lact = localStorage.getItem('saved_index');
-        //        }
-        //    },
-        //    change: function (event, ui) {
-        //        //set cookie for current index on change event
-        //        $.cookie('saved_index', null);
-        //        $.cookie('saved_index', ui.options.active);
-        //        localStorage.setItem('saved_index') = ui.options.active;
-        //    },
-        //    //active: parseInt($.cookie('saved_index')),
-        //    active: lact,
-        //    collapsible: true,
-        //    heightStyle: "content",
-        //    animate: 200
-        //});
 
         var index = 'accordion';
         var dataStore = window.sessionStorage;
@@ -80,7 +53,6 @@
             collapsible: true,
             heightStyle: "content",
             activate: function (event, ui) {
-                //var newIndex = ui.newAccordion.parent().children().index(ui.accordion);
                 var newIndex = $(this).accordion('option',"active");
                 dataStore.setItem(index, newIndex)
             }
@@ -107,7 +79,7 @@
 </div>
 
 <div>
-    <a class="accordion-expand-all" href="#">Expand all</a>
+    <a id="accordion-expand-all" href="#">Expand all</a>
 </div>
 
 <div>
