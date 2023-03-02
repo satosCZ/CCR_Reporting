@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=100%, initial-scale=1.0">
     <title>@ViewBag.Title - Project Report</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery-other")
+    @Scripts.Render("~/bundles/jquery")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -32,6 +30,7 @@
             <div class="navbar navbar-right">
                 <div class="">
                         <p class="text-uppercase navbar-text">Hi @Session["User"]</p>
+                        @*Remove after AD login is active*@
                         @*<a href="@Url.Action("Logout", "Home")" class="btn btn-default navbar-btn btn-xs">Logout</a>*@
                 </div>
             </div>
@@ -47,7 +46,7 @@
         </footer>
     </div>
 
-    
+    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>

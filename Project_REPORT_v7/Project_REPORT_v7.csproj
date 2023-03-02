@@ -138,7 +138,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Addon\AppSettings.cs" />
     <Compile Include="Controllers\Addon\CustomWindowsTokenRoleProvider.cs" />
-    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\Addon\ImageCompress.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HourOvertimeTablesController.cs" />
     <Compile Include="Controllers\LogClass.cs" />
@@ -180,6 +180,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\MT_IMAGES.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PasswordTable.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -209,7 +212,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Images\doh.png" />
+    <Content Include="Content\dropzone.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Animation\Rhombus.gif" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -279,6 +282,7 @@
     <Content Include="Scripts\Custom\_modal.cshtml" />
     <Content Include="Scripts\Custom\Modal.js" />
     <None Include="Scripts\jquery-3.6.3.intellisense.js" />
+    <Content Include="Scripts\dropzone.min.js" />
     <Content Include="Scripts\jquery-3.6.3.js" />
     <Content Include="Scripts\jquery-3.6.3.min.js" />
     <Content Include="Scripts\jquery-3.6.3.slim.js" />
@@ -308,8 +312,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\ReportTables\Create.cshtml" />
     <Content Include="Views\ReportTables\Delete.cshtml" />
@@ -341,9 +343,6 @@
     <Content Include="Views\PasswordTables\_index.cshtml" />
     <Content Include="Views\HourOvertimeTables\_index.cshtml" />
     <Content Include="Views\MainTaskTables\_index.cshtml" />
-    <Content Include="Views\PreCheckTables\_create.cshtml">
-      <BrowseToURL>~/PreCheckTables/_create</BrowseToURL>
-    </Content>
     <Content Include="Views\MembersTables\_index.cshtml" />
     <Content Include="Views\ReportTables\IndexHome.cshtml" />
     <Content Include="Views\MainTaskTables\FilterIndex.cshtml" />
@@ -357,8 +356,6 @@
     <Content Include="Views\PasswordTables\FilterIndex.cshtml">
       <BrowseToURL>~/PasswordTables/FilterIndex</BrowseToURL>
     </Content>
-    <Content Include="Views\Error\Error.cshtml" />
-    <Content Include="Views\Error\Error404.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\LogIn\" />

@@ -20,10 +20,11 @@
         <AssociationConnector Association="ReportDBModel.FK_PrintersTable_ReportID" ManuallyRouted="false" />
         <AssociationConnector Association="ReportDBModel.FK_ReIssueTable_ReportID" ManuallyRouted="false" />
         <EntityTypeShape EntityType="ReportDBModel.PermisionTable" Width="1.5" PointX="8.875" PointY="5.125" />
-        <AssociationConnector Association="ReportDBModel.FK_MembersTable_PermisionTable" />
         <AssociationConnector Association="ReportDBModel.FK_ReportTable_Member_One_ID" />
         <AssociationConnector Association="ReportDBModel.FK_ReportTable_Member_Two_ID" />
         <EntityTypeShape EntityType="ReportDBModel.LogTable" Width="1.5" PointX="13.5" PointY="5.125" />
+        <EntityTypeShape EntityType="ReportDBModel.MT_IMAGES" Width="1.5" PointX="15.125" PointY="12.125" />
+        <AssociationConnector Association="ReportDBModel.FK_MT_Images" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

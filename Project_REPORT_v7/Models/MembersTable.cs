@@ -9,11 +9,9 @@
 
 namespace Project_REPORT_v7.Models
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class MembersTable
     {
@@ -23,7 +21,7 @@ namespace Project_REPORT_v7.Models
             this.ReportTable = new HashSet<ReportTable>();
             this.ReportTable1 = new HashSet<ReportTable>();
         }
-
+    
         [Required(ErrorMessage = "The ID is required.")]
         [DisplayName("Member ID")]
         public int MemberID { get; set; }
@@ -38,26 +36,10 @@ namespace Project_REPORT_v7.Models
         [Required(ErrorMessage = "The Email is required.")]
         [EmailAddress(ErrorMessage = "The Email field is not a valid email address.")]
         public string Email { get; set; }
-        [Required]
-        public string Password { get; set; }
-        [DisplayName("Permision")]
-        public Nullable<int> PermisionId { get; set; }
     
-        public virtual PermisionTable PermisionTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReportTable> ReportTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReportTable> ReportTable1 { get; set; }
-
-        [NotMapped]
-        [Required]
-        [Display(Name = "Confirm password")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The comfirmation password do not match with password.")]
-        public string ConfirmPassword { get; set; }
-        public string FullName()
-        {
-            return this.FirstName + " " + this.LastName;
-        }
-
     }
 }

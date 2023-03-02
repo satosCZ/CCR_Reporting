@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -41,28 +40,23 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "PrinterID,Time,User,Objective,Printer,ReportID")] PrintersTable printersTable)
         {
-            try
+            Guid passID = (Guid)TempData["ActiveGUID"];
+            if (ModelState.IsValid)
             {
-                Guid passID = (Guid)TempData["ActiveGUID"];
-                if (ModelState.IsValid)
-                {
-                    printersTable.PrinterID = Guid.NewGuid();
-                    printersTable.ReportID = passID;
-                    db.PrintersTable.Add(printersTable);
-                    //int userID;
-                    //if (int.TryParse(Session["User"].ToString(), out userID))
-                    //    LogClass.AddLog(DateTime.Now, "PrintersTable|Create", $"Created new Printer issue, Time:{printersTable.Time} Who:{printersTable.User} What:{printersTable.Objective} Printer:{printersTable.Printer}", userID);
-                    db.SaveChanges();
-                    return Json(new { success = true });
-                }
-            }
-            catch(Exception ex)
-            {
-                Debug.WriteLine(ex.ToString());
+                printersTable.PrinterID = Guid.NewGuid();
+                printersTable.ReportID = passID;
+                db.PrintersTable.Add(printersTable);
+                // Remove comments to enable logging
+
+                //int userID;
+                //if (int.TryParse(Session["User"].ToString(), out userID))
+                //    LogClass.AddLog(DateTime.Now, "PrintersTable|Create", $"Created new Printer issue, Time:{printersTable.Time} Who:{printersTable.User} What:{printersTable.Objective} Printer:{printersTable.Printer}", userID);
+                db.SaveChanges();
+                return Json (new { success = true });
             }
 
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", printersTable.ReportID);
-            return Json(new { success = false });
+            return Json(printersTable, JsonRequestBehavior.AllowGet);
         }
 
         // GET: PrintersTables/Edit/5
@@ -91,26 +85,21 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "PrinterID,Time,User,Objective,Printer,ReportID")] PrintersTable printersTable)
         {
-            try
+            Guid passID = (Guid)TempData["ActiveGUID"];
+            if (ModelState.IsValid)
             {
-                Guid passID = (Guid)TempData["ActiveGUID"];
-                if (ModelState.IsValid)
-                {
-                    printersTable.ReportID = passID;
-                    db.Entry(printersTable).State = EntityState.Modified;
-                    //int userID;
-                    //if (int.TryParse(Session["User"].ToString(), out userID))
-                    //    LogClass.AddLog(DateTime.Now, "PrintersTable|Edit", $"Edited Printer issue, Time:{printersTable.Time} Who:{printersTable.User} What:{printersTable.Objective} Printer:{printersTable.Printer}", userID);
-                    db.SaveChanges();
-                    return Json(new { success = true });
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
+                printersTable.ReportID = passID;
+                db.Entry(printersTable).State = EntityState.Modified;
+                // Remove comments to enable logging
+
+                //int userID;
+                //if (int.TryParse(Session["User"].ToString(), out userID))
+                //    LogClass.AddLog(DateTime.Now, "PrintersTable|Edit", $"Edited Printer issue, Time:{printersTable.Time} Who:{printersTable.User} What:{printersTable.Objective} Printer:{printersTable.Printer}", userID);
+                db.SaveChanges();
+                return Json(new { success = true });
             }
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", printersTable.ReportID);
-            return Json( new { success = false });
+            return PartialView("Edit", printersTable);
         }
 
         // GET: PrintersTables/Delete/5
@@ -138,6 +127,8 @@ namespace Project_REPORT_v7.Controllers
         {
             PrintersTable printersTable = db.PrintersTable.Find(id);
             db.PrintersTable.Remove(printersTable);
+            // Remove comments to enable logging
+
             //int userID;
             //if (int.TryParse(Session["User"].ToString(), out userID))
             //    LogClass.AddLog(DateTime.Now, "PrintersTable|Delete", $"Deleted Printer issue, Time:{printersTable.Time} Who:{printersTable.User} What:{printersTable.Objective} Printer:{printersTable.Printer}", userID);

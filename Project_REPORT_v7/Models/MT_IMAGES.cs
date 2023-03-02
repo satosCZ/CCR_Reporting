@@ -9,10 +9,15 @@
 
 namespace Project_REPORT_v7.Models
 {
-
-    public partial class PermisionTable
+    using System;
+    using System.Collections.Generic;
+    
+    public partial class MT_IMAGES
     {
-        public int Id { get; set; }
-        public string Permision { get; set; }
+        public System.Guid ImageID { get; set; }
+        public string ImagePath { get; set; }
+        public Nullable<System.Guid> ReportID { get; set; }
+    
+        public virtual MainTaskTable MainTaskTable { get; set; }
     }
 }

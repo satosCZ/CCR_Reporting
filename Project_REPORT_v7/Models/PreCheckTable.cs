@@ -12,7 +12,7 @@ namespace Project_REPORT_v7.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class PreCheckTable
     {
         public System.Guid PreCheckID { get; set; }

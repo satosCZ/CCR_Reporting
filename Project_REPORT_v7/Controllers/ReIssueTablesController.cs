@@ -48,63 +48,57 @@ namespace Project_REPORT_v7.Controllers
                 passID = (Guid)ViewData["ActiveGUID"];
             else
                 passID = (Guid)ViewBag.Parent;
-            try
+            
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                if (bodyNum.Contains("\r\n"))
                 {
-                    if (bodyNum.Contains("\r\n"))
+                    string[] separators = new string[] { "\r\n" };
+                    List<ReIssueTable> multiple = new List<ReIssueTable>();
+                    List<string> bodys = bodyNum.Split(separators, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    foreach (string body in bodys)
                     {
-                        string[] separators = new string[] { "\r\n" };
-                        List<ReIssueTable> multiple = new List<ReIssueTable>();
-                        List<string> bodys = bodyNum.Split(separators, StringSplitOptions.RemoveEmptyEntries).ToList();
-                        foreach (string body in bodys)
+                        multiple.Add(new ReIssueTable()
                         {
-                            multiple.Add(new ReIssueTable()
-                            {
-                                ReIssueID = Guid.NewGuid(),
-                                ReportID = passID,
-                                Time = time,
-                                User = user,
-                                Objective = objective,
-                                BodyNum = body
-                            });
-                        }
-                        db.ReIssueTable.AddRange(multiple);
-
-                        //int userID;
-                        //if (int.TryParse(Session["User"].ToString(), out userID))
-                        //    LogClass.AddLog(DateTime.Now, "ReIssueTable|CreateMultiple", $"Created new Reissue, Time:{time} Who:{user} Where:{objective} BodyNums:{bodyNum}", userID);
-
-                        db.SaveChanges();
-                        return Json(new { success = true });
+                            ReIssueID = Guid.NewGuid(),
+                            ReportID = passID,
+                            Time = time,
+                            User = user,
+                            Objective = objective,
+                            BodyNum = body
+                        });
                     }
-                    else
-                    {
-                        ReIssueTable reIssueTable = new ReIssueTable();
-                        reIssueTable.ReIssueID = Guid.NewGuid();
-                        reIssueTable.ReportID = passID;
-                        reIssueTable.Time = time;
-                        reIssueTable.User = user;
-                        reIssueTable.Objective = objective;
-                        reIssueTable.BodyNum = bodyNum;
-                        db.ReIssueTable.Add(reIssueTable);
+                    db.ReIssueTable.AddRange(multiple);
+                    // Remove comments to enable logging
 
-                        //int userID;
-                        //if (int.TryParse(Session["User"].ToString(), out userID))
-                        //    LogClass.AddLog(DateTime.Now, "ReIssueTable|Create", $"Created new Reissue, Time:{time} Who:{user} Where:{objective} BodyNum:{bodyNum}", userID);
+                    //int userID;
+                    //if (int.TryParse(Session["User"].ToString(), out userID))
+                    //    LogClass.AddLog(DateTime.Now, "ReIssueTable|CreateMultiple", $"Created new Reissue, Time:{time} Who:{user} Where:{objective} BodyNums:{bodyNum}", userID);
 
-                        db.SaveChanges();
-                        return Json(new { success = true });
-                    }
+                    db.SaveChanges();
+                    return Json(new { success = true });
+                }
+                else
+                {
+                    ReIssueTable reIssueTable = new ReIssueTable();
+                    reIssueTable.ReIssueID = Guid.NewGuid();
+                    reIssueTable.ReportID = passID;
+                    reIssueTable.Time = time;
+                    reIssueTable.User= user;
+                    reIssueTable.Objective = objective;
+                    reIssueTable.BodyNum = bodyNum;
+                    db.ReIssueTable.Add(reIssueTable);
+                    // Remove comments to enable logging
+
+                    //int userID;
+                    //if (int.TryParse(Session["User"].ToString(), out userID))
+                    //    LogClass.AddLog(DateTime.Now, "ReIssueTable|Create", $"Created new Reissue, Time:{time} Who:{user} Where:{objective} BodyNum:{bodyNum}", userID);
+
+                    db.SaveChanges();
+                    return Json(new { success = true });
                 }
             }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            //return RedirectToAction("Details", "ReportTables", new { id = passID });
-            //return Json(this, JsonRequestBehavior.AllowGet);
-            return Json(new { success = false });
+            return Json(this, JsonRequestBehavior.AllowGet);
         }
 
         // GET: ReIssueTables/Edit/5
@@ -134,31 +128,20 @@ namespace Project_REPORT_v7.Controllers
         public ActionResult Edit([Bind(Include = "ReIssueID,Time,User,Objective,BodyNum,ReportID")] ReIssueTable reIssueTable)
         {
             Guid passID = (Guid)TempData["ActiveGUID"];
-
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    reIssueTable.ReportID = passID;
-                    db.Entry(reIssueTable).State = EntityState.Modified;
-                    //int userID;
-                    //if (int.TryParse(Session["User"].ToString(), out userID))
-                    //    LogClass.AddLog(DateTime.Now, "ReIssueTable|Edit", $"Edited Reissue, Time:{reIssueTable.Time} Who:{reIssueTable.User} Where:{reIssueTable.Objective} BodyNum:{reIssueTable.BodyNum}", userID);
-                    db.SaveChanges();
-                    //return RedirectToAction("Details", "ReportTables", new { id = passID });
-                    return Json(new { success = true });
-                }
-                ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", reIssueTable.ReportID);
-            }
-            catch (Exception ex)
-            {
+                reIssueTable.ReportID = passID;
+                db.Entry(reIssueTable).State = EntityState.Modified;
+                // Remove comments to enable logging
 
-                Console.WriteLine(ex.Message);
+                //int userID;
+                //if (int.TryParse(Session["User"].ToString(), out userID))
+                //    LogClass.AddLog(DateTime.Now, "ReIssueTable|Edit", $"Edited Reissue, Time:{reIssueTable.Time} Who:{reIssueTable.User} Where:{reIssueTable.Objective} BodyNum:{reIssueTable.BodyNum}", userID);
+                db.SaveChanges();
+                return Json(new { success = true });
             }
-
-            
-            //return RedirectToAction("Details", "ReportTables", new { id = passID });
-            return Json(new { success = false });
+            ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", reIssueTable.ReportID);
+            return PartialView("Edit", reIssueTable);
         }
 
         // GET: ReIssueTables/Delete/5
@@ -187,11 +170,12 @@ namespace Project_REPORT_v7.Controllers
             Guid passID = (Guid)TempData["ActiveGUID"];
             ReIssueTable reIssueTable = db.ReIssueTable.Find(id);
             db.ReIssueTable.Remove(reIssueTable);
+            // Remove comments to enable logging
+
             //int userID;
             //if (int.TryParse(Session["User"].ToString(), out userID))
             //    LogClass.AddLog(DateTime.Now, "ReIssueTable|Delete", $"Deleted Reissue, Time:{reIssueTable.Time} Who:{reIssueTable.User} Where:{reIssueTable.Objective} BodyNum:{reIssueTable.BodyNum}", userID);
             db.SaveChanges();
-            //return RedirectToAction("Details", "ReportTables", new { id = passID });
             return Json(new { success = true });
         }
 
