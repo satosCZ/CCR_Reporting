@@ -139,6 +139,7 @@
     <Compile Include="Controllers\Addon\AppSettings.cs" />
     <Compile Include="Controllers\Addon\CustomWindowsTokenRoleProvider.cs" />
     <Compile Include="Controllers\Addon\ImageCompress.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HourOvertimeTablesController.cs" />
     <Compile Include="Controllers\LogClass.cs" />
