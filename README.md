@@ -14,3 +14,6 @@ Like:
   - Who & What wanted to send new data and where
   - What was done in daily check
   - What happened and how it was solved
+ 
+ScreenShot one of the pages - This page is whole purpose of this project
+![Whole purpose of this project](https://github.com/satosCZ/CCR_Reporting/blob/master/SS_022023.png)
