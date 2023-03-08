@@ -10,15 +10,17 @@ using System.Web.Mvc;
 using Project_REPORT_v7.Models;
 using System.Diagnostics;
 using Project_REPORT_v7.App_Start;
+using Project_REPORT_v7.Controllers.Addon;
+using System.Text.RegularExpressions;
 
 namespace Project_REPORT_v7.Controllers
 {
+    [AuthorizeAD(Groups = "CCR_Report_Admin")]
     public class LogTablesController : Controller
     {
         private ReportDBEntities1 db = new ReportDBEntities1();
 
         // GET: LogTables
-        [GroupAuthorize("ITMesAdmin")]
         public async Task<ActionResult> Index()
         {
             return View(await db.LogTable.ToListAsync());

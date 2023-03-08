@@ -61,6 +61,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
@@ -137,9 +138,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\GroupAuthorize.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\Addon\ADHelper.cs" />
     <Compile Include="Controllers\Addon\AppSettings.cs" />
+    <Compile Include="Controllers\Addon\AuthorizeADAttribute.cs" />
     <Compile Include="Controllers\Addon\CustomWindowsTokenRoleProvider.cs" />
     <Compile Include="Controllers\Addon\ImageCompress.cs" />
+    <Compile Include="Controllers\Addon\LDAPHelper.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HourOvertimeTablesController.cs" />

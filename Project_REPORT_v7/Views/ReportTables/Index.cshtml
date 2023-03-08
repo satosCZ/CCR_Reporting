@@ -1,6 +1,6 @@
 ﻿@*@model IEnumerable<Project_REPORT_v7.Models.ReportTable>*@
 @model PagedList.IPagedList<Project_REPORT_v7.Models.ReportTable>
-@using PagedList.Mvc;
+@using PagedList.Mvc; 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 
@@ -95,25 +95,25 @@
                 @Html.DisplayFor(modelItem => item.Shift)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MembersTable.FirstName) @Html.DisplayFor(modelItem => item.MembersTable.LastName)
+                @Html.DisplayFor(modelItem => item.MembersTable.Name)
                 @Html.HiddenFor(modelItem => item.Member_One_ID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MembersTable1.FirstName) @Html.DisplayFor(modelItem => item.MembersTable1.LastName)
+                @Html.DisplayFor(modelItem => item.MembersTable1.Name)
                 @Html.HiddenFor(modelItem => item.Member_Two_ID)
             </td>
             <td>
-                @*@if (item.Date >= DateTime.Now.AddHours(-8).AddMinutes(-10))
-                    {*@
-                <a href="@Url.Action("Edit", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-cog" aria-hidden="true" /></a>
-                <a href="@Url.Action("Details", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-pencil" aria-hidden="true" /></a>
-                <a href="@Url.Action("Delete", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-trash" aria-hidden="true" /></a>
-                @*}
-                    else
-                    {
-                        <a href="@Url.Action("Details", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-open" aria-hidden="true"></span></a>
-                        <a href="@Url.Action("Delete", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-trash" aria-hidden="true" /></a>
-                    }*@
+                @if (item.Date >= DateTime.Now.AddHours(-9) || Session["isAdmin"].ToString() == "Admin")
+                {
+                    <a href="@Url.Action("Edit", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-cog" aria-hidden="true" /></a>
+                    <a href="@Url.Action("Details", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-pencil" aria-hidden="true" /></a>
+                    <a href="@Url.Action("Delete", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-trash" aria-hidden="true" /></a>
+
+                }
+                else
+                {
+                    <a href="@Url.Action("Details", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-open" aria-hidden="true"></span></a>
+                }
             </td>
         </tr>
     }

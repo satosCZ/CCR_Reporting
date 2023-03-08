@@ -14,27 +14,19 @@ using System.Web.Mvc;
 using System.Web.Security;
 using PagedList;
 using Project_REPORT_v7.App_Start;
+using Project_REPORT_v7.Controllers.Addon;
 using Project_REPORT_v7.Models;
 
 namespace Project_REPORT_v7.Controllers
 {
-
+    [AuthorizeAD(Groups ="CCR_Report")]
     public class ReportTablesController : Controller
     {
         private ReportDBEntities1 db = new ReportDBEntities1();
 
-        //[GroupAuthorize("ITMesAdmin", "ITMesTechnician", "ITHaeczMesSection")]
+        [AuthorizeAD(Groups = "CCR_Report")]
         public ViewResult Index(int? page)
         {
-            //try
-            //{
-            //    // Get information from Domain is
-            //    // new PrincipalContext(ContextType.Domain) - must be estabilished LDAP connection
-            //    var context = new PrincipalContext(ContextType.Machine);
-            //    var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
-                
-            //}
-            //catch { }
             var reportTable = db.ReportTable.Include(r => r.MembersTable).Include(r => r.MembersTable1);
 
             int pageSize = 15;
@@ -42,15 +34,12 @@ namespace Project_REPORT_v7.Controllers
             return View(reportTable.OrderByDescending(s => s.Date).ToPagedList(pageNumber, pageSize));
         }
 
-        //[GroupAuthorize("ITMesAdmin", "ITMesTechnician", "ITHaeczMesSection")]
-        // GET: HomePage - ReportTables
         public ActionResult IndexHome()
         {
             var reportTable = db.ReportTable.Include(r => r.MembersTable).Include(r => r.MembersTable1).OrderByDescending(s => s.Date).ThenBy(t => t.Shift);
             return PartialView("IndexHome", reportTable.Take(5));
         }
 
-        //[GroupAuthorize("ITMesAdmin", "ITMesTechnician", "ITHaeczMesSection")]
         public ActionResult Filter(DateTime? fromDT, DateTime? toDT, int? page)
         {
             var reportTable = db.ReportTable.Include(r => r.MembersTable).Include(r => r.MembersTable1);
@@ -78,7 +67,6 @@ namespace Project_REPORT_v7.Controllers
             }
         }
 
-        //[GroupAuthorize("ITMesAdmin", "ITMesTechnician", "ITHaeczMesSection")]
         // GET: ReportTables/Details/5
         public ActionResult Details(Guid? id)
         {
@@ -90,6 +78,14 @@ namespace Project_REPORT_v7.Controllers
             TempData["ActiveGUID"] = (Guid)id;
             ViewData["ActiveGUID"] = (Guid)id;
             ViewBag.Parent = (Guid)id;
+            //if (reportTable.Date >= DateTime.Now.AddHours(-9) || Session["isAdmin"].ToString() == "Admin")
+            //{
+            //    TempData["Closed"] = false;
+            //}
+            //else
+            //{
+            //    TempData["Closed"] = true;
+            //}
             if (reportTable == null)
             {
                 return HttpNotFound();
@@ -97,7 +93,7 @@ namespace Project_REPORT_v7.Controllers
             return View(reportTable);
         }
 
-        //[GroupAuthorize("ITMesAdmin", "ITMesTechnician")]
+        [AuthorizeAD(Groups = "CCR_Report_Control")]
         // GET: ReportTables/Create
         public ActionResult Create()
         {
@@ -107,7 +103,7 @@ namespace Project_REPORT_v7.Controllers
         // POST: ReportTables/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[GroupAuthorize("ITMesAdmin", "ITMesTechnician")]
+        [AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ReportID,Date,Shift,Member_One_ID,Member_Two_ID")] ReportTable reportTable)
@@ -162,7 +158,7 @@ namespace Project_REPORT_v7.Controllers
 
 
         // GET: ReportTables/Edit/5
-        //[GroupAuthorize("ITMesAdmin", "ITMesTechnician")]
+        [AuthorizeAD(Groups = "CCR_Report_Control")]
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
@@ -182,7 +178,7 @@ namespace Project_REPORT_v7.Controllers
         // POST: ReportTables/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[GroupAuthorize("ITMesAdmin", "ITMesTechnician")]
+        [AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ReportID,Date,Shift,Member_One_ID,Member_Two_ID")] ReportTable reportTable)
@@ -209,7 +205,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: ReportTables/Delete/5
-        //[GroupAuthorize("ITMesAdmin")]
+        [AuthorizeAD(Groups = "CCR_Report_Admin")]
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
@@ -225,7 +221,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // POST: ReportTables/Delete/5
-        //[GroupAuthorize("ITMesAdmin")]
+        [AuthorizeAD(Groups = "CCR_Report_Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)

@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<Project_REPORT_v7.Models.PreCheckTable>
 
 
-@*@if (TempData["Closed"].Equals("false"))
-{*@
+@if (TempData["Closed"].Equals("false"))
+{
     <p>
         <a class="btn btn-success" data-modal="" href="/PreCheckTables/Create" id="btnPreCheckCreate">
             <span class="glyphicon glyphicon-plus"></span>
         </a>
     </p>
-@*}*@
+}
 <table class="table table-bordered table-condensed table-striped table-responsive" id="PreCheckTable">
     <tr>
         <th class="text-center">
@@ -23,7 +23,7 @@
         <th class="text-center">
             @Html.DisplayNameFor(model => model.EmailTime)
         </th>
-        @if (TempData["Closed"].Equals("false"))
+        @if (TempData["Closed"].Equals("false") || Session["isAdmin"].Equals("Admin"))
         {
             <th class="text-center">Actions</th>
         }
@@ -45,14 +45,14 @@
                 @Html.DisplayFor(modelItem => item.EmailTime)
             </td>
 
-            @*@if (TempData["Closed"].Equals("false"))
-            {*@
+            @if (TempData["Closed"].Equals("false") || Session["isAdmin"].Equals("Admin"))
+            {
                 <td class="text-center col-md-1">
                     <input type="hidden" value="@item.PreCheckID" class="preCheckID" />
                     <a data-modal="" href="/PreCheckTables/Edit/@item.PreCheckID" id="@item.PreCheckID" title="Edit" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
                     <a data-modal="" href="/PreCheckTables/Delete/@item.PreCheckID" id="@item.PreCheckID" title="Delete" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
                 </td>
-            @*}*@
+            }
         </tr>
     }
 </table>

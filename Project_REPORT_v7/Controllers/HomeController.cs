@@ -1,4 +1,5 @@
 ﻿using Project_REPORT_v7.App_Start;
+using Project_REPORT_v7.Controllers.Addon;
 using Project_REPORT_v7.Models;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Web.Mvc;
 
 namespace Project_REPORT_v7.Controllers
 {
-    //[GroupAuthorize("ITMesAdmin", "ITMesTechnician", "ITHaeczMesSection")]
+    [AuthorizeAD(Groups = "CCR_Report")]
     public class HomeController : Controller
     {
         private ReportDBEntities1 db = new ReportDBEntities1();
@@ -18,15 +19,26 @@ namespace Project_REPORT_v7.Controllers
         public ActionResult Index()
         {
             MembersTablesController member = new MembersTablesController();
-                                // Temperaly non active code for future use
-            //if (Session["MemberID"] != null)
-            //    return View();
-            //else
-            //    return RedirectToAction("Login");
-            //string[] separator = new string[] { "\\" };
-            //var sep = User.Identity.Name.Split(separator, StringSplitOptions.RemoveEmptyEntries);
-            //Session["User"] = sep[1];
-            if (member.AddMember())
+            ADHelper ad = new ADHelper(User.Identity.Name);
+            if (LDAPHelper.UserIsMemberOfGroups(User.Identity.Name, new string[] {"CCR_Report_Admin"}))
+            {
+                Session["isAdmin"] = "Admin";
+            }
+            else
+            {
+                Session["isAdmin"] = "NonAdmin";
+            }
+            if (!member.CheckMember(ad.MemberID))
+            {
+                if (member.AddMember(ad.MemberID, ad.MemberName, ad.MemberEmail))
+                {
+                    Session["User"] = ad.MemberName;
+                }
+                else
+                {
+                    Session["User"] = "Unknown";
+                }
+            }
             return View();
         }
 

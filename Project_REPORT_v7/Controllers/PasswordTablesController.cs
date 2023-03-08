@@ -4,20 +4,22 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using Project_REPORT_v7.App_Start;
+using Project_REPORT_v7.Controllers.Addon;
 using Project_REPORT_v7.Models;
 
 namespace Project_REPORT_v7.Controllers
 {
+    [AuthorizeAD(Groups = "CCR_Report")]
     public class PasswordTablesController : Controller
     {
         private ReportDBEntities1 db = new ReportDBEntities1();
 
         // GET: PasswordTables
-        //[GroupAuthorize("ITMesAdmin", "ITMesTechnician", "ITHaeczMesSection")]
         public PartialViewResult _index()
         {
             var passwordTable = db.PasswordTable.Include(p => p.ReportTable);
@@ -50,7 +52,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: PasswordTables/Create
-        //[GroupAuthorize("ITMesAdmin", "ITMesTechnician")]
+        [AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpGet]
         public ActionResult Create()
         {
@@ -61,7 +63,7 @@ namespace Project_REPORT_v7.Controllers
         // POST: PasswordTables/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[GroupAuthorize("ITMesAdmin", "ITMesTechnician")]
+        [AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "PasswordID,Time,FullName,UserID,System,ReportID")] PasswordTable passwordTable)
@@ -86,7 +88,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: PasswordTables/Edit/5
-        //[GroupAuthorize("ITMesAdmin", "ITMesTechnician")]
+        [AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpGet]
         public ActionResult Edit(Guid? id)
         {
@@ -106,7 +108,7 @@ namespace Project_REPORT_v7.Controllers
         // POST: PasswordTables/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[GroupAuthorize("ITMesAdmin", "ITMesTechnician")]
+        [AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "PasswordID,Time,FullName,UserID,System,ReportID")] PasswordTable passwordTable)
@@ -129,7 +131,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: PasswordTables/Delete/5
-        //[GroupAuthorize("ITMesAdmin", "ITMesTechnician")]
+        [AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpGet]
         public ActionResult Delete(Guid? id)
         {
@@ -146,7 +148,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // POST: PasswordTables/Delete/5
-        //[GroupAuthorize("ITMesAdmin", "ITMesTechnician")]
+        [AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)

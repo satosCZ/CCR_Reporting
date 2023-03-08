@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Project_REPORT_v7.Models;
 
@@ -12,7 +7,7 @@ namespace Project_REPORT_v7.Controllers
 {
     public class MembersTablesController : Controller
     {
-        private ReportDBEntities1 db = new ReportDBEntities1();
+        private readonly ReportDBEntities1 db = new ReportDBEntities1();
 
         // Add Member from AD to DB        
         public bool AddMember(int ID, string Name, string Email)
