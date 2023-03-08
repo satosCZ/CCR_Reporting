@@ -47,9 +47,8 @@
             <PropertyRef Name="MemberID" />
           </Key>
           <Property Name="MemberID" Type="int" Nullable="false" />
-          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <EntityType Name="MT_IMAGES">
           <Key>
@@ -69,13 +68,6 @@
           <Property Name="UserID" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="System" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ReportID" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="PermisionTable">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Permision" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="PreCheckTable">
           <Key>
@@ -235,7 +227,6 @@
           <EntitySet Name="MembersTable" EntityType="Self.MembersTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MT_IMAGES" EntityType="Self.MT_IMAGES" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PasswordTable" EntityType="Self.PasswordTable" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PermisionTable" EntityType="Self.PermisionTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PreCheckTable" EntityType="Self.PreCheckTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PrintersTable" EntityType="Self.PrintersTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReIssueTable" EntityType="Self.ReIssueTable" Schema="dbo" store:Type="Tables" />
@@ -276,7 +267,7 @@
             <End Role="MembersTable" EntitySet="MembersTable" />
             <End Role="ReportTable" EntitySet="ReportTable" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -316,9 +307,8 @@
             <PropertyRef Name="MemberID" />
           </Key>
           <Property Name="MemberID" Type="Int32" Nullable="false" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="ReportTable" Relationship="ReportDBModel.FK_ReportTable_Member_One_ID" FromRole="MembersTable" ToRole="ReportTable" />
           <NavigationProperty Name="ReportTable1" Relationship="ReportDBModel.FK_ReportTable_Member_Two_ID" FromRole="MembersTable" ToRole="ReportTable" />
         </EntityType>
@@ -493,7 +483,6 @@
             <End Role="ReportTable" EntitySet="ReportTable" />
             <End Role="ReIssueTable" EntitySet="ReIssueTable" />
           </AssociationSet>
-          <EntitySet Name="PermisionTable" EntityType="ReportDBModel.PermisionTable" />
           <AssociationSet Name="FK_ReportTable_Member_One_ID" Association="ReportDBModel.FK_ReportTable_Member_One_ID">
             <End Role="MembersTable" EntitySet="MembersTable" />
             <End Role="ReportTable" EntitySet="ReportTable" />
@@ -509,13 +498,6 @@
             <End Role="MT_IMAGES" EntitySet="MT_IMAGES" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="PermisionTable">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Permision" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <Association Name="FK_ReportTable_Member_One_ID">
           <End Type="ReportDBModel.MembersTable" Role="MembersTable" Multiplicity="0..1" />
           <End Type="ReportDBModel.ReportTable" Role="ReportTable" Multiplicity="*" />
@@ -609,10 +591,9 @@
           <EntitySetMapping Name="MembersTable">
             <EntityTypeMapping TypeName="ReportDBModel.MembersTable">
               <MappingFragment StoreEntitySet="MembersTable">
-                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID"/>
+                <ScalarProperty Name="Name" ColumnName="Name"/>
+                <ScalarProperty Name="Email" ColumnName="Email"/>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -672,14 +653,6 @@
                 <ScalarProperty Name="Shift" ColumnName="Shift" />
                 <ScalarProperty Name="Member_One_ID" ColumnName="Member_One_ID" />
                 <ScalarProperty Name="Member_Two_ID" ColumnName="Member_Two_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PermisionTable">
-            <EntityTypeMapping TypeName="ReportDBModel.PermisionTable">
-              <MappingFragment StoreEntitySet="PermisionTable">
-                <ScalarProperty Name="Permision" ColumnName="Permision" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
