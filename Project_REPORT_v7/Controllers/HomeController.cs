@@ -17,6 +17,7 @@ namespace Project_REPORT_v7.Controllers
 
         public ActionResult Index()
         {
+            MembersTablesController member = new MembersTablesController();
                                 // Temperaly non active code for future use
             //if (Session["MemberID"] != null)
             //    return View();
@@ -25,46 +26,16 @@ namespace Project_REPORT_v7.Controllers
             //string[] separator = new string[] { "\\" };
             //var sep = User.Identity.Name.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             //Session["User"] = sep[1];
+            if (member.AddMember())
             return View();
         }
 
-                                // Temperaly non active code for future use
 
-        //public ActionResult Login()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Login(string memberID, string password)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var pass = GetMD5(password);
-        //        int id = int.Parse(memberID.ToString());
-        //        var data = db.MembersTable.Where(s => s.MemberID.Equals(id) && s.Password.Equals(pass)).ToList();
-        //        if (data.Count() > 0)
-        //        {
-        //            Session["FullName"] = data.FirstOrDefault().FirstName + " " + data.FirstOrDefault().LastName;
-        //            Session["Email"] = data.FirstOrDefault().Email;
-        //            Session["MemberID"] = data.FirstOrDefault().MemberID;
-        //            return RedirectToAction("Index");
-        //        }
-        //        else
-        //        {
-        //            ViewBag.Error = "Login failed!";
-        //            return RedirectToAction("Login");
-        //        }
-        //    }
-        //    return View();
-        //}
-
-        //public ActionResult Logout()
-        //{
-        //    Session.Clear();
-        //    return RedirectToAction("Login");
-        //}
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            return RedirectToAction("Index");
+        }
 
         public static string GetMD5(string str)
         {

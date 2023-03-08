@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Project_REPORT_v7.Models.LogTable>
+
+@{
+    ViewBag.Title = "Logs Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>View</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.L_DATE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.L_TYPE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.L_MESSAGE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.L_USER_ID)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.L_DATE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.L_TYPE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.L_MESSAGE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.L_USER_ID)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

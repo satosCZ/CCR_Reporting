@@ -20,7 +20,7 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44315</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
@@ -61,6 +61,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -142,7 +143,6 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HourOvertimeTablesController.cs" />
-    <Compile Include="Controllers\LogClass.cs" />
     <Compile Include="Controllers\LogTablesController.cs" />
     <Compile Include="Controllers\MainTaskTablesController.cs" />
     <Compile Include="Controllers\MembersTablesController.cs" />
@@ -185,9 +185,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PasswordTable.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PermisionTable.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PreCheckTable.cs">
@@ -357,10 +354,10 @@
     <Content Include="Views\PasswordTables\FilterIndex.cshtml">
       <BrowseToURL>~/PasswordTables/FilterIndex</BrowseToURL>
     </Content>
+    <Content Include="Views\LogTables\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\LogIn\" />
-    <Folder Include="Views\LogTables\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

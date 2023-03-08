@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Diagnostics;
+using System.DirectoryServices.AccountManagement;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Net;
@@ -25,6 +26,15 @@ namespace Project_REPORT_v7.Controllers
         //[GroupAuthorize("ITMesAdmin", "ITMesTechnician", "ITHaeczMesSection")]
         public ViewResult Index(int? page)
         {
+            //try
+            //{
+            //    // Get information from Domain is
+            //    // new PrincipalContext(ContextType.Domain) - must be estabilished LDAP connection
+            //    var context = new PrincipalContext(ContextType.Machine);
+            //    var principal = UserPrincipal.FindByIdentity(context, User.Identity.Name);
+                
+            //}
+            //catch { }
             var reportTable = db.ReportTable.Include(r => r.MembersTable).Include(r => r.MembersTable1);
 
             int pageSize = 15;

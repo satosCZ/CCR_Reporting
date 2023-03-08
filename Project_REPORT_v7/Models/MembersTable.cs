@@ -12,7 +12,7 @@ namespace Project_REPORT_v7.Models
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class MembersTable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,20 +21,9 @@ namespace Project_REPORT_v7.Models
             this.ReportTable = new HashSet<ReportTable>();
             this.ReportTable1 = new HashSet<ReportTable>();
         }
-    
-        [Required(ErrorMessage = "The ID is required.")]
         [DisplayName("Member ID")]
         public int MemberID { get; set; }
-        [Required(ErrorMessage = "The First Name is required.")]
-        [Localizable(true)]
-        [DisplayName("First Name")]
-        public string FirstName { get; set; }
-        [Required(ErrorMessage = "The Last Name is required.")]
-        [Localizable(true)]
-        [DisplayName("Last Name")]
-        public string LastName { get; set; }
-        [Required(ErrorMessage = "The Email is required.")]
-        [EmailAddress(ErrorMessage = "The Email field is not a valid email address.")]
+        public string Name { get; set; }
         public string Email { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

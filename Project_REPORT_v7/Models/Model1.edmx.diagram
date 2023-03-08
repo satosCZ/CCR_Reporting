@@ -19,7 +19,6 @@
         <AssociationConnector Association="ReportDBModel.FK_PreCheckTable_ReportTable" ManuallyRouted="false" />
         <AssociationConnector Association="ReportDBModel.FK_PrintersTable_ReportID" ManuallyRouted="false" />
         <AssociationConnector Association="ReportDBModel.FK_ReIssueTable_ReportID" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="ReportDBModel.PermisionTable" Width="1.5" PointX="8.875" PointY="5.125" />
         <AssociationConnector Association="ReportDBModel.FK_ReportTable_Member_One_ID" />
         <AssociationConnector Association="ReportDBModel.FK_ReportTable_Member_Two_ID" />
         <EntityTypeShape EntityType="ReportDBModel.LogTable" Width="1.5" PointX="13.5" PointY="5.125" />

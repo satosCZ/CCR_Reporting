@@ -24,106 +24,37 @@ namespace Project_REPORT_v7.Controllers
             return View(await db.LogTable.ToListAsync());
         }
 
-        // GET: LogTables/Details/5
-        [GroupAuthorize("ITMesAdmin")]
-        public async Task<ActionResult> Details(int? id)
+        public static LogTablesController LTC
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            LogTable logTable = await db.LogTable.FindAsync(id);
-            if (logTable == null)
-            {
-                return HttpNotFound();
-            }
-            return View(logTable);
+            get { return ltc; }
         }
 
-        // GET: LogTables/Create
-        [GroupAuthorize("ITMesAdmin")]
-        public ActionResult Create()
+        private static LogTablesController ltc = new LogTablesController();
+
+        public static bool AddLogToDB(DateTime l_date, string l_type, string l_message, int l_user)
         {
-            return View();
+            if (LTC.AddLog(l_date, l_type, l_message, l_user))
+                return true;
+            else
+                return false;
         }
 
-        // POST: LogTables/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [GroupAuthorize("ITMesAdmin")]
-        public async Task<ActionResult> Create([Bind(Include = "Id,L_DATE,L_TYPE,L_MESSAGE,L_USER_ID")] LogTable logTable)
+        public bool AddLog(DateTime l_date, string l_type, string l_message, int l_user)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.LogTable.Add(logTable);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                db.LogTable.Add(new LogTable()
+                {
+                    L_DATE = l_date,
+                    L_TYPE = l_type,
+                    L_MESSAGE = l_message,
+                    L_USER_ID = l_user
+                });
+                db.SaveChangesAsync();
+                return true;
             }
-
-            return View(logTable);
-        }
-
-        // GET: LogTables/Edit/5
-        [GroupAuthorize("ITMesAdmin")]
-        public async Task<ActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            LogTable logTable = await db.LogTable.FindAsync(id);
-            if (logTable == null)
-            {
-                return HttpNotFound();
-            }
-            return View(logTable);
-        }
-
-        // POST: LogTables/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [GroupAuthorize("ITMesAdmin")]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,L_DATE,L_TYPE,L_MESSAGE,L_USER_ID")] LogTable logTable)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(logTable).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(logTable);
-        }
-
-        // GET: LogTables/Delete/5
-        [GroupAuthorize("ITMesAdmin")]
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            LogTable logTable = await db.LogTable.FindAsync(id);
-            if (logTable == null)
-            {
-                return HttpNotFound();
-            }
-            return View(logTable);
-        }
-
-        // POST: LogTables/Delete/5
-        [GroupAuthorize("ITMesAdmin")]
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            LogTable logTable = await db.LogTable.FindAsync(id);
-            db.LogTable.Remove(logTable);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            catch { }
+            return false;
         }
 
         protected override void Dispose(bool disposing)

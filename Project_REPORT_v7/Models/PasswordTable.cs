@@ -11,7 +11,7 @@ namespace Project_REPORT_v7.Models
 {
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class PasswordTable
     {
         public System.Guid PasswordID { get; set; }

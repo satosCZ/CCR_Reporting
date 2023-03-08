@@ -10,7 +10,7 @@
 namespace Project_REPORT_v7.Models
 {
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class HourOvertimeTable
     {
         public System.Guid OvertimeID { get; set; }
