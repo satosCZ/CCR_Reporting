@@ -16,7 +16,7 @@
                     defaultDate: "",
                     changeMonth: true,
                     numberOfMonths: 1,
-                    dateFormat: "dd.mm.yy"
+                    dateFormat: "mm-dd-yy"
                 })
                 .on("change", function () {
                     mtTo.datepicker("option", "minDate", getDate(this));
@@ -24,7 +24,7 @@
                 mtTo = $("#mtToDT").datepicker({
                     changeMonth: true,
                     numberOfMonths: 1,
-                    dateFormat: "dd.mm.yy"
+                    dateFormat: "mm-dd-yy"
                 })
                     .on("change", function () {
                         mtFrom.datepicker("option", "maxDate", getDate(this));
@@ -43,13 +43,14 @@
         $(document).ready(function () {
             $('#mtFromDT').keepValue();
             $('#mtToDT').keepValue();
+            $('#mtFulltext').keepValue();
         });
     </script>
 
     <div>
         <div class="navbar navbar-default">
             <div class="container-fluid">
-                @using (Ajax.BeginForm("FilterIndex", "MainTaskTables", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "tab_MainTask", InsertionMode = InsertionMode.Replace }, htmlAttributes: new { @class = "navbar-form", @style = "padding: 5px 0 0 0;" }))
+                @using (Ajax.BeginForm("FilterIndex", "MainTaskTables", new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "tab_MainTask", InsertionMode = InsertionMode.Replace }, htmlAttributes: new { @class = "navbar-form", @style = "padding: 5px 0 0 0;" }))
                 {
                     <div class="navbar navbar-left">
                         <div class="form-group">
@@ -66,15 +67,15 @@
                         </div>
                         <div class="form-group" style="padding-left:10px;">
                             <label for="mtFromDT">From</label>
-                            <input type="text" id="mtFromDT" name="mtFromDT" class="form-control" placeholder="@DateTime.MinValue.ToString("dd.MM.yyyy")" style="width:100px;" />
+                            <input type="text" id="mtFromDT" name="mtFromDT" class="form-control" placeholder="@DateTime.MinValue.ToString("MM-dd-yyyy")" style="width:100px;" />
                         </div>
                         <div class="form-group" style="padding-left:5px;">
                             <label for="mtToDT">To</label>
-                            <input type="text" id="mtToDT" name="mtToDT" class="form-control" placeholder="@DateTime.Now.ToString("dd.MM.yyyy")" style="width:100px;"/>
+                            <input type="text" id="mtToDT" name="mtToDT" class="form-control" placeholder="@DateTime.Now.ToString("MM-dd-yyyy")" style="width:100px;"/>
                         </div>
                         <div class="form-group" style="padding-left:10px;">
-                            <label for="mtFultex">Fultext:</label>
-                            <input type="text" id="mtFultex" name="mtFultex" class="form-control" />
+                            <label for="mtFulltext">Fulltext:</label>
+                            <input type="text" id="mtFulltext" name="mtFulltext" class="form-control" />
                         </div>
                     </div>
                     <div class="navbar-right" style="padding-top: 3px;">
@@ -155,6 +156,29 @@
 
             Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-            @Html.PagedListPager(Model, mtPage => Url.Action("FilterIndex", new { mtPage }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "tab_MainTask", InsertionMode = InsertionMode.ReplaceWith }))
+            @*@Html.PagedListPager(Model, mtPage => Url.Action("FilterIndex", new { mtPage }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "tab_MainTask", InsertionMode = InsertionMode.ReplaceWith }))*@
+            @Html.PagedListPager(Model, mtPage => Url.Action(
+                 "FilterIndex",
+                 new
+                 {
+                     
+                     filterMT = Request.QueryString["FilterMT"],
+                     mtFromDT = Request.QueryString["mtFromDT"],
+                     mtToDT = Request.QueryString["mtToDT"],
+                     mtFulltext = Request.QueryString["mtFulltext"],
+                     mtPage
+                 }),
+                 PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
+                     new PagedListRenderOptions()
+                     {
+                         Display = PagedListDisplayMode.IfNeeded,
+                         DisplayItemSliceAndTotal = true
+                     },
+                     new AjaxOptions()
+                     {
+                         HttpMethod = "GET",
+                         UpdateTargetId = "tab_MainTask",
+                         InsertionMode = InsertionMode.ReplaceWith
+             }));
     </div>
 </div>

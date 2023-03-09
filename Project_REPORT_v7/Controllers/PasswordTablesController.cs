@@ -40,6 +40,7 @@ namespace Project_REPORT_v7.Controllers
 
             string[] glovisPass = new string[] { "ELIS", "GWMS", "GCS", "GLOVIS AD" };
             var filters = glovisPass.Select(s => s.ToLower()).ToList();
+            IOrderedQueryable<PasswordTable> filtered;
 
             if (filterPW == "GLOVIS")
             {
@@ -52,33 +53,21 @@ namespace Project_REPORT_v7.Controllers
 
             if (pwFromDT != null && pwToDT != null)
             {
-                var filtered = filterByCompany.Where(w => w.ReportTable.Date >= from && w.ReportTable.Date <= to).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
-                return PartialView("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
+                filtered = filterByCompany.Where(w => w.ReportTable.Date >= from && w.ReportTable.Date <= to).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
             }
             else if (pwFromDT != null && pwToDT == null)
             {
-                var filtered = filterByCompany.Where(w => w.ReportTable.Date >= from).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
-                return PartialView("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
+                filtered = filterByCompany.Where(w => w.ReportTable.Date >= from).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
             }
             else if (pwFromDT == null && pwToDT != null)
-            return PartialView(passwordTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time).ToPagedList(pageNumber, pageSize));
-        }
-
-        public ActionResult FilterIndexFilter(string Filter)
-        {
-            var passwordTable = db.PasswordTable.Include(p => p.ReportTable);
-            string[] glovisPass = new string[] { "ELIS", "GWMS", "GCS", "GLOVIS AD" };
-            foreach (var pass in glovisPass)
             {
-                if (Filter.Contains(pass))
-                {
-                    var filtered = passwordTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time).Where(w => glovisPass.Any(w.System.Contains));
-                    return View("FilterIndex", filtered);
-                }
+                filtered = filterByCompany.Where(w => w.ReportTable.Date <= to).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
             }
-
-            
-            return View("FilterIndex", passwordTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time));
+            else
+            {
+                filtered = filterByCompany.OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
+            }
+            return PartialView("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: PasswordTables/Create
@@ -91,8 +80,6 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // POST: PasswordTables/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -105,7 +92,6 @@ namespace Project_REPORT_v7.Controllers
                 passwordTable.ReportID = passID;
                 db.PasswordTable.Add(passwordTable);
                 // Remove comments to enable logging
-
                 //int userID;
                 //if (int.TryParse(Session["User"].ToString(), out userID))
                 //    LogClass.AddLog(DateTime.Now, "PasswordTable|Create", $"Created new Password issue, Time:{passwordTable.Time} Full Name:{passwordTable.FullName} UserID:{passwordTable.UserID} System:{passwordTable.System} ", userID);

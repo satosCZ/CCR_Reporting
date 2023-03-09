@@ -28,7 +28,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: MainTaskTables/FilterIndex
-        public PartialViewResult FilterIndex(string filterMT, DateTime? mtFromDT, DateTime? mtToDT, string mtFultext, int? mtPage)
+        public PartialViewResult FilterIndex(string filterMT, DateTime? mtFromDT, DateTime? mtToDT, string mtFulltext, int? mtPage)
         {
             var mainTaskTable = db.MainTaskTable.Include(p => p.ReportTable);
 
@@ -63,9 +63,9 @@ namespace Project_REPORT_v7.Controllers
                 filtered = filtered.Where(w => w.ReportTable.Date <= to).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
             }
 
-            if (!string.IsNullOrEmpty(mtFultext))
+            if (!string.IsNullOrEmpty(mtFulltext))
             {
-                filtered = filtered.Where(w => w.System.Contains(mtFultext) || w.Problem.Contains(mtFultext) || w.Solution.Contains(mtFultext)).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
+                filtered = filtered.Where(w => w.System.Contains(mtFulltext) || w.Problem.Contains(mtFulltext) || w.Solution.Contains(mtFulltext)).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
             }
 
             return PartialView("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));

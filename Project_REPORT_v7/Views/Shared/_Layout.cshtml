@@ -25,7 +25,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Report", "Index", "ReportTables")</li>
-                    <li>@Html.ActionLink("Members", "_index", "MembersTables")</li>
+                    @*<li>@Html.ActionLink("Members", "_index", "MembersTables")</li>*@
                     <li>@Html.ActionLink("Filtered", "Filtered", "Home")</li>
                     @if (Request.IsAuthenticated)
             {
