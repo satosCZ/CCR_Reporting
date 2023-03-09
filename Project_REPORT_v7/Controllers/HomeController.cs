@@ -49,19 +49,6 @@ namespace Project_REPORT_v7.Controllers
             return RedirectToAction("Index");
         }
 
-        public static string GetMD5(string str)
-        {
-            MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] fromData = Encoding.UTF8.GetBytes(str);
-            byte[] targetData = md5.ComputeHash(fromData);
-            string b2s = null;
-            for (int i = 0; i < targetData.Length; i++)
-            {
-                b2s += targetData[i].ToString("x2");
-            }
-            return b2s;
-        }
-
         public ActionResult Filtered()
         {
             return View("Filtered");
