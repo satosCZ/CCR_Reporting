@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace Project_REPORT_v7.Controllers
 {
-    [AuthorizeAD(Groups = "CCR_Report")]
+    //[AuthorizeAD(Groups = "CCR_Report")]
     public class HomeController : Controller
     {
         private ReportDBEntities1 db = new ReportDBEntities1();
@@ -20,14 +20,15 @@ namespace Project_REPORT_v7.Controllers
         {
             MembersTablesController member = new MembersTablesController();
             ADHelper ad = new ADHelper(User.Identity.Name);
-            if (LDAPHelper.UserIsMemberOfGroups(User.Identity.Name, new string[] {"CCR_Report_Admin"}))
-            {
-                Session["isAdmin"] = "Admin";
-            }
-            else
-            {
-                Session["isAdmin"] = "NonAdmin";
-            }
+            //if (LDAPHelper.UserIsMemberOfGroups(User.Identity.Name, new string[] {"CCR_Report_Admin"}))
+            //{
+            //    Session["isAdmin"] = "Admin";
+            //}
+            //else
+            //{
+            //    Session["isAdmin"] = "NonAdmin";
+            //}
+            Session["isAdmin"] = "Admin";
             if (!member.CheckMember(ad.MemberID))
             {
                 if (member.AddMember(ad.MemberID, ad.MemberName, ad.MemberEmail))

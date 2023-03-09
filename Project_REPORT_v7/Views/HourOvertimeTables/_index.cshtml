@@ -8,7 +8,7 @@
             <span class="glyphicon glyphicon-plus"></span>
         </a>
     </p>
-@*}*@
+}
 <table class="table table-bordered table-condensed table-striped table-responsive" id="HourOvertimeTable">
     <tr>
         <th class="text-center">
@@ -57,7 +57,7 @@
                 @Html.DisplayFor(modelItem => item.Cooperation)
             </td>
 
-            @if (TempData["Closed"].Equals("false"))
+            @if (TempData["Closed"].Equals("false") || Session["isAdmin"].Equals("Admin"))
             {
                 <td class="text-center" style="vertical-align:middle;">
                     <input type="hidden" value="@item.OvertimeID" class="overtimeID" />

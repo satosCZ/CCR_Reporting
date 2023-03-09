@@ -14,7 +14,7 @@ using Project_REPORT_v7.Models;
 
 namespace Project_REPORT_v7.Controllers
 {
-    [AuthorizeAD(Groups = "CCR_Report")]
+    //[AuthorizeAD(Groups = "CCR_Report")]
     public class HourOvertimeTablesController : Controller
     {
         private ReportDBEntities1 db = new ReportDBEntities1();
@@ -27,7 +27,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: HourOvertimeTables/Create
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpGet]
         public ActionResult Create()
         {
@@ -38,7 +38,7 @@ namespace Project_REPORT_v7.Controllers
         // POST: HourOvertimeTables/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "OvertimeID,Time,Duration,Shop,Type,Description,Cooperation,ReportID")] HourOvertimeTable hourOvertimeTable)
@@ -65,7 +65,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: HourOvertimeTables/Edit/5
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpGet]
         public ActionResult Edit(Guid? id)
         {
@@ -85,7 +85,7 @@ namespace Project_REPORT_v7.Controllers
         // POST: HourOvertimeTables/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "OvertimeID,Time,Duration,Shop,Type,Description,Cooperation,ReportID")] HourOvertimeTable hourOvertimeTable)
@@ -110,7 +110,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: HourOvertimeTables/Delete/5
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpGet]
         public ActionResult Delete(Guid? id)
         {
@@ -127,7 +127,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // POST: HourOvertimeTables/Delete/5
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)

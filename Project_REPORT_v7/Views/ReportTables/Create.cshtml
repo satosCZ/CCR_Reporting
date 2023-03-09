@@ -6,7 +6,7 @@
 
 <script>
     $(function () {
-        $("#MembersTable_LastName").autocomplete({
+        $("#MembersTable_Name").autocomplete({
             source: function (request, response) {
                 $.ajax({
                     url: "../MembersTables/GetMembers",
@@ -30,7 +30,7 @@
             }
         });
 
-        $("#MembersTable1_LastName").autocomplete({
+        $("#MembersTable1_Name").autocomplete({
             source: function (request, response) {
                 $.ajax({
                     url: "../MembersTables/GetMembers",

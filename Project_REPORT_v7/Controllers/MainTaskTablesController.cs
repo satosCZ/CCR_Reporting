@@ -15,7 +15,7 @@ using Project_REPORT_v7.Models;
 
 namespace Project_REPORT_v7.Controllers
 {
-    [AuthorizeAD(Groups = "CCR_Report")]
+    //[AuthorizeAD(Groups = "CCR_Report")]
     public class MainTaskTablesController : Controller
     {
         private ReportDBEntities1 db = new ReportDBEntities1();
@@ -28,51 +28,52 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: MainTaskTables/FilterIndex
-        public ViewResult FilterIndex(int? page)
+        public PartialViewResult FilterIndex(string filterMT, DateTime? mtFromDT, DateTime? mtToDT, string mtFultext, int? mtPage)
         {
             var mainTaskTable = db.MainTaskTable.Include(p => p.ReportTable);
 
-            int pageSize = 20;
-            int pageNumber = (page ?? 1);
-            return View(mainTaskTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time).ToPagedList(pageNumber, pageSize));
-        }
-
-        // POST : MainTaskTables/FilterIndex > Filter
-        public ViewResult FilterIndexFilter(string filter, DateTime? fromDT, DateTime? toDT, int? page)
-        {
-            var mainTaskTable = db.MainTaskTable.Include(p => p.ReportTable);
+            IOrderedQueryable<MainTaskTable> filtered;
 
             int pageSize = 20;
-            int pageNumber = (page ?? 1);
-            if (filter == "GLOVIS" || filter == "TRANSYS")
-            {
-                var filtered = mainTaskTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time).Where(w => w.Shop == filter);
-                return View("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
-            }
+            int pageNumber = (mtPage ?? 1);
 
-            if ((fromDT != null && toDT != null))
+            DateTime from = mtFromDT.GetValueOrDefault();
+            DateTime to = mtToDT.GetValueOrDefault();
+
+            // Filter by company
+            if (filterMT == "GLOVIS" || filterMT == "TRANSYS")
             {
-                var filteredDate = mainTaskTable.Where(w => w.ReportTable.Date >= fromDT && w.ReportTable.Date <= toDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
-                return View("FilterIndex", filteredDate.ToPagedList(pageNumber, pageSize));
-            }
-            else if ((fromDT != null && toDT == null))
-            {
-                var filteredDate = mainTaskTable.Where(w => w.ReportTable.Date >= fromDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
-                return View("FilterIndex", filteredDate.ToPagedList(pageNumber, pageSize));
-            }
-            else if ((fromDT != null && toDT == null))
-            {
-                var filteredDate = mainTaskTable.Where(w => w.ReportTable.Date <= toDT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
-                return View("FilterIndex", filteredDate.ToPagedList(pageNumber, pageSize));
+                filtered = mainTaskTable.Where(w => w.Shop == filterMT).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
             }
             else
             {
-                return View("FilterIndex", mainTaskTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time));
+                filtered = mainTaskTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
             }
+
+            if (mtFromDT != null && mtToDT != null)
+            {
+                filtered = filtered.Where(w => w.ReportTable.Date >= from && w.ReportTable.Date <= to).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
+            }
+            else if (mtFromDT != null && mtToDT == null)
+            {
+                filtered = filtered.Where(w => w.ReportTable.Date >= from).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
+            }
+            else if (mtFromDT == null && mtToDT != null)
+            {
+                filtered = filtered.Where(w => w.ReportTable.Date <= to).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
+            }
+
+            if (!string.IsNullOrEmpty(mtFultext))
+            {
+                filtered = filtered.Where(w => w.System.Contains(mtFultext) || w.Problem.Contains(mtFultext) || w.Solution.Contains(mtFultext)).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
+            }
+
+            return PartialView("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
         }
 
+
         // GET: MainTaskTables/Create
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpGet]
         public ActionResult Create()
         {
@@ -83,7 +84,7 @@ namespace Project_REPORT_v7.Controllers
         // POST: MainTaskTables/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "MainTaskID,Time,Duration,Shop,System,Problem,Solution,Cooperation,ReportID")] MainTaskTable mainTaskTable)
@@ -108,7 +109,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: MainTaskTables/Edit/5
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpGet]
         public ActionResult Edit(Guid? id)
         {
@@ -128,7 +129,7 @@ namespace Project_REPORT_v7.Controllers
         // POST: MainTaskTables/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MainTaskID,Time,Duration,Shop,System,Problem,Solution,Cooperation,ReportID")] MainTaskTable mainTaskTable)
@@ -151,7 +152,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: MainTaskTables/Delete/5
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpGet]
         public ActionResult Delete(Guid? id)
         {
@@ -168,7 +169,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // POST: MainTaskTables/Delete/5
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
@@ -237,7 +238,7 @@ namespace Project_REPORT_v7.Controllers
                     };
                 });
             }
-            else if(temp.Count == 0)
+            else if(temp.Count <= 2)
             {
                 ls.Add(
                     new SelectListItem()
@@ -260,7 +261,6 @@ namespace Project_REPORT_v7.Controllers
                         Value = "TRANSYS",
                         Selected = false
                     });
-
             }
             var result = ls.Distinct().ToList();
             result[1].Selected = true;

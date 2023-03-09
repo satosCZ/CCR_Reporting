@@ -19,12 +19,12 @@ using Project_REPORT_v7.Models;
 
 namespace Project_REPORT_v7.Controllers
 {
-    [AuthorizeAD(Groups ="CCR_Report")]
+    //[AuthorizeAD(Groups ="CCR_Report")]
     public class ReportTablesController : Controller
     {
         private ReportDBEntities1 db = new ReportDBEntities1();
 
-        [AuthorizeAD(Groups = "CCR_Report")]
+        //[AuthorizeAD(Groups = "CCR_Report")]
         public ViewResult Index(int? page)
         {
             var reportTable = db.ReportTable.Include(r => r.MembersTable).Include(r => r.MembersTable1);
@@ -93,7 +93,7 @@ namespace Project_REPORT_v7.Controllers
             return View(reportTable);
         }
 
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         // GET: ReportTables/Create
         public ActionResult Create()
         {
@@ -103,7 +103,7 @@ namespace Project_REPORT_v7.Controllers
         // POST: ReportTables/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ReportID,Date,Shift,Member_One_ID,Member_Two_ID")] ReportTable reportTable)
@@ -158,7 +158,7 @@ namespace Project_REPORT_v7.Controllers
 
 
         // GET: ReportTables/Edit/5
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
@@ -178,7 +178,7 @@ namespace Project_REPORT_v7.Controllers
         // POST: ReportTables/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ReportID,Date,Shift,Member_One_ID,Member_Two_ID")] ReportTable reportTable)
@@ -221,7 +221,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // POST: ReportTables/Delete/5
-        [AuthorizeAD(Groups = "CCR_Report_Admin")]
+        //[AuthorizeAD(Groups = "CCR_Report_Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
@@ -262,8 +262,6 @@ namespace Project_REPORT_v7.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
-        
 
         protected override void Dispose(bool disposing)
         {

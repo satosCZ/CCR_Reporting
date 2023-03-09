@@ -1,0 +1,31 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+    ViewBag.Title = "ERROR";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="pull-left" style="width:70%; padding:10px;">
+    <div class="page-header"><h1>D'OH! - @ViewBag.Title</h1></div>
+    <div class="alert alert-danger" role="alert">
+        <p class="text-center">Unauthorized access. Sorry to bother you but apparenlty you don't have permision to access this godly site.</p>
+        <br />
+        <strong>For access contact WEB Admins</strong>
+    </div>
+    @*<div>
+        <h3>Error Message</h3>
+        <blockquote>
+            @Model.Exception.Message
+        </blockquote>
+        <hr />
+        <h3>Error Stack Trace</h3>
+        <div class="well">
+            @Model.Exception.StackTrace
+        </div>
+    </div>*@
+</div>
+<div class="pull-right" style="width:30%; padding-left:50px; padding-top:100px;">
+    <img src="~/Content/Images/doh.png" alt="DOH!" class="img-responsive" style="height:500px;" />
+</div>
+<span class="clearfix"></span>
+

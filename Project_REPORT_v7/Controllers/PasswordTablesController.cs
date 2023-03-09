@@ -14,7 +14,7 @@ using Project_REPORT_v7.Models;
 
 namespace Project_REPORT_v7.Controllers
 {
-    [AuthorizeAD(Groups = "CCR_Report")]
+    //[AuthorizeAD(Groups = "CCR_Report")]
     public class PasswordTablesController : Controller
     {
         private ReportDBEntities1 db = new ReportDBEntities1();
@@ -26,21 +26,51 @@ namespace Project_REPORT_v7.Controllers
             return PartialView(passwordTable.OrderBy(s => s.Time).ToList());
         }
 
-        public PartialViewResult FilterIndex(int? page)
+        public PartialViewResult FilterIndex(string filterPW, DateTime? pwFromDT, DateTime? pwToDT, int? pwPage)
         {
             var passwordTable = db.PasswordTable.Include(p => p.ReportTable);
+
             int pageSize = 20;
-            int pageNumber = (page ?? 1);
+            int pageNumber = (pwPage ?? 1);
+
+            DateTime from = pwFromDT.GetValueOrDefault();
+            DateTime to = pwToDT.GetValueOrDefault();
+
+            IQueryable<PasswordTable> filterByCompany;
+
+            string[] glovisPass = new string[] { "ELIS", "GWMS", "GCS", "GLOVIS AD" };
+            var filters = glovisPass.Select(s => s.ToLower()).ToList();
+
+            if (filterPW == "GLOVIS")
+            {
+                filterByCompany = passwordTable.Where(w => filters.Contains(w.System));
+            }
+            else
+            {
+                filterByCompany = passwordTable;
+            }
+
+            if (pwFromDT != null && pwToDT != null)
+            {
+                var filtered = filterByCompany.Where(w => w.ReportTable.Date >= from && w.ReportTable.Date <= to).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
+                return PartialView("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
+            }
+            else if (pwFromDT != null && pwToDT == null)
+            {
+                var filtered = filterByCompany.Where(w => w.ReportTable.Date >= from).OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time);
+                return PartialView("FilterIndex", filtered.ToPagedList(pageNumber, pageSize));
+            }
+            else if (pwFromDT == null && pwToDT != null)
             return PartialView(passwordTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time).ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult FilterIndexFilter(string filter)
+        public ActionResult FilterIndexFilter(string Filter)
         {
             var passwordTable = db.PasswordTable.Include(p => p.ReportTable);
             string[] glovisPass = new string[] { "ELIS", "GWMS", "GCS", "GLOVIS AD" };
             foreach (var pass in glovisPass)
             {
-                if (filter.Contains(pass))
+                if (Filter.Contains(pass))
                 {
                     var filtered = passwordTable.OrderByDescending(s => s.ReportTable.Date).ThenBy(s => s.Time).Where(w => glovisPass.Any(w.System.Contains));
                     return View("FilterIndex", filtered);
@@ -52,7 +82,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: PasswordTables/Create
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpGet]
         public ActionResult Create()
         {
@@ -63,7 +93,7 @@ namespace Project_REPORT_v7.Controllers
         // POST: PasswordTables/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "PasswordID,Time,FullName,UserID,System,ReportID")] PasswordTable passwordTable)
@@ -88,7 +118,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: PasswordTables/Edit/5
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpGet]
         public ActionResult Edit(Guid? id)
         {
@@ -108,7 +138,7 @@ namespace Project_REPORT_v7.Controllers
         // POST: PasswordTables/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "PasswordID,Time,FullName,UserID,System,ReportID")] PasswordTable passwordTable)
@@ -131,7 +161,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: PasswordTables/Delete/5
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpGet]
         public ActionResult Delete(Guid? id)
         {
@@ -148,7 +178,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // POST: PasswordTables/Delete/5
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)

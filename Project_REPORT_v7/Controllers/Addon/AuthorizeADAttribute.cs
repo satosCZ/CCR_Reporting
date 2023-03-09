@@ -38,7 +38,7 @@ namespace Project_REPORT_v7.Controllers.Addon
 
                 try
                 {
-                    _authorized = LDAPHelper.UserIsMemberOfGroups(username, groups);
+                    //_authorized = LDAPHelper.UserIsMemberOfGroups(username, groups);
                     if (_authorized && groups.Contains("CCR_Report_Admin")) 
                     {
 

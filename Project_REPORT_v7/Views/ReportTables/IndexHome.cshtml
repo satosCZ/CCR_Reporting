@@ -10,10 +10,10 @@
             @Html.DisplayNameFor(model => model.Shift)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MembersTable.FirstName)
+            @Html.DisplayNameFor(model => model.MembersTable.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MembersTable1.FirstName)
+            @Html.DisplayNameFor(model => model.MembersTable1.Name)
         </th>
         <th></th>
     </tr>
@@ -27,10 +27,10 @@
             @Html.DisplayFor(modelItem => item.Shift)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.MembersTable.FirstName) @Html.DisplayFor(modelItem => item.MembersTable.LastName)
+            @Html.DisplayFor(modelItem => item.MembersTable.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.MembersTable1.FirstName) @Html.DisplayFor(modelItem => item.MembersTable1.LastName)
+            @Html.DisplayFor(modelItem => item.MembersTable1.Name)
         </td>
         <td>
             <a href="@Url.Action("Details", "ReportTables", new { id = item.ReportID })"><span class="glyphicon glyphicon-open" aria-hidden="true"/></a>

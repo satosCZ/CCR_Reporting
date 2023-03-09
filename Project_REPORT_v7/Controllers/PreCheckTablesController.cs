@@ -14,7 +14,7 @@ using Project_REPORT_v7.Models;
 
 namespace Project_REPORT_v7.Controllers
 {
-    [AuthorizeAD(Groups = "CCR_Report")]
+    //[AuthorizeAD(Groups = "CCR_Report")]
     public class PreCheckTablesController : Controller
     {
         private ReportDBEntities1 db = new ReportDBEntities1();
@@ -27,7 +27,7 @@ namespace Project_REPORT_v7.Controllers
             return PartialView(passTable);
         }
 
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpGet]
         public ActionResult Create()
         {
@@ -35,7 +35,7 @@ namespace Project_REPORT_v7.Controllers
             return PartialView("Create");
         }
 
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "PreCheckID,Time,System,Check,EmailTime,ReportID")] PreCheckTable preCheckTable)
@@ -62,7 +62,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: PreCheckTables/Edit/5
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpGet]
         public ActionResult Edit(Guid? id)
         {
@@ -82,7 +82,7 @@ namespace Project_REPORT_v7.Controllers
         // POST: PreCheckTables/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "PreCheckID,Time,System,Check,EmailTime,ReportID")] PreCheckTable preCheckTable)
@@ -106,7 +106,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: PreCheckTables/Delete/5
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpGet]
         public ActionResult Delete(Guid? id)
         {
@@ -123,7 +123,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // POST: PreCheckTables/Delete/5
-        [AuthorizeAD(Groups = "CCR_Report_Control")]
+        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)

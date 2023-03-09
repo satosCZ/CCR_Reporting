@@ -359,10 +359,11 @@
       <BrowseToURL>~/PasswordTables/FilterIndex</BrowseToURL>
     </Content>
     <Content Include="Views\LogTables\Index.cshtml" />
+    <Content Include="Views\Error\Error500.cshtml" />
+    <Content Include="Views\Error\Error404.cshtml" />
+    <Content Include="Views\Error\Error401.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\LogIn\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

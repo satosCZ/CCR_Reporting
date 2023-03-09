@@ -1,7 +1,4 @@
-﻿using Project_REPORT_v7.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -25,26 +22,26 @@ namespace Project_REPORT_v7
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
-        public void Application_Error(Object sender, EventArgs e)
-        {
-            Exception exception = Server.GetLastError();
-            Server.ClearError();
+        //public void Application_Error(Object sender, EventArgs e)
+        //{
+        //    Exception exception = Server.GetLastError();
+        //    Server.ClearError();
 
-            var routeData = new RouteData();
-            routeData.Values.Add("controller", "Error");
-            routeData.Values.Add("action", "Error404");
-            routeData.Values.Add("exception", exception);
+        //    var routeData = new RouteData();
+        //    routeData.Values.Add("controller", "Error");
+        //    routeData.Values.Add("action", "Error404");
+        //    routeData.Values.Add("exception", exception);
 
-            if (exception.GetType() == typeof(HttpException))
-            {
-                routeData.Values.Add("statusCode", ((HttpException)exception).GetHttpCode());
-            }
-            else
-            {
-                routeData.Values.Add("statusCode", 404);
-            }
+        //    if (exception.GetType() == typeof(HttpException))
+        //    {
+        //        routeData.Values.Add("statusCode", ((HttpException)exception).GetHttpCode());
+        //    }
+        //    else
+        //    {
+        //        routeData.Values.Add("statusCode", 404);
+        //    }
 
-            Response.TrySkipIisCustomErrors = true;
-        }
+        //    Response.TrySkipIisCustomErrors = true;
+        //}
     }
 }
