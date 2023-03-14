@@ -170,9 +170,10 @@ namespace Project_REPORT_v7.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Member_One_ID = new SelectList(db.MembersTable, "MemberID", "FirstName", reportTable.Member_One_ID);
-            ViewBag.Member_Two_ID = new SelectList(db.MembersTable, "MemberID", "FirstName", reportTable.Member_Two_ID);
-            return View(reportTable);
+            var report = reportTable;
+            var tempDate = DateTime.Parse(reportTable.Date.ToString("dd.MM.yyyy"));
+            report.Date = tempDate;
+            return View(report);
         }
 
         // POST: ReportTables/Edit/5
@@ -186,7 +187,25 @@ namespace Project_REPORT_v7.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(reportTable).State = EntityState.Modified;
-
+                try
+                {
+                    switch (reportTable.Shift)
+                    {
+                        case "Morning":
+                            reportTable.Date = reportTable.Date.AddHours(6);
+                            break;
+                        case "Afternoon":
+                            reportTable.Date = reportTable.Date.AddHours(14);
+                            break;
+                        case "Night":
+                            reportTable.Date = reportTable.Date.AddHours(22);
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("ReportTablesController || Create || " + ex.Message);
+                }
                 // Remove comments to enable logging
 
                 //try

@@ -5,7 +5,7 @@
 
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Index Reports";
 }
 
 <script>
@@ -103,7 +103,7 @@
                 @Html.HiddenFor(modelItem => item.Member_Two_ID)
             </td>
             <td>
-                @if (item.Date >= DateTime.Now.AddHours(-9) || Session["isAdmin"].ToString() == "Admin")
+                @if (item.Date >= DateTime.Now.AddHours(-9) || ((string)Session["isAdmin"]) == "Admin")
                 {
                     <a href="@Url.Action("Edit", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-cog" aria-hidden="true" /></a>
                     <a href="@Url.Action("Details", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-pencil" aria-hidden="true" /></a>

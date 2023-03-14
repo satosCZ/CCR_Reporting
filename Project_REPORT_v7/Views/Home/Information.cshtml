@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Information";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Information about CCR Report project</h2>
+
+<h4>Basic information</h4>
+<p>This will help you to understand my vision about this project.</p>
+
+<p>Right now you see this page as member of CCR_Report_Admin which members are Office members + Me only temporary</p>
+<p>There are 3 groups which each of this group have different page view.</p>
+<ul>
+    <li>CCR_Report</li>
+    <li>CCR_Report_Control</li>
+    <li>CCR_Report_Admin</li>
+</ul>
+<br />
+<h5><strong>CCR_Report</strong></h5>
+<p>Is a group of members who will only have access to view reports. They will not have an access to Edit Create and Delete. It's technicaly only guest access</p>
+<br />
+<h5><strong>CCR_Report_Control</strong></h5>
+<p>Is a group of CCR members who will have permission to Create Reports and add their data to actual report. They will not have an access to edit or delete older reports for security reasons</p>
+<br />
+<h5><strong>CCR_Report_Admin</strong></h5>
+<p>Is a group of Office members who will have complete access to page. They have a permission to Create, Edit & Delete all of existed reports & view LOG page which will store logs of creating, editing and deleting reports and their inner tables</p>
+<br />
+<br />
+<h4>Todo list:</h4>
+<ul>
+    <li>Automatic refresh page (opened report details page) after an update from different session. Update means - Edited, Deleted and Created an inner table in Report</li>
+    <li>Default CCR members by shifts for creating reports. Still possible to edit when there are vacations, illness etc.</li>
+    <li>Debating if it's good to add images to MainTask issue (not required) and view it in popup when mouse is over table line.</li>
+    <li>Meaby more ideas in future</li>
+</ul>
+

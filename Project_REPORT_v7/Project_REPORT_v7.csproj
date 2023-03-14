@@ -35,6 +35,19 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PublishDatabaseSettings>
+      <Objects>
+        <ObjectGroup Name="ReportDBEntities1-Deployment" Order="1">
+          <Destination Path="" />
+          <Object Type="DbFullSql">
+            <PreSource Path="Data Source=%28LocalDB%29\MSSQLLocalDB%3bAttachDbFilename=|DataDirectory|\ReportDB.mdf%3bIntegrated Security=True%3bApplication Name=EntityFramework" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
+            <Source Path="obj\Debug\AutoScripts\ReportDBEntities1-Deployment_SchemaOnly.sql" Transacted="True" />
+          </Object>
+        </ObjectGroup>
+      </Objects>
+    </PublishDatabaseSettings>
+    <IncludeIisSettings>true</IncludeIisSettings>
+    <LegacyPublishPropertiesPageEnabled>true</LegacyPublishPropertiesPageEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -362,6 +375,7 @@
     <Content Include="Views\Error\Error500.cshtml" />
     <Content Include="Views\Error\Error404.cshtml" />
     <Content Include="Views\Error\Error401.cshtml" />
+    <Content Include="Views\Home\Information.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

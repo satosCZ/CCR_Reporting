@@ -19,7 +19,7 @@ namespace Project_REPORT_v7.Controllers
         public ActionResult Index()
         {
             MembersTablesController member = new MembersTablesController();
-            ADHelper ad = new ADHelper(User.Identity.Name);
+            //ADHelper ad = new ADHelper(User.Identity.Name);
             //if (LDAPHelper.UserIsMemberOfGroups(User.Identity.Name, new string[] {"CCR_Report_Admin"}))
             //{
             //    Session["isAdmin"] = "Admin";
@@ -29,17 +29,17 @@ namespace Project_REPORT_v7.Controllers
             //    Session["isAdmin"] = "NonAdmin";
             //}
             Session["isAdmin"] = "Admin";
-            if (!member.CheckMember(ad.MemberID))
-            {
-                if (member.AddMember(ad.MemberID, ad.MemberName, ad.MemberEmail))
-                {
-                    Session["User"] = ad.MemberName;
-                }
-                else
-                {
-                    Session["User"] = "Unknown";
-                }
-            }
+            //if (!member.CheckMember(ad.MemberID))
+            //{
+            //    if (member.AddMember(ad.MemberID, ad.MemberName, ad.MemberEmail))
+            //    {
+            //        Session["User"] = ad.MemberName;
+            //    }
+            //    else
+            //    {
+            //        Session["User"] = "Unknown";
+            //    }
+            //}
             return View();
         }
 
@@ -53,6 +53,11 @@ namespace Project_REPORT_v7.Controllers
         public ActionResult Filtered()
         {
             return View("Filtered");
+        }
+
+        public ActionResult Information()
+        {
+            return View("Information");
         }
     }
 }

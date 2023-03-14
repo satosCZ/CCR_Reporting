@@ -15,7 +15,7 @@ using System.Text.RegularExpressions;
 
 namespace Project_REPORT_v7.Controllers
 {
-    [AuthorizeAD(Groups = "CCR_Report_Admin")]
+    //[AuthorizeAD(Groups = "CCR_Report_Admin")]
     public class LogTablesController : Controller
     {
         private ReportDBEntities1 db = new ReportDBEntities1();

@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = Model.Date;
-    if (Model.Date >= DateTime.Now.AddHours(-8).AddMinutes(-10))
+    if (Model.Date >= DateTime.Now.AddHours(-8).AddMinutes(-10) || ((string)Session["isAdmin"]) != "Admin")
     { TempData["Closed"] = "false"; }
     else
     { TempData["Closed"] = "true"; }

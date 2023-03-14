@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Project_REPORT_v7.Models.PrintersTable>
 
 
-@if (TempData["Closed"].Equals("false"))
+@if (TempData["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
 {
     <p>
         <a class="btn btn-success" data-modal="" href="/PrintersTables/Create" id="btnPrintersCreate">
@@ -23,7 +23,7 @@
         <th class="text-center">
             @Html.DisplayNameFor(model => model.Printer)
         </th>
-        @if (TempData["Closed"].Equals("false") || Session["isAdmin"].Equals("Admin"))
+        @if (TempData["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
         {
             <th class="text-center">Actions</th>
         }
@@ -45,7 +45,7 @@
                 @Html.DisplayFor(modelItem => item.Printer)
             </td>
 
-            @if (TempData["Closed"].Equals("false") || Session["isAdmin"].Equals("Admin"))
+            @if (TempData["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
             {
             <td class="text-center col-md-1">
                 <input type="hidden" value="@item.PrinterID" class="printerID" />

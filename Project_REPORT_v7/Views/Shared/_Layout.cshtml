@@ -27,7 +27,7 @@
                     <li>@Html.ActionLink("Report", "Index", "ReportTables")</li>
                     @*<li>@Html.ActionLink("Members", "_index", "MembersTables")</li>*@
                     <li>@Html.ActionLink("Filtered", "Filtered", "Home")</li>
-                    @if (Request.IsAuthenticated)
+                    @if (((string)Session["isAdmin"]) == "Admin")
             {
                     <li>@Html.ActionLink("Logs", "Index", "LogTables") </li>
             }

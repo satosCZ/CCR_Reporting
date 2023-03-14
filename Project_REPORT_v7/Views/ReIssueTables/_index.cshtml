@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Project_REPORT_v7.Models.ReIssueTable>
 
-@if (TempData["Closed"].Equals("false"))
+@if (TempData["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
 {
 
     <p>
