@@ -16,6 +16,7 @@ namespace Project_REPORT_v7
 
         protected void Application_Start()
         {
+            BundleTable.EnableOptimizations = false;
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
