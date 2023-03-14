@@ -63,7 +63,7 @@ namespace Project_REPORT_v7.Controllers
                 filtered = filtered.Where(w => w.ReportTable.Date <= to).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
             }
 
-            if (!string.IsNullOrEmpty(mtFulltext))
+            if (!string.IsNullOrEmpty(mtFulltext) && mtFulltext != "undefined")
             {
                 filtered = filtered.Where(w => w.System.Contains(mtFulltext) || w.Problem.Contains(mtFulltext) || w.Solution.Contains(mtFulltext)).OrderByDescending(o => o.ReportTable.Date).ThenBy(t => t.Time);
             }
