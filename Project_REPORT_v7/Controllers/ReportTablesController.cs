@@ -224,7 +224,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: ReportTables/Delete/5
-        [AuthorizeAD(Groups = "CCR_Report_Admin")]
+        //[AuthorizeAD(Groups = "CCR_Report_Admin")]
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
