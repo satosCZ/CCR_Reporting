@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -21,8 +23,15 @@ namespace Project_REPORT_v7
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("cs-CZ");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("cs-CZ");
         }
 
+        protected void Application_BeginRequest()
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("cs-CZ");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("cs-CZ");
+        }
         //public void Application_Error(Object sender, EventArgs e)
         //{
         //    Exception exception = Server.GetLastError();
