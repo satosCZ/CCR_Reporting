@@ -9,18 +9,17 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using PagedList;
-using Project_REPORT_v7.App_Start;
 using Project_REPORT_v7.Controllers.Addon;
 using Project_REPORT_v7.Models;
 
 namespace Project_REPORT_v7.Controllers
 {
-    //[AuthorizeAD(Groups = "CCR_Report")]
     public class MainTaskTablesController : Controller
     {
         private ReportDBEntities1 db = new ReportDBEntities1();
 
         // GET: MainTaskTables
+        [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         public PartialViewResult _index()
         {
             var mainTaskTable = db.MainTaskTable.Include(p => p.ReportTable);
@@ -28,6 +27,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: MainTaskTables/FilterIndex
+        [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         public PartialViewResult FilterIndex(string filterMT, DateTime? mtFromDT, DateTime? mtToDT, string mtFulltext, int? mtPage)
         {
             var mainTaskTable = db.MainTaskTable.Include(p => p.ReportTable);
@@ -73,7 +73,7 @@ namespace Project_REPORT_v7.Controllers
 
 
         // GET: MainTaskTables/Create
-        //[AuthorizeAD(Groups = "CCR_Report_Control")]
+        [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         [HttpGet]
         public ActionResult Create()
         {
@@ -84,7 +84,6 @@ namespace Project_REPORT_v7.Controllers
         // POST: MainTaskTables/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "MainTaskID,Time,Duration,Shop,System,Problem,Solution,Cooperation,ReportID")] MainTaskTable mainTaskTable)
@@ -109,7 +108,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: MainTaskTables/Edit/5
-        //[AuthorizeAD(Groups = "CCR_Report_Control")]
+        [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         [HttpGet]
         public ActionResult Edit(Guid? id)
         {
@@ -129,7 +128,6 @@ namespace Project_REPORT_v7.Controllers
         // POST: MainTaskTables/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MainTaskID,Time,Duration,Shop,System,Problem,Solution,Cooperation,ReportID")] MainTaskTable mainTaskTable)
@@ -152,7 +150,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: MainTaskTables/Delete/5
-        //[AuthorizeAD(Groups = "CCR_Report_Control")]
+        [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         [HttpGet]
         public ActionResult Delete(Guid? id)
         {
@@ -169,7 +167,6 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // POST: MainTaskTables/Delete/5
-        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)

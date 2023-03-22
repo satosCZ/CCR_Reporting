@@ -13,7 +13,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using PagedList;
-using Project_REPORT_v7.App_Start;
 using Project_REPORT_v7.Controllers.Addon;
 using Project_REPORT_v7.Models;
 
@@ -24,7 +23,7 @@ namespace Project_REPORT_v7.Controllers
     {
         private ReportDBEntities1 db = new ReportDBEntities1();
 
-        //[AuthorizeAD(Groups = "CCR_Report")]
+        [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         public ViewResult Index(int? page)
         {
             var reportTable = db.ReportTable.Include(r => r.MembersTable).Include(r => r.MembersTable1);
@@ -34,12 +33,14 @@ namespace Project_REPORT_v7.Controllers
             return View(reportTable.OrderByDescending(s => s.Date).ToPagedList(pageNumber, pageSize));
         }
 
+        [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult IndexHome()
         {
             var reportTable = db.ReportTable.Include(r => r.MembersTable).Include(r => r.MembersTable1).OrderByDescending(s => s.Date).ThenBy(t => t.Shift);
             return PartialView("IndexHome", reportTable.Take(5));
         }
 
+        [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Filter(DateTime? fromDT, DateTime? toDT, int? page)
         {
             var reportTable = db.ReportTable.Include(r => r.MembersTable).Include(r => r.MembersTable1);
@@ -68,6 +69,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: ReportTables/Details/5
+        [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Details(Guid? id)
         {
             if (id == null)
@@ -95,6 +97,7 @@ namespace Project_REPORT_v7.Controllers
 
         //[AuthorizeAD(Groups = "CCR_Report_Control")]
         // GET: ReportTables/Create
+        [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Create()
         {
             return View();
@@ -158,7 +161,7 @@ namespace Project_REPORT_v7.Controllers
 
 
         // GET: ReportTables/Edit/5
-        //[AuthorizeAD(Groups = "CCR_Report_Control")]
+        [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
@@ -224,7 +227,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: ReportTables/Delete/5
-        //[AuthorizeAD(Groups = "CCR_Report_Admin")]
+        [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Delete(Guid? id)
         {
             if (id == null)

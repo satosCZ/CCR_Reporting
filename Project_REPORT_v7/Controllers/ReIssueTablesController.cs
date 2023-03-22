@@ -9,19 +9,18 @@ using System.Security.AccessControl;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
-using Project_REPORT_v7.App_Start;
 using Project_REPORT_v7.Controllers.Addon;
 using Project_REPORT_v7.Models;
 
 namespace Project_REPORT_v7.Controllers
 {
-    //[AuthorizeAD(Groups = "CCR_Report")]
+
     public class ReIssueTablesController : Controller
     {
         private ReportDBEntities1 db = new ReportDBEntities1();
 
         // GET: ReIssueTables
-        //[AuthorizeAD(Groups = "CCR_Report")]
+        [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         public PartialViewResult _index()
         {
             var reIssueTable = db.ReIssueTable.Include(p => p.ReportTable);
@@ -29,7 +28,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: ReIssueTables/CreateMultiple
-        //[AuthorizeAD(Groups = "CCR_Report_Control")]
+        [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         [HttpGet]
         public ActionResult CreateMultiple()
         {
@@ -39,7 +38,6 @@ namespace Project_REPORT_v7.Controllers
 
         // POST: ReIssueTables/CreateMultiple
         // To protect from overposting attacks, enable the specific properties you want to bind to, for more details se https://go.microsoft.com/fwlink/?LinkId=317598 .
-        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult CreateMultiple(TimeSpan time, string user, string objective, string bodyNum)
@@ -106,6 +104,7 @@ namespace Project_REPORT_v7.Controllers
 
         // GET: ReIssueTables/Edit/5
         //[AuthorizeAD(Groups = "CCR_Report_Control")]
+        [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         [HttpGet]
         public ActionResult Edit(Guid? id)
         {
@@ -148,7 +147,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: ReIssueTables/Delete/5
-        //[AuthorizeAD(Groups = "CCR_Report_Control")]
+        [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
@@ -165,7 +164,6 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // POST: ReIssueTables/Delete/5
-        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)

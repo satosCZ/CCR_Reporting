@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -6,7 +8,7 @@ namespace Project_REPORT_v7.Controllers.Addon
 {
     public class AuthorizeADAttribute : AuthorizeAttribute
     {
-        private bool _autenticated;
+        private bool _authenticated;
         private bool _authorized;
 
         public string Groups { get; set; }
@@ -15,17 +17,16 @@ namespace Project_REPORT_v7.Controllers.Addon
         {
             base.HandleUnauthorizedRequest(filterContext);
 
-            if (!_authorized && _autenticated)
+            if (_authenticated && !_authorized)
             {
-                filterContext.Result = new RedirectResult("/Home/NotAuthorized");
+                filterContext.Result = new RedirectResult("/Error/Error302");
             }
         }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            _autenticated =  base.AuthorizeCore(httpContext);
-
-            if (_autenticated)
+            _authenticated = base.AuthorizeCore(httpContext);
+            if (_authenticated)
             {
                 if (string.IsNullOrEmpty(Groups))
                 {
@@ -35,18 +36,14 @@ namespace Project_REPORT_v7.Controllers.Addon
 
                 var groups = Groups.Split(',');
                 string username = httpContext.User.Identity.Name;
-
                 try
                 {
-                    //_authorized = LDAPHelper.UserIsMemberOfGroups(username, groups);
-                    if (_authorized && groups.Contains("CCR_Report_Admin")) 
-                    {
-
-                    }
+                    _authorized = LDAPHelper.UserIsMemberOfGroups(username, groups);
                     return _authorized;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    //this.Log().Error(() => "Error attempting to authorize user", ex);
                     _authorized = false;
                     return _authorized;
                 }

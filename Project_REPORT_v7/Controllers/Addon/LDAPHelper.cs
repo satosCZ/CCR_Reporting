@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.DirectoryServices.AccountManagement;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Web;
 
 namespace Project_REPORT_v7.Controllers.Addon
@@ -25,14 +28,13 @@ namespace Project_REPORT_v7.Controllers.Addon
 
         public static bool ParseLDAPConnectionString(out Uri ldapUri)
         {
-            string connString = ConfigurationManager.ConnectionStrings["ADService"].ConnectionString;
-
+            string connString = ConfigurationManager.ConnectionStrings["ADConnectionString"].ConnectionString;
             return Uri.TryCreate(connString, UriKind.Absolute, out ldapUri);
         }
 
         public static bool UserIsMemberOfGroups(string username, string[] groups)
         {
-            /* Return true immediately if the authorization is not locked down to any particular AD group */
+            // Return true immediately if the authorization is not locked down to any particular AD group
             if (groups == null || groups.Length == 0)
             {
                 return true;
@@ -51,7 +53,6 @@ namespace Project_REPORT_v7.Controllers.Addon
                     }
                 }
             }
-
             return false;
         }
 

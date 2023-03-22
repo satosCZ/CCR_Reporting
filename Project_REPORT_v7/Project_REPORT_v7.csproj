@@ -149,13 +149,9 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\GroupAuthorize.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Addon\ADHelper.cs" />
-    <Compile Include="Controllers\Addon\AppSettings.cs" />
     <Compile Include="Controllers\Addon\AuthorizeADAttribute.cs" />
-    <Compile Include="Controllers\Addon\CustomWindowsTokenRoleProvider.cs" />
-    <Compile Include="Controllers\Addon\ImageCompress.cs" />
     <Compile Include="Controllers\Addon\LDAPHelper.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -376,6 +372,7 @@
     <Content Include="Views\Error\Error404.cshtml" />
     <Content Include="Views\Error\Error401.cshtml" />
     <Content Include="Views\Home\Information.cshtml" />
+    <Content Include="Views\Error\Error302.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
