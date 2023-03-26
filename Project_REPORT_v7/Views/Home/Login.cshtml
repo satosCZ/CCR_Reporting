@@ -1,35 +1,70 @@
-﻿@model Project_REPORT_v7.Models.MembersTable
-
-@{ 
-    ViewBag.Title = "Login";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿
+@{
+    Layout = null;
 }
 
-<div class="container-fluid">
-    <div class="page-header">
-        <h3>Login</h3>
-    </div>
-    <div class="form-horizontal">
-        @using (Html.BeginForm("Login", "Home", FormMethod.Post))
-            {
-                @Html.AntiForgeryToken()
-                <div class="form-group">
-                    @Html.LabelFor(model => model.MemberID)
-                    @Html.TextBoxFor(model => model.MemberID, "", new { @class="form-control", @placeholder = "90000xxx"})
+<!DOCTYPE html>
+<html lang="cs-CZ">
+<head>
+    <meta charset="utf-8" />
+    <meta lang="cs" />
+    <meta name="viewport" content="width=100%, initial-scale=1.0">
+    <title>CCR Report</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/signin.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/font-awesome/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/themes/base/all.css" type="text/css" />
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-2"></div>
+            <div class="col-lg-6 col-md-8 login-box">
+                <div class="col-lg-12 login-key">
+                    <i class="fa fa-key" aria-hidden="true"></i>
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Password)
-                    @Html.PasswordFor(model => model.Password, new { @class="form-control",@placeholder = "Password"})
+                <div class="col-lg-12 login-title">
+                    CCR Report Login
                 </div>
-                <div class="form-group">
-                    <input type="submit" name="submit" class="btn btn-primary" value="Login" /> 
+                <div class="col-lg-12 login-form">
+                    <div class="col-lg-12 login-form">
+                        @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                @Html.Label("ID NUMBER", htmlAttributes: new { @class = "form-control-label" })
+                                @Html.TextBox("IDLogin", null, htmlAttributes: new { @class = "form-control", @placeholder="90000***", @required = "required", @autofocus = "autofocus" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("PASSWORD", htmlAttributes: new { @class = "form-control-label" })
+                                @Html.Password("Password", null, htmlAttributes: new { @class = "form-control", @placeholder="***********", @required = "required" })
+                            </div>
+                            <div class="col-lg-12 login-btn">
+                                <div class="col-lg-6 login-btm login-text">
+                                    <!-- Error Nessage -->
+                                </div>
+                                <div class="col-lg-6 login-btm login-button">
+                                    <input type="submit" name="submit" class="btn btn-outline-primary" value="LOGIN" />
+                                </div>
+                            </div>
+
+                        }
+                    </div>
                 </div>
-            }
-        <br />
-        <div class="info">
-            <p>Register: </p><a href="@Url.Action("Register", "Home")" class="alert-link">here</a>
+            </div>
+            <div class="col-lg-3 col-md-2"></div>
         </div>
-
-
     </div>
-</div>
+</body>
+</html>
+
+@*@using (Html.BeginForm("Login", "Home", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.TextBox("IDLogin", null, htmlAttributes: new { @class = "form-control", @placeholder = "ID Number", @required = "required", @autofocus = "autofocus" })
+        @Html.Password("Password", null, htmlAttributes: new { @class = "form-control", @placeholder = "Password", @required = "required" })
+        <input type="submit" name="submit" class="btn btn-lg btn-primary btn-block" value="Sign In" />
+    }*@
