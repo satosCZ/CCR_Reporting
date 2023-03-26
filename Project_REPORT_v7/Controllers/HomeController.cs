@@ -2,12 +2,15 @@
 using Project_REPORT_v7.Models;
 using System;
 using System.Collections.Generic;
+using System.DirectoryServices;
+using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Project_REPORT_v7.Controllers
 {
@@ -45,6 +48,27 @@ namespace Project_REPORT_v7.Controllers
             return View();
         }
 
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(string IDLogin, string Password, string returnUrl) 
+        {
+            if (Membership.ValidateUser(IDLogin, Password))
+            {
+                FormsAuthentication.SetAuthCookie(IDLogin, true);
+                if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length> 1 && returnUrl.StartsWith("/") && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                {
+                    return Redirect(returnUrl);
+                }
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View();
+        }
 
         public ActionResult Logout()
         {

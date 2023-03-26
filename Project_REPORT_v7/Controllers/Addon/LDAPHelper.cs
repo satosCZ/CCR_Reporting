@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.DirectoryServices.AccountManagement;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Web;
 
 namespace Project_REPORT_v7.Controllers.Addon

@@ -1,4 +1,5 @@
-﻿using System.DirectoryServices;
+﻿using System.Configuration;
+using System.DirectoryServices;
 
 namespace Project_REPORT_v7.Controllers.Addon
 {
@@ -17,7 +18,7 @@ namespace Project_REPORT_v7.Controllers.Addon
         {
             try
             {
-                var searcher = new DirectorySearcher(new DirectoryEntry("LDAP://HNMC.cz"), $"(&(objectClass=user)(userPrincipalName={name}))");
+                var searcher = new DirectorySearcher(new DirectoryEntry(ConfigurationManager.ConnectionStrings["ADConnectionString"].ConnectionString), $"(&(objectClass=user)(userPrincipalName={name}))");
                 searcher.PropertiesToLoad.Add("sAMAccountName");
                 searcher.PropertiesToLoad.Add("givenName");
                 searcher.PropertiesToLoad.Add("mail");
