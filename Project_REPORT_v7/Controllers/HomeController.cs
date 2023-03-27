@@ -27,13 +27,14 @@ namespace Project_REPORT_v7.Controllers
             if (LDAPHelper.UserIsMemberOfGroups(User.Identity.Name, new string[] { "CCR_Report_Admin" }))
             {
                 Session["isAdmin"] = "Admin";
+                Session["Closed"] = "false";
             }
             else
             {
                 Session["isAdmin"] = "NonAdmin";
             }
-                Session["isAdmin"] = "Admin";
-                Session["User"] = HttpContext.User.Identity.Name.ToString();
+            //Session["isAdmin"] = "Admin";
+            //Session["User"] = HttpContext.User.Identity.Name.ToString();
             if (!member.CheckMember(ad.MemberID))
             {
                 if (member.AddMember(ad.MemberID, ad.MemberName, ad.MemberEmail))
