@@ -23,28 +23,28 @@ namespace Project_REPORT_v7.Controllers
         public ActionResult Index()
         {
             MembersTablesController member = new MembersTablesController();
-            //ADHelper ad = new ADHelper(User.Identity.Name);
-            //if (LDAPHelper.UserIsMemberOfGroups(User.Identity.Name, new string[] {"CCR_Report_Admin"}))
-            //{
-            //    Session["isAdmin"] = "Admin";
-            //}
-            //else
-            //{
-            //    Session["isAdmin"] = "NonAdmin";
-            //}
-            Session["isAdmin"] = "Admin";
-            Session["User"] = HttpContext.User.Identity.Name.ToString();
-            //if (!member.CheckMember(ad.MemberID))
-            //{
-            //    if (member.AddMember(ad.MemberID, ad.MemberName, ad.MemberEmail))
-            //    {
-            //        Session["User"] = ad.MemberName;
-            //    }
-            //    else
-            //    {
-            //        Session["User"] = "Unknown";
-            //    }
-            //}
+            ADHelper ad = new ADHelper(User.Identity.Name);
+            if (LDAPHelper.UserIsMemberOfGroups(User.Identity.Name, new string[] { "CCR_Report_Admin" }))
+            {
+                Session["isAdmin"] = "Admin";
+            }
+            else
+            {
+                Session["isAdmin"] = "NonAdmin";
+            }
+                Session["isAdmin"] = "Admin";
+                Session["User"] = HttpContext.User.Identity.Name.ToString();
+            if (!member.CheckMember(ad.MemberID))
+            {
+                if (member.AddMember(ad.MemberID, ad.MemberName, ad.MemberEmail))
+                {
+                    Session["User"] = ad.MemberName;
+                }
+                else
+                {
+                    Session["User"] = "Unknown";
+                }
+            }
             return View();
         }
 
