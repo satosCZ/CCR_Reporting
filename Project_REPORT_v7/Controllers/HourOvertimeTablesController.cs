@@ -42,25 +42,24 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "OvertimeID,Time,Duration,Shop,Type,Description,Cooperation,ReportID")] HourOvertimeTable hourOvertimeTable)
         {
-            try
+            Guid passID = (Guid)TempData["ActiveGUID"];
+            if (ModelState.IsValid)
             {
-                Guid passID = (Guid)TempData["ActiveGUID"];
-                if (ModelState.IsValid)
-                {
-                    hourOvertimeTable.OvertimeID = Guid.NewGuid();
-                    hourOvertimeTable.ReportID = passID;
-                    db.HourOvertimeTable.Add(hourOvertimeTable);
-                    db.SaveChanges();
-                    return Json(new { success = true });
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
+                hourOvertimeTable.OvertimeID = Guid.NewGuid();
+                hourOvertimeTable.ReportID = passID;
+                db.HourOvertimeTable.Add(hourOvertimeTable);
+
+                int userID;
+                if (int.TryParse(Session["UserID"].ToString(), out userID))
+                    LogHelper.AddLog(DateTime.Now, "HourOvertime | Create", $"Time:{hourOvertimeTable.Time} Duration:{hourOvertimeTable.Duration} Shop:{hourOvertimeTable.Shop} Type:{hourOvertimeTable.Type} Description:{hourOvertimeTable.Description} Cooperation:{hourOvertimeTable.Cooperation}", userID);
+
+                db.SaveChanges();
+                return Json(new { success = true });
             }
 
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", hourOvertimeTable.ReportID);
-            return Json(new { success = false });    
+            //return Json(new { success = false });
+            return Json(hourOvertimeTable, JsonRequestBehavior.AllowGet);
         }
 
         // GET: HourOvertimeTables/Edit/5
@@ -88,20 +87,16 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "OvertimeID,Time,Duration,Shop,Type,Description,Cooperation,ReportID")] HourOvertimeTable hourOvertimeTable)
         {
-            try
+            Guid passID = (Guid)TempData["ActiveGUID"];
+            if (ModelState.IsValid)
             {
-                Guid passID = (Guid)TempData["ActiveGUID"];
-                if (ModelState.IsValid)
-                {
-                    hourOvertimeTable.ReportID = passID;
-                    db.Entry(hourOvertimeTable).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return Json(new { success = true });
-                }
-            }
-            catch(Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
+                hourOvertimeTable.ReportID = passID;
+                db.Entry(hourOvertimeTable).State = EntityState.Modified;
+                int userID;
+                if (int.TryParse(Session["UserID"].ToString(), out userID))
+                    LogHelper.AddLog(DateTime.Now, "HourOvertime | Edit", $"Time:{hourOvertimeTable.Time} Duration:{hourOvertimeTable.Duration} Shop:{hourOvertimeTable.Shop} Type:{hourOvertimeTable.Type} Description:{hourOvertimeTable.Description} Cooperation:{hourOvertimeTable.Cooperation}", userID);
+                db.SaveChanges();
+                return Json(new { success = true });
             }
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", hourOvertimeTable.ReportID);
             return Json(new { success = false });
@@ -131,6 +126,9 @@ namespace Project_REPORT_v7.Controllers
         {
             HourOvertimeTable hourOvertimeTable = db.HourOvertimeTable.Find(id);
             db.HourOvertimeTable.Remove(hourOvertimeTable);
+            int userID;
+            if (int.TryParse(Session["UserID"].ToString(), out userID))
+                LogHelper.AddLog(DateTime.Now, "HourOvertime | Delete", $"Time:{hourOvertimeTable.Time} Duration:{hourOvertimeTable.Duration} Shop:{hourOvertimeTable.Shop} Type:{hourOvertimeTable.Type} Description:{hourOvertimeTable.Description} Cooperation:{hourOvertimeTable.Cooperation}", userID);
             db.SaveChanges();
             return Json(new { success = true });
         }

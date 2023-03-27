@@ -72,9 +72,9 @@ namespace Project_REPORT_v7.Controllers
                     db.ReIssueTable.AddRange(multiple);
                     // Remove comments to enable logging
 
-                    //int userID;
-                    //if (int.TryParse(Session["User"].ToString(), out userID))
-                    //    LogClass.AddLog(DateTime.Now, "ReIssueTable|CreateMultiple", $"Created new Reissue, Time:{time} Who:{user} Where:{objective} BodyNums:{bodyNum}", userID);
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "ReIssueTable | CreateMultiple", $"Time:{time} Who:{user} Where:{objective} BodyNums:{bodyNum}", userID);
 
                     db.SaveChanges();
                     return Json(new { success = true });
@@ -91,9 +91,9 @@ namespace Project_REPORT_v7.Controllers
                     db.ReIssueTable.Add(reIssueTable);
                     // Remove comments to enable logging
 
-                    //int userID;
-                    //if (int.TryParse(Session["User"].ToString(), out userID))
-                    //    LogClass.AddLog(DateTime.Now, "ReIssueTable|Create", $"Created new Reissue, Time:{time} Who:{user} Where:{objective} BodyNum:{bodyNum}", userID);
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "ReIssueTable | Create", $"Time:{time} Who:{user} Where:{objective} BodyNum:{bodyNum}", userID);
 
                     db.SaveChanges();
                     return Json(new { success = true });
@@ -134,11 +134,9 @@ namespace Project_REPORT_v7.Controllers
             {
                 reIssueTable.ReportID = passID;
                 db.Entry(reIssueTable).State = EntityState.Modified;
-                // Remove comments to enable logging
-
-                //int userID;
-                //if (int.TryParse(Session["User"].ToString(), out userID))
-                //    LogClass.AddLog(DateTime.Now, "ReIssueTable|Edit", $"Edited Reissue, Time:{reIssueTable.Time} Who:{reIssueTable.User} Where:{reIssueTable.Objective} BodyNum:{reIssueTable.BodyNum}", userID);
+                int userID;
+                if (int.TryParse(Session["UserID"].ToString(), out userID))
+                    LogHelper.AddLog(DateTime.Now, "ReIssueTable | Edit", $"Time:{reIssueTable.Time} Who:{reIssueTable.User} Where:{reIssueTable.Objective} BodyNum:{reIssueTable.BodyNum}", userID);
                 db.SaveChanges();
                 return Json(new { success = true });
             }
@@ -173,9 +171,9 @@ namespace Project_REPORT_v7.Controllers
             db.ReIssueTable.Remove(reIssueTable);
             // Remove comments to enable logging
 
-            //int userID;
-            //if (int.TryParse(Session["User"].ToString(), out userID))
-            //    LogClass.AddLog(DateTime.Now, "ReIssueTable|Delete", $"Deleted Reissue, Time:{reIssueTable.Time} Who:{reIssueTable.User} Where:{reIssueTable.Objective} BodyNum:{reIssueTable.BodyNum}", userID);
+            int userID;
+            if (int.TryParse(Session["UserID"].ToString(), out userID))
+                LogHelper.AddLog(DateTime.Now, "ReIssueTable | Delete", $"Time:{reIssueTable.Time} Who:{reIssueTable.User} Where:{reIssueTable.Objective} BodyNum:{reIssueTable.BodyNum}", userID);
             db.SaveChanges();
             return Json(new { success = true });
         }

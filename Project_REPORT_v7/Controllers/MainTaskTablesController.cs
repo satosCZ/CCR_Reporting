@@ -96,9 +96,9 @@ namespace Project_REPORT_v7.Controllers
                 db.MainTaskTable.Add(mainTaskTable);
                 // Remove comments to enable logging
 
-                //int userID;
-                //if (int.TryParse(Session["User"].ToString(), out userID))
-                //    LogClass.AddLog(DateTime.Now, "MainTaskTable|Create", $"Created new Main task, Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
+                int userID;
+                if (int.TryParse(Session["UserID"].ToString(), out userID))
+                    LogHelper.AddLog(DateTime.Now, "MainTaskTable | Create", $"Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
                 db.SaveChanges();
                 return Json(new { success = true });
             }
@@ -139,9 +139,9 @@ namespace Project_REPORT_v7.Controllers
                 db.Entry(mainTaskTable).State = EntityState.Modified;
                 // Remove comments to enable logging
 
-                //int userID;
-                //if (int.TryParse(Session["User"].ToString(), out userID))
-                //    LogClass.AddLog(DateTime.Now, "MainTaskTable|Edit", $"Edited Main task, Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
+                int userID;
+                if (int.TryParse(Session["UserID"].ToString(), out userID))
+                    LogHelper.AddLog(DateTime.Now, "MainTaskTable | Edit", $"Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
                 db.SaveChanges();
                 return Json(new { success = true });
             }
@@ -175,9 +175,9 @@ namespace Project_REPORT_v7.Controllers
             db.MainTaskTable.Remove(mainTaskTable);
             // Remove comments to enable logging
 
-            //int userID;
-            //if (int.TryParse(Session["User"].ToString(), out userID))
-            //    LogClass.AddLog(DateTime.Now, "MainTaskTable|Delete", $"Deleted Main task, Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
+            int userID;
+            if (int.TryParse(Session["UserID"].ToString(), out userID))
+                LogHelper.AddLog(DateTime.Now, "MainTaskTable | Delete", $"Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
             db.SaveChanges();
             return Json(new { success = true });
         }

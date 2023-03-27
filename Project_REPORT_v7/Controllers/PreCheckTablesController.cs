@@ -45,18 +45,13 @@ namespace Project_REPORT_v7.Controllers
                 preCheckTable.PreCheckID = Guid.NewGuid();
                 preCheckTable.ReportID = passID;
                 db.PreCheckTable.Add(preCheckTable);
-                // Remove comments to enable logging
-
-                //int userID;
-                //if (int.TryParse(Session["User"].ToString(), out userID))
-                //    LogClass.AddLog(DateTime.Now, "PreCheckTable|Create", $"Created new Pre-Check, Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
+                int userID;
+                if (int.TryParse(Session["UserID"].ToString(), out userID))
+                    LogHelper.AddLog(DateTime.Now, "PreCheckTable | Create", $"Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
                 db.SaveChanges();
                 return Json(new { success = true });
-                
             }
-
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", preCheckTable.ReportID);
-           
             return Json (preCheckTable, JsonRequestBehavior.AllowGet);
         }
 
@@ -92,9 +87,9 @@ namespace Project_REPORT_v7.Controllers
                 db.Entry(preCheckTable).State = EntityState.Modified;
                 // Remove comments to enable logging
 
-                //int userID;
-                //if (int.TryParse(Session["User"].ToString(), out userID))
-                //    LogClass.AddLog(DateTime.Now, "PreCheckTable|Edit", $"Edited Pre-Check, Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
+                int userID;
+                if (int.TryParse(Session["UserID"].ToString(), out userID))
+                    LogHelper.AddLog(DateTime.Now, "PreCheckTable | Edit", $"Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
 
                 db.SaveChanges();
                 return Json(new { success = true });
@@ -132,15 +127,15 @@ namespace Project_REPORT_v7.Controllers
                 db.PreCheckTable.Remove(preCheckTable);
                 // Remove comments to enable logging
 
-                //int userID;
-                //if (int.TryParse(Session["User"].ToString(), out userID))
-                //    LogClass.AddLog(DateTime.Now, "PreCheckTable|Delete", $"Deleted Pre-Check, Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
+                int userID;
+                if (int.TryParse(Session["UserID"].ToString(), out userID))
+                    LogHelper.AddLog(DateTime.Now, "PreCheckTable | Delete", $"Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
                 db.SaveChanges();
                 return Json(new { success = true });
             }
             catch (Exception)
             {
-                throw;
+                return Json(new { success = false });
             }
             
         }

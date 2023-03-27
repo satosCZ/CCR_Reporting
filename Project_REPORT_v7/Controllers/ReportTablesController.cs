@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
 using System.Diagnostics;
-using System.DirectoryServices.AccountManagement;
-using System.Drawing.Printing;
 using System.Linq;
 using System.Net;
-using System.Runtime.Remoting.Contexts;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using PagedList;
 using Project_REPORT_v7.Controllers.Addon;
 using Project_REPORT_v7.Models;
@@ -80,14 +73,14 @@ namespace Project_REPORT_v7.Controllers
             TempData["ActiveGUID"] = (Guid)id;
             ViewData["ActiveGUID"] = (Guid)id;
             ViewBag.Parent = (Guid)id;
-            //if (reportTable.Date >= DateTime.Now.AddHours(-9) || Session["isAdmin"].ToString() == "Admin")
-            //{
-            //    TempData["Closed"] = false;
-            //}
-            //else
-            //{
-            //    TempData["Closed"] = true;
-            //}
+            if (reportTable.Date >= DateTime.Now.AddHours(-9).AddMinutes(-10) || Session["isAdmin"].ToString() == "Admin")
+            {
+                Session["Closed"] = "false";
+            }
+            else
+            {
+                TempData["Closed"] = "true";
+            }
             if (reportTable == null)
             {
                 return HttpNotFound();
@@ -137,17 +130,17 @@ namespace Project_REPORT_v7.Controllers
                 {
                     // Remove comments to enable logging
 
-                    //try
-                    //{
-                    //    int userID;
-                    //    if (int.TryParse(Session["User"].ToString(), out userID))
-                    //        LogClass.AddLog(DateTime.Now, "ReportTable|Create", $"Created new Report,ID:{reportTable.ReportID} Date:{reportTable.Date} Shift:{reportTable.Shift} M1:{reportTable.Member_One_ID} M2:{reportTable.Member_Two_ID}", userID);
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    Debug.WriteLine("ReportTablesController || Create-LOG || " + ex.Message);
-                    //}
-                    
+                    try
+                    {
+                        int userID;
+                        if (int.TryParse(Session["UserID"].ToString(), out userID))
+                            LogHelper.AddLog(DateTime.Now, "ReportTable | Create", $"ID:{reportTable.ReportID} Date:{reportTable.Date} Shift:{reportTable.Shift} M1:{reportTable.Member_One_ID} M2:{reportTable.Member_Two_ID}", userID);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("ReportTablesController || Create-LOG || " + ex.Message);
+                    }
+
                 }
                 db.ReportTable.Add(reportTable);
                 db.SaveChanges();
@@ -211,13 +204,13 @@ namespace Project_REPORT_v7.Controllers
                 }
                 // Remove comments to enable logging
 
-                //try
-                //{
-                //int userID;
-                //if (int.TryParse(Session["User"].ToString(), out userID))
-                //    LogClass.AddLog(DateTime.Now, "ReportTable|Edit", $"Edited Report,ID:{reportTable.ReportID} Date:{reportTable.Date} Shift:{reportTable.Shift} M1:{reportTable.Member_One_ID} M2:{reportTable.Member_Two_ID}", userID);
-                //}
-                //catch {}
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "ReportTable | Edit", $"ID:{reportTable.ReportID} Date:{reportTable.Date} Shift:{reportTable.Shift} M1:{reportTable.Member_One_ID} M2:{reportTable.Member_Two_ID}", userID);
+                }
+                catch { }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -278,9 +271,9 @@ namespace Project_REPORT_v7.Controllers
 
             // Remove comments to enable logging
 
-            //int userID;
-            //if (int.TryParse(Session["User"].ToString(), out userID))
-            //    LogClass.AddLog(DateTime.Now, "ReportTable|Delete", $"Deleted entire Report with everything that was inside,ID:{reportTable.ReportID} Date:{reportTable.Date} Shift:{reportTable.Shift} M1:{reportTable.Member_One_ID} M2:{reportTable.Member_Two_ID}", userID);
+            int userID;
+            if (int.TryParse(Session["UserID"].ToString(), out userID))
+                LogHelper.AddLog(DateTime.Now, "ReportTable | Delete", $"ID:{reportTable.ReportID} Date:{reportTable.Date} Shift:{reportTable.Shift} M1:{reportTable.Member_One_ID} M2:{reportTable.Member_Two_ID}", userID);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

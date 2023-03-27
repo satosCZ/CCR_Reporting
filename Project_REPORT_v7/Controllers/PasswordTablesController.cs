@@ -92,9 +92,9 @@ namespace Project_REPORT_v7.Controllers
                 passwordTable.ReportID = passID;
                 db.PasswordTable.Add(passwordTable);
                 // Remove comments to enable logging
-                //int userID;
-                //if (int.TryParse(Session["User"].ToString(), out userID))
-                //    LogClass.AddLog(DateTime.Now, "PasswordTable|Create", $"Created new Password issue, Time:{passwordTable.Time} Full Name:{passwordTable.FullName} UserID:{passwordTable.UserID} System:{passwordTable.System} ", userID);
+                int userID;
+                if (int.TryParse(Session["UserID"].ToString(), out userID))
+                    LogHelper.AddLog(DateTime.Now, "PasswordTable | Create", $"Time:{passwordTable.Time} Full Name:{passwordTable.FullName} UserID:{passwordTable.UserID} System:{passwordTable.System} ", userID);
                 db.SaveChanges();
                 return Json (new { success = true });
             }
@@ -135,9 +135,9 @@ namespace Project_REPORT_v7.Controllers
                 db.Entry(passwordTable).State = EntityState.Modified;
                 // Remove comments to enable logging
 
-                //int userID;
-                //if (int.TryParse(Session["User"].ToString(), out userID))
-                //    LogClass.AddLog(DateTime.Now, "PasswordTable|Edit", $"Edited Password issue, Time:{passwordTable.Time} Full Name:{passwordTable.FullName} UserID:{passwordTable.UserID} System:{passwordTable.System} ", userID);
+                int userID;
+                if (int.TryParse(Session["UserID"].ToString(), out userID))
+                    LogHelper.AddLog(DateTime.Now, "PasswordTable | Edit", $"Time:{passwordTable.Time} Full Name:{passwordTable.FullName} UserID:{passwordTable.UserID} System:{passwordTable.System} ", userID);
                 db.SaveChanges();
                 return Json(new { success = true });
             }
@@ -171,9 +171,9 @@ namespace Project_REPORT_v7.Controllers
             db.PasswordTable.Remove(passwordTable);
             // Remove comments to enable logging
 
-            //int userID;
-            //if (int.TryParse(Session["User"].ToString(), out userID))
-            //    LogClass.AddLog(DateTime.Now, "PasswordTable|Delete", $"Deleted Password issue, Time:{passwordTable.Time} Full Name:{passwordTable.FullName} UserID:{passwordTable.UserID} System:{passwordTable.System} ", userID);
+            int userID;
+            if (int.TryParse(Session["UserID"].ToString(), out userID))
+                LogHelper.AddLog(DateTime.Now, "PasswordTable | Delete", $"Time:{passwordTable.Time} Full Name:{passwordTable.FullName} UserID:{passwordTable.UserID} System:{passwordTable.System} ", userID);
             db.SaveChanges();
             return Json(new { success = true });
         }

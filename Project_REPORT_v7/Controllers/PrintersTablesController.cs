@@ -48,9 +48,9 @@ namespace Project_REPORT_v7.Controllers
                 db.PrintersTable.Add(printersTable);
                 // Remove comments to enable logging
 
-                //int userID;
-                //if (int.TryParse(Session["User"].ToString(), out userID))
-                //    LogClass.AddLog(DateTime.Now, "PrintersTable|Create", $"Created new Printer issue, Time:{printersTable.Time} Who:{printersTable.User} What:{printersTable.Objective} Printer:{printersTable.Printer}", userID);
+                int userID;
+                if (int.TryParse(Session["UserID"].ToString(), out userID))
+                    LogHelper.AddLog(DateTime.Now, "PrintersTable | Create", $"Time:{printersTable.Time} Who:{printersTable.User} What:{printersTable.Objective} Printer:{printersTable.Printer}", userID);
                 db.SaveChanges();
                 return Json (new { success = true });
             }
@@ -91,9 +91,9 @@ namespace Project_REPORT_v7.Controllers
                 db.Entry(printersTable).State = EntityState.Modified;
                 // Remove comments to enable logging
 
-                //int userID;
-                //if (int.TryParse(Session["User"].ToString(), out userID))
-                //    LogClass.AddLog(DateTime.Now, "PrintersTable|Edit", $"Edited Printer issue, Time:{printersTable.Time} Who:{printersTable.User} What:{printersTable.Objective} Printer:{printersTable.Printer}", userID);
+                int userID;
+                if (int.TryParse(Session["UserID"].ToString(), out userID))
+                    LogHelper.AddLog(DateTime.Now, "PrintersTable | Edit", $"Time:{printersTable.Time} Who:{printersTable.User} What:{printersTable.Objective} Printer:{printersTable.Printer}", userID);
                 db.SaveChanges();
                 return Json(new { success = true });
             }
@@ -127,9 +127,9 @@ namespace Project_REPORT_v7.Controllers
             db.PrintersTable.Remove(printersTable);
             // Remove comments to enable logging
 
-            //int userID;
-            //if (int.TryParse(Session["User"].ToString(), out userID))
-            //    LogClass.AddLog(DateTime.Now, "PrintersTable|Delete", $"Deleted Printer issue, Time:{printersTable.Time} Who:{printersTable.User} What:{printersTable.Objective} Printer:{printersTable.Printer}", userID);
+            int userID;
+            if (int.TryParse(Session["UserID"].ToString(), out userID))
+                LogHelper.AddLog(DateTime.Now, "PrintersTable | Delete", $"Time:{printersTable.Time} Who:{printersTable.User} What:{printersTable.Objective} Printer:{printersTable.Printer}", userID);
             db.SaveChanges();
             return Json(new { success = true });
         }
