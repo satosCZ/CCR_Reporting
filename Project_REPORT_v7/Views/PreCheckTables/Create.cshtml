@@ -88,9 +88,12 @@
             <img src="~/Content/Animation/Rhombus.gif" alt="Wait" />
             Wait...
         </span>
-        <div id="error" class="panel-danger" aria-hidden="true">
-            <p class="text-danger">@TempData["ErrorMessage"].ToString();</p>
-        </div>
+        @if (!String.IsNullOrEmpty(TempData["ErrorMessage"].ToString()))
+        {
+            <div id="error" class="panel-danger" aria-hidden="true">
+                <p class="text-danger">@TempData["ErrorMessage"].ToString();</p>
+            </div>
+        }
         <input class="btn btn-primary" type="submit" value="Save" />
         <button class="btn btn-warning" data-dismiss="modal">Close</button>
     </div>
