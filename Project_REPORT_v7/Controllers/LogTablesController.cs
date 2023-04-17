@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Project_REPORT_v7.Models;
-using System.Diagnostics;
 using Project_REPORT_v7.Controllers.Addon;
-using System.Text.RegularExpressions;
 
 namespace Project_REPORT_v7.Controllers
 {

@@ -25,6 +25,7 @@ function bindForm(dialog) {
                     location.reload();
                 } else {
                     $('#progress').hide();
+                    $('#error').show();
                     $('#ModalPopup').html(result);
                     bindForm();
                 }

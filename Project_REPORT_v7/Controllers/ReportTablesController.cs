@@ -63,23 +63,21 @@ namespace Project_REPORT_v7.Controllers
 
         // GET: ReportTables/Details/5
         [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
-        public ActionResult Details(Guid? id)
+        public ActionResult Details(Guid id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ReportTable reportTable = db.ReportTable.Find(id);
-            TempData["ActiveGUID"] = (Guid)id;
-            ViewData["ActiveGUID"] = (Guid)id;
-            ViewBag.Parent = (Guid)id;
+            Session["ActiveGUID"] = (Guid)id;
             if (reportTable.Date >= DateTime.Now.AddHours(-9).AddMinutes(-10) || Session["isAdmin"].ToString() == "Admin")
             {
                 Session["Closed"] = "false";
             }
             else
             {
-                TempData["Closed"] = "true";
+                Session["Closed"] = "true";
             }
             if (reportTable == null)
             {

@@ -1,14 +1,5 @@
 ﻿using Project_REPORT_v7.Controllers.Addon;
 using Project_REPORT_v7.Models;
-using System;
-using System.Collections.Generic;
-using System.DirectoryServices;
-using System.DirectoryServices.AccountManagement;
-using System.Linq;
-using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -40,10 +31,12 @@ namespace Project_REPORT_v7.Controllers
                 if (member.AddMember(ad.MemberID, ad.MemberName, ad.MemberEmail))
                 {
                     Session["User"] = ad.MemberName;
+                    Session["UserID"] = ad.MemberID;
                 }
                 else
                 {
                     Session["User"] = "Unknown";
+                    Session["UserID"] = 99999999;
                 }
             }
             return View();

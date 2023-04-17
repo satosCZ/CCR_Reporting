@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
 using Project_REPORT_v7.Controllers.Addon;
 using Project_REPORT_v7.Models;
@@ -42,7 +39,15 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "OvertimeID,Time,Duration,Shop,Type,Description,Cooperation,ReportID")] HourOvertimeTable hourOvertimeTable)
         {
-            Guid passID = (Guid)TempData["ActiveGUID"];
+            Guid passID;
+            if (Session["ActiveGUID"] != null)
+                passID = (Guid)Session["ActiveGUID"];
+            else
+            {
+                // Close as 
+                TempData["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
+                return Json(this, JsonRequestBehavior.AllowGet);
+            }
             if (ModelState.IsValid)
             {
                 hourOvertimeTable.OvertimeID = Guid.NewGuid();
@@ -87,7 +92,17 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "OvertimeID,Time,Duration,Shop,Type,Description,Cooperation,ReportID")] HourOvertimeTable hourOvertimeTable)
         {
-            Guid passID = (Guid)TempData["ActiveGUID"];
+            Guid passID;
+            if (Session["ActiveGUID"] != null)
+            {
+                passID = (Guid)Session["ActiveGUID"];
+            }
+            else
+            {
+                // Close as 
+                TempData["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
+                return Json(this, JsonRequestBehavior.AllowGet);
+            }
             if (ModelState.IsValid)
             {
                 hourOvertimeTable.ReportID = passID;

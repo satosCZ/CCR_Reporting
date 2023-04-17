@@ -43,13 +43,15 @@ namespace Project_REPORT_v7.Controllers
         public JsonResult CreateMultiple(TimeSpan time, string user, string objective, string bodyNum)
         {
             Guid passID;
-            if (TempData["ActiveGUID"] != null)
-                passID = (Guid)TempData["ActiveGUID"];
-            else if (ViewData["ActiveGUID"] != null)
-                passID = (Guid)ViewData["ActiveGUID"];
+            if (Session["ActiveGUID"] != null)
+                passID = (Guid)Session["ActiveGUID"];
             else
-                passID = (Guid)ViewBag.Parent;
-            
+            {
+                // Close as
+                TempData["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
+                return Json(this, JsonRequestBehavior.AllowGet);
+            }
+
             if (ModelState.IsValid)
             {
                 if (bodyNum.Contains("\r\n"))
@@ -129,7 +131,17 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ReIssueID,Time,User,Objective,BodyNum,ReportID")] ReIssueTable reIssueTable)
         {
-            Guid passID = (Guid)TempData["ActiveGUID"];
+            Guid passID;
+            if (Session["ActiveGUID"] != null)
+            {
+                passID = (Guid)Session["ActiveGUID"];
+            }
+            else
+            {
+                // Close as 
+                TempData["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
+                return Json(this, JsonRequestBehavior.AllowGet);
+            }
             if (ModelState.IsValid)
             {
                 reIssueTable.ReportID = passID;
@@ -166,7 +178,7 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            Guid passID = (Guid)TempData["ActiveGUID"];
+            Guid passID = (Guid)Session["ActiveGUID"];
             ReIssueTable reIssueTable = db.ReIssueTable.Find(id);
             db.ReIssueTable.Remove(reIssueTable);
             // Remove comments to enable logging

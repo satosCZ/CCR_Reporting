@@ -108,10 +108,13 @@
         </div>
     </div>
     <div class="modal-footer">
-        <span id="progress" class="text-center">
+        <span id="progress" class="text-center center-block">
             <img src="~/Content/Animation/Rhombus.gif" alt="Wait" />
             Wait...
         </span>
+        <div id="error" class="panel-danger" aria-hidden="true">
+            <p class="text-danger">@TempData["ErrorMessage"].ToString();</p>
+        </div>
         <input class="btn btn-primary" type="submit" value="Save" />
         <button class="btn btn-warning" data-dismiss="modal">Close</button>
     </div>
