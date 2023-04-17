@@ -31,6 +31,12 @@ namespace Project_REPORT_v7
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("cs-CZ");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("cs-CZ");
+
+            // Redirect HTTP to HTTPS
+            if (!Context.Request.IsSecureConnection)
+            {
+                Response.Redirect(Context.Request.Url.ToString().Replace("http:", "https:"));
+            }
         }
         //public void Application_Error(Object sender, EventArgs e)
         //{
