@@ -37,6 +37,7 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "PrinterID,Time,User,Objective,Printer,ReportID")] PrintersTable printersTable)
         {
+            TempData["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
                 passID = (Guid)Session["ActiveGUID"];
@@ -89,6 +90,7 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "PrinterID,Time,User,Objective,Printer,ReportID")] PrintersTable printersTable)
         {
+            TempData["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
             {

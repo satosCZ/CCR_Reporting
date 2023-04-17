@@ -42,6 +42,7 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult CreateMultiple(TimeSpan time, string user, string objective, string bodyNum)
         {
+            TempData["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
                 passID = (Guid)Session["ActiveGUID"];
@@ -131,6 +132,7 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ReIssueID,Time,User,Objective,BodyNum,ReportID")] ReIssueTable reIssueTable)
         {
+            TempData["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
             {

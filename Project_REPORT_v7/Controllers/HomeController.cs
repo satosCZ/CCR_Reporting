@@ -24,8 +24,7 @@ namespace Project_REPORT_v7.Controllers
             {
                 Session["isAdmin"] = "NonAdmin";
             }
-            //Session["isAdmin"] = "Admin";
-            //Session["User"] = HttpContext.User.Identity.Name.ToString();
+
             if (!member.CheckMember(ad.MemberID))
             {
                 if (member.AddMember(ad.MemberID, ad.MemberName, ad.MemberEmail))
@@ -38,6 +37,11 @@ namespace Project_REPORT_v7.Controllers
                     Session["User"] = "Unknown";
                     Session["UserID"] = 99999999;
                 }
+            }
+            else
+            {
+                Session["User"] = $"{ad.MemberName} [{ad.MemberID}]";
+                Session["UserID"] = ad.MemberID;
             }
             return View();
         }

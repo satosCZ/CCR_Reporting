@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Project_REPORT_v7.Models.PasswordTable>
 
-@if (TempData["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
+@if (Session["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
 {
     <p>
         <a class="btn btn-success" data-modal="" href="/PasswordTables/Create" id="btnPasswordTableCreate">
@@ -22,7 +22,7 @@
         <th class="text-center">
             @Html.DisplayNameFor(model => model.System)
         </th>
-        @if (TempData["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
+        @if (Session["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
         {
             <th class="text-center">Actions</th>
         }
@@ -44,7 +44,7 @@
                 @Html.DisplayFor(modelItem => item.System)
             </td>
 
-            @if (TempData["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
+            @if (Session["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
             {
                 <td class="text-center col-md-1">
                     <input type="hidden" value="@item.PasswordID" class="passwordID" />

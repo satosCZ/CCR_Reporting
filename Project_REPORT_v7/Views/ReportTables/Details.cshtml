@@ -3,9 +3,9 @@
 @{
     ViewBag.Title = Model.Date;
     if (Model.Date >= DateTime.Now.AddHours(-8).AddMinutes(-10))
-    { TempData["Closed"] = "false"; }
+    { Session["Closed"] = "false"; }
     else
-    { TempData["Closed"] = "true"; }
+    { Session["Closed"] = "true"; }
 }
 
 <script>

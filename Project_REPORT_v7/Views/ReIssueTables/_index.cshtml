@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Project_REPORT_v7.Models.ReIssueTable>
 
-@if (TempData["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
+@if (Session["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
 {
 
     <p>
@@ -23,7 +23,7 @@
         <th class="text-center">
             @Html.DisplayNameFor(model => model.BodyNum)
         </th>
-        @if (TempData["Closed"].Equals("false") || Session["isAdmin"].Equals("Admin"))
+        @if (Session["Closed"].Equals("false") || Session["isAdmin"].Equals("Admin"))
         {
             <th class="text-center">Actions</th>
         }
@@ -45,7 +45,7 @@
                 @Html.DisplayFor(modelItem => item.BodyNum)
             </td>
 
-            @if (TempData["Closed"].Equals("false") || Session["isAdmin"].Equals("Admin"))
+            @if (Session["Closed"].Equals("false") || Session["isAdmin"].Equals("Admin"))
             {
                 <td class="text-center col-md-1">
                     <input type="hidden" value="@item.ReIssueID" class="reissueID" />

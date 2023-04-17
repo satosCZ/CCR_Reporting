@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Project_REPORT_v7.Models.MainTaskTable>
 
 
-@if (TempData["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
+@if (Session["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
 {
     <p>
         <a class="btn btn-success" data-modal="" href="/MainTaskTables/Create" id="MainTaskCreate">
@@ -33,7 +33,7 @@
         <th class="text-center">
             @Html.DisplayNameFor(model => model.Cooperation)
         </th>
-        @if (TempData["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
+        @if (Session["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
         {
             <th class="text-center">Actions</th>
         }
@@ -63,7 +63,7 @@
             <td class="text-center" style="vertical-align:middle;">
                 @Html.DisplayFor(modelItem => item.Cooperation)
             </td>
-            @if (TempData["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
+            @if (Session["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
             {
                 <td class="text-center" style="vertical-align:middle;">
                     <input type="hidden" value="@item.MainTaskID" class="maintaskID" />

@@ -39,6 +39,7 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "OvertimeID,Time,Duration,Shop,Type,Description,Cooperation,ReportID")] HourOvertimeTable hourOvertimeTable)
         {
+            TempData["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
                 passID = (Guid)Session["ActiveGUID"];
@@ -92,6 +93,7 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "OvertimeID,Time,Duration,Shop,Type,Description,Cooperation,ReportID")] HourOvertimeTable hourOvertimeTable)
         {
+            TempData["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
             {

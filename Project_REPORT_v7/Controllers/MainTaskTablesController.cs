@@ -85,6 +85,7 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "MainTaskID,Time,Duration,Shop,System,Problem,Solution,Cooperation,ReportID")] MainTaskTable mainTaskTable)
         {
+            TempData["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
                 passID = (Guid)Session["ActiveGUID"];
@@ -135,6 +136,7 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MainTaskID,Time,Duration,Shop,System,Problem,Solution,Cooperation,ReportID")] MainTaskTable mainTaskTable)
         {
+            TempData["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
             {

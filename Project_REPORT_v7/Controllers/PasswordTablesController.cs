@@ -82,6 +82,7 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "PasswordID,Time,FullName,UserID,System,ReportID")] PasswordTable passwordTable)
         {
+            TempData["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
                 passID = (Guid)Session["ActiveGUID"];
@@ -133,6 +134,7 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "PasswordID,Time,FullName,UserID,System,ReportID")] PasswordTable passwordTable)
         {
+            TempData["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
             {
