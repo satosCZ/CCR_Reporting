@@ -1,7 +1,5 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Threading;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -38,26 +36,5 @@ namespace Project_REPORT_v7
                 Response.Redirect(Context.Request.Url.ToString().Replace("http:", "https:"));
             }
         }
-        //public void Application_Error(Object sender, EventArgs e)
-        //{
-        //    Exception exception = Server.GetLastError();
-        //    Server.ClearError();
-
-        //    var routeData = new RouteData();
-        //    routeData.Values.Add("controller", "Error");
-        //    routeData.Values.Add("action", "Error404");
-        //    routeData.Values.Add("exception", exception);
-
-        //    if (exception.GetType() == typeof(HttpException))
-        //    {
-        //        routeData.Values.Add("statusCode", ((HttpException)exception).GetHttpCode());
-        //    }
-        //    else
-        //    {
-        //        routeData.Values.Add("statusCode", 404);
-        //    }
-
-        //    Response.TrySkipIisCustomErrors = true;
-        //}
     }
 }

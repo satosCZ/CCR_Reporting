@@ -90,7 +90,7 @@
             <img src="~/Content/Animation/Rhombus.gif" alt="Wait" />
             Wait...
         </span>
-        @if (!String.IsNullOrEmpty(TempData["ErrorMessage"].ToString()))
+        @if (TempData.ContainsKey("ErrorMessage"))
         {
             <div id="error" class="panel-danger" aria-hidden="true">
                 <p class="text-danger">@TempData["ErrorMessage"].ToString();</p>
