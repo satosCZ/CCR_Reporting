@@ -24,7 +24,7 @@ namespace Project_REPORT_v7.Controllers.Addon
             {
                 var searcher = new DirectorySearcher(new DirectoryEntry(ConfigurationManager.ConnectionStrings["ADConnectionString"].ConnectionString), $"(&(objectClass=user)(sAMAccountName={name}))");
                 searcher.PropertiesToLoad.Add("sAMAccountName");
-                searcher.PropertiesToLoad.Add("givenName");
+                searcher.PropertiesToLoad.Add("name");
                 searcher.PropertiesToLoad.Add("mail");
                 var result = searcher.FindOne();
                 int temoNum = 0;
@@ -32,7 +32,7 @@ namespace Project_REPORT_v7.Controllers.Addon
                 {
                     if (int.TryParse(result.Properties["sAMAccountName"][0].ToString(), out temoNum))
                         memberID = temoNum;
-                    memberName = result.Properties["givenName"][0].ToString();
+                    memberName = result.Properties["name"][0].ToString();
                     memberEmail = result.Properties["mail"][0].ToString();
                 }
             }
