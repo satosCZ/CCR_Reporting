@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Security.AccessControl;
-using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
 using Project_REPORT_v7.Controllers.Addon;
 using Project_REPORT_v7.Models;
@@ -23,8 +19,8 @@ namespace Project_REPORT_v7.Controllers
         [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         public PartialViewResult _index()
         {
-            var reIssueTable = db.ReIssueTable.Include(p => p.ReportTable);
-            return PartialView(reIssueTable.OrderBy(s => s.Time).ToList());
+            var reIssueTable = db.ReIssueTable.Include(p => p.ReportTable).OrderBy(s => s.Time);
+            return PartialView(reIssueTable.ToList());
         }
 
         // GET: ReIssueTables/CreateMultiple
@@ -42,14 +38,14 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult CreateMultiple(TimeSpan time, string user, string objective, string bodyNum)
         {
-            TempData["ErrorMessage"] = "";
+            Session["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
                 passID = (Guid)Session["ActiveGUID"];
             else
             {
                 // Close as
-                TempData["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
+                Session["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
                 return Json(this, JsonRequestBehavior.AllowGet);
             }
 
@@ -71,13 +67,15 @@ namespace Project_REPORT_v7.Controllers
                             Objective = objective,
                             BodyNum = body
                         });
+                        try
+                        {
+                            int userId;
+                            if (int.TryParse(Session["UserID"].ToString(), out userId))
+                                LogHelper.AddLog(DateTime.Now, "ReIssueTable | CreateMultiple", $"Time:{time} Who:{user} Where:{objective} BodyNums:{bodyNum}", userId);
+                        }
+                        catch { }
                     }
                     db.ReIssueTable.AddRange(multiple);
-                    // Remove comments to enable logging
-
-                    int userID;
-                    if (int.TryParse(Session["UserID"].ToString(), out userID))
-                        LogHelper.AddLog(DateTime.Now, "ReIssueTable | CreateMultiple", $"Time:{time} Who:{user} Where:{objective} BodyNums:{bodyNum}", userID);
 
                     db.SaveChanges();
                     return Json(new { success = true });
@@ -132,7 +130,7 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ReIssueID,Time,User,Objective,BodyNum,ReportID")] ReIssueTable reIssueTable)
         {
-            TempData["ErrorMessage"] = "";
+            Session["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
             {
@@ -141,17 +139,20 @@ namespace Project_REPORT_v7.Controllers
             else
             {
                 // Close as 
-                TempData["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
+                Session["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
                 return Json(this, JsonRequestBehavior.AllowGet);
             }
             if (ModelState.IsValid)
             {
                 reIssueTable.ReportID = passID;
                 db.Entry(reIssueTable).State = EntityState.Modified;
-                int userID;
-                if (int.TryParse(Session["UserID"].ToString(), out userID))
-                    LogHelper.AddLog(DateTime.Now, "ReIssueTable | Edit", $"Time:{reIssueTable.Time} Who:{reIssueTable.User} Where:{reIssueTable.Objective} BodyNum:{reIssueTable.BodyNum}", userID);
-                db.SaveChanges();
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "ReIssueTable | Edit", $"Time:{reIssueTable.Time} Who:{reIssueTable.User} Where:{reIssueTable.Objective} BodyNum:{reIssueTable.BodyNum}", userID);
+                }
+                catch { }
                 return Json(new { success = true });
             }
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", reIssueTable.ReportID);
@@ -184,10 +185,13 @@ namespace Project_REPORT_v7.Controllers
             ReIssueTable reIssueTable = db.ReIssueTable.Find(id);
             db.ReIssueTable.Remove(reIssueTable);
             // Remove comments to enable logging
-
-            int userID;
-            if (int.TryParse(Session["UserID"].ToString(), out userID))
-                LogHelper.AddLog(DateTime.Now, "ReIssueTable | Delete", $"Time:{reIssueTable.Time} Who:{reIssueTable.User} Where:{reIssueTable.Objective} BodyNum:{reIssueTable.BodyNum}", userID);
+            try
+            {
+                int userID;
+                if (int.TryParse(Session["UserID"].ToString(), out userID))
+                    LogHelper.AddLog(DateTime.Now, "ReIssueTable | Delete", $"Time:{reIssueTable.Time} Who:{reIssueTable.User} Where:{reIssueTable.Objective} BodyNum:{reIssueTable.BodyNum}", userID);
+            }
+            catch { }
             db.SaveChanges();
             return Json(new { success = true });
         }

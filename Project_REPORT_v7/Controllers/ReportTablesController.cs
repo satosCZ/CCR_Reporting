@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Web.Mvc;
 using PagedList;
 using Project_REPORT_v7.Controllers.Addon;
@@ -86,18 +87,79 @@ namespace Project_REPORT_v7.Controllers
             return View(reportTable);
         }
 
-        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         // GET: ReportTables/Create
         [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Create()
         {
+            ReportTable reportTable = db.ReportTable.OrderByDescending(o => o.Date).First();
+            try
+            {
+                switch(reportTable.Shift)
+                {
+                    case "Morning":
+                        ViewBag.Shift = "A";
+                        break;
+                    case "Afternoon":
+                        ViewBag.Shift = "N"; 
+                        break;
+                    case "Night":
+                        ViewBag.Shift = "M";
+                        break;
+                    default:
+                        ViewBag.Shift = "M";
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "ReportTable | Create[GET]", $"Error in switch(reportTable.Shift): {ex.ToString()}", userID);
+                }
+                catch { }
+            }
+            try
+            {
+                int tempShift;
+                switch (reportTable.ShiftID)
+                {
+                    case 1:
+                        ViewBag.ShiftID = tempShift = 3;
+                        break;
+                    case 2:
+                        ViewBag.ShiftID = tempShift = 1;
+                        break;
+                    case 3:
+                        ViewBag.ShiftID = tempShift = 2;
+                        break;
+                    default:
+                        ViewBag.ShiftID = tempShift = 1;
+                        break;
+                }
+
+                var members = db.MembersTable.Where(w => w.ShiftID == tempShift).ToList();
+                ViewBag.Members = members;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine (ex.ToString());
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "ReportTable | Create[GET]", $"Error in switch(reportTable.Shift): {ex.ToString()}", userID);
+                }
+                catch { }
+            }
             return View();
         }
 
         // POST: ReportTables/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ReportID,Date,Shift,Member_One_ID,Member_Two_ID")] ReportTable reportTable)
@@ -105,6 +167,11 @@ namespace Project_REPORT_v7.Controllers
             if (ModelState.IsValid)
             {
                 reportTable.ReportID = Guid.NewGuid();
+                int shiftID = reportTable.ShiftID.Value;
+                if (shiftID != 0)
+                {
+                    reportTable.ShiftID = shiftID;
+                }
                 try
                 {
                     switch (reportTable.Shift)
@@ -123,6 +190,13 @@ namespace Project_REPORT_v7.Controllers
                 catch (Exception ex)
                 {
                     Debug.WriteLine("ReportTablesController || Create || " + ex.Message);
+                    try
+                    {
+                        int userID;
+                        if (int.TryParse(Session["UserID"].ToString(), out userID))
+                            LogHelper.AddLog(DateTime.Now, "ReportTable | Create[POST]", $"Error in switch(reportTable.Shift): {ex.ToString()}", userID);
+                    }
+                    catch { }
                 }
                 finally
                 {
@@ -164,10 +238,8 @@ namespace Project_REPORT_v7.Controllers
             {
                 return HttpNotFound();
             }
-            var report = reportTable;
-            var tempDate = DateTime.Parse(reportTable.Date.ToString("dd.MM.yyyy"));
-            report.Date = tempDate;
-            return View(report);
+            ViewBag.Date = reportTable.Date.ToString("yyyy-MM-dd");
+            return View(reportTable);
         }
 
         // POST: ReportTables/Edit/5
@@ -181,24 +253,37 @@ namespace Project_REPORT_v7.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(reportTable).State = EntityState.Modified;
-                try
+
+                // Check if date in report is withouth a time set
+                if (reportTable.Date.TimeOfDay.Ticks == 0)
                 {
-                    switch (reportTable.Shift)
+                    try
                     {
-                        case "Morning":
-                            reportTable.Date = reportTable.Date.AddHours(6);
-                            break;
-                        case "Afternoon":
-                            reportTable.Date = reportTable.Date.AddHours(14);
-                            break;
-                        case "Night":
-                            reportTable.Date = reportTable.Date.AddHours(22);
-                            break;
+
+                        switch (reportTable.Shift)
+                        {
+                            case "Morning":
+                                reportTable.Date = reportTable.Date.AddHours(6);
+                                break;
+                            case "Afternoon":
+                                reportTable.Date = reportTable.Date.AddHours(14);
+                                break;
+                            case "Night":
+                                reportTable.Date = reportTable.Date.AddHours(22);
+                                break;
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("ReportTablesController || Create || " + ex.Message);
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("ReportTablesController || Create || " + ex.Message);
+                        try
+                        {
+                            int userID;
+                            if (int.TryParse(Session["UserID"].ToString(), out userID))
+                                LogHelper.AddLog(DateTime.Now, "ReportTable | Edit[POST]", $"Error in switch(reportTable.Shift) adding time: {ex.ToString()}", userID);
+                        }
+                        catch { }
+                    }
                 }
                 // Remove comments to enable logging
 

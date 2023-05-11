@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ReportDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ReportDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="HourOvertimeTable">
           <Key>
             <PropertyRef Name="OvertimeID" />
@@ -49,6 +49,7 @@
           <Property Name="MemberID" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="ShiftID" Type="int" />
         </EntityType>
         <EntityType Name="MT_IMAGES">
           <Key>
@@ -111,6 +112,14 @@
           <Property Name="Shift" Type="varchar" MaxLength="63" Nullable="false" />
           <Property Name="Member_One_ID" Type="int" />
           <Property Name="Member_Two_ID" Type="int" />
+          <Property Name="ShiftID" Type="int" />
+        </EntityType>
+        <EntityType Name="ShiftTable">
+          <Key>
+            <PropertyRef Name="ShiftID" />
+          </Key>
+          <Property Name="ShiftID" Type="int" Nullable="false" />
+          <Property Name="ShiftName" Type="nchar" MaxLength="10" />
         </EntityType>
         <Association Name="FK_HourOvertimeTable_ReportTable">
           <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="1" />
@@ -133,6 +142,18 @@
             </Principal>
             <Dependent Role="MainTaskTable">
               <PropertyRef Name="ReportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MembersTable">
+          <End Role="ShiftTable" Type="Self.ShiftTable" Multiplicity="0..1" />
+          <End Role="MembersTable" Type="Self.MembersTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShiftTable">
+              <PropertyRef Name="ShiftID" />
+            </Principal>
+            <Dependent Role="MembersTable">
+              <PropertyRef Name="ShiftID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -220,6 +241,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ReportTable_ShiftID">
+          <End Role="ShiftTable" Type="Self.ShiftTable" Multiplicity="0..1" />
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShiftTable">
+              <PropertyRef Name="ShiftID" />
+            </Principal>
+            <Dependent Role="ReportTable">
+              <PropertyRef Name="ShiftID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ReportDBModelStoreContainer">
           <EntitySet Name="HourOvertimeTable" EntityType="Self.HourOvertimeTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LogTable" EntityType="Self.LogTable" Schema="dbo" store:Type="Tables" />
@@ -231,6 +264,7 @@
           <EntitySet Name="PrintersTable" EntityType="Self.PrintersTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReIssueTable" EntityType="Self.ReIssueTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReportTable" EntityType="Self.ReportTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShiftTable" EntityType="Self.ShiftTable" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_HourOvertimeTable_ReportTable" Association="Self.FK_HourOvertimeTable_ReportTable">
             <End Role="ReportTable" EntitySet="ReportTable" />
             <End Role="HourOvertimeTable" EntitySet="HourOvertimeTable" />
@@ -238,6 +272,10 @@
           <AssociationSet Name="FK_MainTaskTable" Association="Self.FK_MainTaskTable">
             <End Role="ReportTable" EntitySet="ReportTable" />
             <End Role="MainTaskTable" EntitySet="MainTaskTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MembersTable" Association="Self.FK_MembersTable">
+            <End Role="ShiftTable" EntitySet="ShiftTable" />
+            <End Role="MembersTable" EntitySet="MembersTable" />
           </AssociationSet>
           <AssociationSet Name="FK_MT_Images" Association="Self.FK_MT_Images">
             <End Role="MainTaskTable" EntitySet="MainTaskTable" />
@@ -267,8 +305,13 @@
             <End Role="MembersTable" EntitySet="MembersTable" />
             <End Role="ReportTable" EntitySet="ReportTable" />
           </AssociationSet>
-          </EntityContainer>
-      </Schema></edmx:StorageModels>
+          <AssociationSet Name="FK_ReportTable_ShiftID" Association="Self.FK_ReportTable_ShiftID">
+            <End Role="ShiftTable" EntitySet="ShiftTable" />
+            <End Role="ReportTable" EntitySet="ReportTable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ReportDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -280,11 +323,21 @@
           <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
           <Property Name="Duration" Type="Time" Nullable="false" Precision="7" />
           <Property Name="Shop" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Cooperation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ReportID" Type="Guid" Nullable="false" />
           <NavigationProperty Name="ReportTable" Relationship="Self.FK_HourOvertimeTable_ReportTable" FromRole="HourOvertimeTable" ToRole="ReportTable" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="LogTable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="L_DATE" Type="DateTime" Precision="3" />
+          <Property Name="L_TYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="L_MESSAGE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="L_USER_ID" Type="Int32" />
         </EntityType>
         <EntityType Name="MainTaskTable">
           <Key>
@@ -300,7 +353,7 @@
           <Property Name="Cooperation" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ReportID" Type="Guid" Nullable="false" />
           <NavigationProperty Name="ReportTable" Relationship="Self.FK_MainTaskTable" FromRole="MainTaskTable" ToRole="ReportTable" />
-          <NavigationProperty Name="MT_IMAGES" Relationship="ReportDBModel.FK_MT_Images" FromRole="MainTaskTable" ToRole="MT_IMAGES" />
+          <NavigationProperty Name="MT_IMAGES" Relationship="Self.FK_MT_Images" FromRole="MainTaskTable" ToRole="MT_IMAGES" />
         </EntityType>
         <EntityType Name="MembersTable">
           <Key>
@@ -309,8 +362,19 @@
           <Property Name="MemberID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="ReportTable" Relationship="ReportDBModel.FK_ReportTable_Member_One_ID" FromRole="MembersTable" ToRole="ReportTable" />
-          <NavigationProperty Name="ReportTable1" Relationship="ReportDBModel.FK_ReportTable_Member_Two_ID" FromRole="MembersTable" ToRole="ReportTable" />
+          <Property Name="ShiftID" Type="Int32" />
+          <NavigationProperty Name="ShiftTable" Relationship="Self.FK_MembersTable" FromRole="MembersTable" ToRole="ShiftTable" />
+          <NavigationProperty Name="ReportTable" Relationship="Self.FK_ReportTable_Member_One_ID" FromRole="MembersTable" ToRole="ReportTable" />
+          <NavigationProperty Name="ReportTable1" Relationship="Self.FK_ReportTable_Member_Two_ID" FromRole="MembersTable" ToRole="ReportTable" />
+        </EntityType>
+        <EntityType Name="MT_IMAGES">
+          <Key>
+            <PropertyRef Name="ImageID" />
+          </Key>
+          <Property Name="ImageID" Type="Guid" Nullable="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReportID" Type="Guid" />
+          <NavigationProperty Name="MainTaskTable" Relationship="Self.FK_MT_Images" FromRole="MT_IMAGES" ToRole="MainTaskTable" />
         </EntityType>
         <EntityType Name="PasswordTable">
           <Key>
@@ -369,14 +433,25 @@
           <Property Name="Shift" Type="String" MaxLength="63" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Member_One_ID" Type="Int32" />
           <Property Name="Member_Two_ID" Type="Int32" />
+          <Property Name="ShiftID" Type="Int32" />
           <NavigationProperty Name="HourOvertimeTable" Relationship="Self.FK_HourOvertimeTable_ReportTable" FromRole="ReportTable" ToRole="HourOvertimeTable" />
           <NavigationProperty Name="MainTaskTable" Relationship="Self.FK_MainTaskTable" FromRole="ReportTable" ToRole="MainTaskTable" />
+          <NavigationProperty Name="MembersTable" Relationship="Self.FK_ReportTable_Member_One_ID" FromRole="ReportTable" ToRole="MembersTable" />
+          <NavigationProperty Name="MembersTable1" Relationship="Self.FK_ReportTable_Member_Two_ID" FromRole="ReportTable" ToRole="MembersTable" />
           <NavigationProperty Name="PasswordTable" Relationship="Self.FK_PasswordTable_ReportTable" FromRole="ReportTable" ToRole="PasswordTable" />
           <NavigationProperty Name="PreCheckTable" Relationship="Self.FK_PreCheckTable_ReportTable" FromRole="ReportTable" ToRole="PreCheckTable" />
           <NavigationProperty Name="PrintersTable" Relationship="Self.FK_PrintersTable_ReportID" FromRole="ReportTable" ToRole="PrintersTable" />
           <NavigationProperty Name="ReIssueTable" Relationship="Self.FK_ReIssueTable_ReportID" FromRole="ReportTable" ToRole="ReIssueTable" />
-          <NavigationProperty Name="MembersTable" Relationship="ReportDBModel.FK_ReportTable_Member_One_ID" FromRole="ReportTable" ToRole="MembersTable" />
-          <NavigationProperty Name="MembersTable1" Relationship="ReportDBModel.FK_ReportTable_Member_Two_ID" FromRole="ReportTable" ToRole="MembersTable" />
+          <NavigationProperty Name="ShiftTable" Relationship="Self.FK_ReportTable_ShiftID" FromRole="ReportTable" ToRole="ShiftTable" />
+        </EntityType>
+        <EntityType Name="ShiftTable">
+          <Key>
+            <PropertyRef Name="ShiftID" />
+          </Key>
+          <Property Name="ShiftID" Type="Int32" Nullable="false" />
+          <Property Name="ShiftName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="MembersTable" Relationship="Self.FK_MembersTable" FromRole="ShiftTable" ToRole="MembersTable" />
+          <NavigationProperty Name="ReportTable" Relationship="Self.FK_ReportTable_ShiftID" FromRole="ShiftTable" ToRole="ReportTable" />
         </EntityType>
         <Association Name="FK_HourOvertimeTable_ReportTable">
           <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="1" />
@@ -399,6 +474,54 @@
             </Principal>
             <Dependent Role="MainTaskTable">
               <PropertyRef Name="ReportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MT_Images">
+          <End Role="MainTaskTable" Type="Self.MainTaskTable" Multiplicity="0..1" />
+          <End Role="MT_IMAGES" Type="Self.MT_IMAGES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MainTaskTable">
+              <PropertyRef Name="MainTaskID" />
+            </Principal>
+            <Dependent Role="MT_IMAGES">
+              <PropertyRef Name="ReportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MembersTable">
+          <End Role="ShiftTable" Type="Self.ShiftTable" Multiplicity="0..1" />
+          <End Role="MembersTable" Type="Self.MembersTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShiftTable">
+              <PropertyRef Name="ShiftID" />
+            </Principal>
+            <Dependent Role="MembersTable">
+              <PropertyRef Name="ShiftID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReportTable_Member_One_ID">
+          <End Role="MembersTable" Type="Self.MembersTable" Multiplicity="0..1" />
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MembersTable">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="ReportTable">
+              <PropertyRef Name="Member_One_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReportTable_Member_Two_ID">
+          <End Role="MembersTable" Type="Self.MembersTable" Multiplicity="0..1" />
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MembersTable">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="ReportTable">
+              <PropertyRef Name="Member_Two_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -450,15 +573,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ReportTable_ShiftID">
+          <End Role="ShiftTable" Type="Self.ShiftTable" Multiplicity="0..1" />
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShiftTable">
+              <PropertyRef Name="ShiftID" />
+            </Principal>
+            <Dependent Role="ReportTable">
+              <PropertyRef Name="ShiftID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ReportDBEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="HourOvertimeTable" EntityType="Self.HourOvertimeTable" />
+          <EntitySet Name="LogTable" EntityType="Self.LogTable" />
           <EntitySet Name="MainTaskTable" EntityType="Self.MainTaskTable" />
           <EntitySet Name="MembersTable" EntityType="Self.MembersTable" />
+          <EntitySet Name="MT_IMAGES" EntityType="Self.MT_IMAGES" />
           <EntitySet Name="PasswordTable" EntityType="Self.PasswordTable" />
           <EntitySet Name="PreCheckTable" EntityType="Self.PreCheckTable" />
           <EntitySet Name="PrintersTable" EntityType="Self.PrintersTable" />
           <EntitySet Name="ReIssueTable" EntityType="Self.ReIssueTable" />
           <EntitySet Name="ReportTable" EntityType="Self.ReportTable" />
+          <EntitySet Name="ShiftTable" EntityType="Self.ShiftTable" />
           <AssociationSet Name="FK_HourOvertimeTable_ReportTable" Association="Self.FK_HourOvertimeTable_ReportTable">
             <End Role="ReportTable" EntitySet="ReportTable" />
             <End Role="HourOvertimeTable" EntitySet="HourOvertimeTable" />
@@ -466,6 +604,22 @@
           <AssociationSet Name="FK_MainTaskTable" Association="Self.FK_MainTaskTable">
             <End Role="ReportTable" EntitySet="ReportTable" />
             <End Role="MainTaskTable" EntitySet="MainTaskTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MT_Images" Association="Self.FK_MT_Images">
+            <End Role="MainTaskTable" EntitySet="MainTaskTable" />
+            <End Role="MT_IMAGES" EntitySet="MT_IMAGES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MembersTable" Association="Self.FK_MembersTable">
+            <End Role="ShiftTable" EntitySet="ShiftTable" />
+            <End Role="MembersTable" EntitySet="MembersTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReportTable_Member_One_ID" Association="Self.FK_ReportTable_Member_One_ID">
+            <End Role="MembersTable" EntitySet="MembersTable" />
+            <End Role="ReportTable" EntitySet="ReportTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReportTable_Member_Two_ID" Association="Self.FK_ReportTable_Member_Two_ID">
+            <End Role="MembersTable" EntitySet="MembersTable" />
+            <End Role="ReportTable" EntitySet="ReportTable" />
           </AssociationSet>
           <AssociationSet Name="FK_PasswordTable_ReportTable" Association="Self.FK_PasswordTable_ReportTable">
             <End Role="ReportTable" EntitySet="ReportTable" />
@@ -483,76 +637,11 @@
             <End Role="ReportTable" EntitySet="ReportTable" />
             <End Role="ReIssueTable" EntitySet="ReIssueTable" />
           </AssociationSet>
-          <AssociationSet Name="FK_ReportTable_Member_One_ID" Association="ReportDBModel.FK_ReportTable_Member_One_ID">
-            <End Role="MembersTable" EntitySet="MembersTable" />
+          <AssociationSet Name="FK_ReportTable_ShiftID" Association="Self.FK_ReportTable_ShiftID">
+            <End Role="ShiftTable" EntitySet="ShiftTable" />
             <End Role="ReportTable" EntitySet="ReportTable" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ReportTable_Member_Two_ID" Association="ReportDBModel.FK_ReportTable_Member_Two_ID">
-            <End Role="MembersTable" EntitySet="MembersTable" />
-            <End Role="ReportTable" EntitySet="ReportTable" />
-          </AssociationSet>
-          <EntitySet Name="LogTable" EntityType="ReportDBModel.LogTable" />
-          <EntitySet Name="MT_IMAGES" EntityType="ReportDBModel.MT_IMAGES" />
-          <AssociationSet Name="FK_MT_Images" Association="ReportDBModel.FK_MT_Images">
-            <End Role="MainTaskTable" EntitySet="MainTaskTable" />
-            <End Role="MT_IMAGES" EntitySet="MT_IMAGES" />
           </AssociationSet>
         </EntityContainer>
-        <Association Name="FK_ReportTable_Member_One_ID">
-          <End Type="ReportDBModel.MembersTable" Role="MembersTable" Multiplicity="0..1" />
-          <End Type="ReportDBModel.ReportTable" Role="ReportTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MembersTable">
-              <PropertyRef Name="MemberID" />
-            </Principal>
-            <Dependent Role="ReportTable">
-              <PropertyRef Name="Member_One_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ReportTable_Member_Two_ID">
-          <End Type="ReportDBModel.MembersTable" Role="MembersTable" Multiplicity="0..1" />
-          <End Type="ReportDBModel.ReportTable" Role="ReportTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MembersTable">
-              <PropertyRef Name="MemberID" />
-            </Principal>
-            <Dependent Role="ReportTable">
-              <PropertyRef Name="Member_Two_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="LogTable">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="L_DATE" Type="DateTime" Precision="3" />
-          <Property Name="L_TYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="L_MESSAGE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="L_USER_ID" Type="Int32" />
-        </EntityType>
-        <EntityType Name="MT_IMAGES">
-          <Key>
-            <PropertyRef Name="ImageID" />
-          </Key>
-          <Property Name="ImageID" Type="Guid" Nullable="false" />
-          <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ReportID" Type="Guid" />
-          <NavigationProperty Name="MainTaskTable" Relationship="ReportDBModel.FK_MT_Images" FromRole="MT_IMAGES" ToRole="MainTaskTable" />
-        </EntityType>
-        <Association Name="FK_MT_Images">
-          <End Type="ReportDBModel.MainTaskTable" Role="MainTaskTable" Multiplicity="0..1" />
-          <End Type="ReportDBModel.MT_IMAGES" Role="MT_IMAGES" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MainTaskTable">
-              <PropertyRef Name="MainTaskID" />
-            </Principal>
-            <Dependent Role="MT_IMAGES">
-              <PropertyRef Name="ReportID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -562,14 +651,25 @@
           <EntitySetMapping Name="HourOvertimeTable">
             <EntityTypeMapping TypeName="ReportDBModel.HourOvertimeTable">
               <MappingFragment StoreEntitySet="HourOvertimeTable">
-                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="OvertimeID" ColumnName="OvertimeID" />
                 <ScalarProperty Name="Time" ColumnName="Time" />
                 <ScalarProperty Name="Duration" ColumnName="Duration" />
                 <ScalarProperty Name="Shop" ColumnName="Shop" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Cooperation" ColumnName="Cooperation" />
                 <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogTable">
+            <EntityTypeMapping TypeName="ReportDBModel.LogTable">
+              <MappingFragment StoreEntitySet="LogTable">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="L_DATE" ColumnName="L_DATE" />
+                <ScalarProperty Name="L_TYPE" ColumnName="L_TYPE" />
+                <ScalarProperty Name="L_MESSAGE" ColumnName="L_MESSAGE" />
+                <ScalarProperty Name="L_USER_ID" ColumnName="L_USER_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -591,9 +691,19 @@
           <EntitySetMapping Name="MembersTable">
             <EntityTypeMapping TypeName="ReportDBModel.MembersTable">
               <MappingFragment StoreEntitySet="MembersTable">
-                <ScalarProperty Name="MemberID" ColumnName="MemberID"/>
-                <ScalarProperty Name="Name" ColumnName="Name"/>
-                <ScalarProperty Name="Email" ColumnName="Email"/>
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ShiftID" ColumnName="ShiftID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MT_IMAGES">
+            <EntityTypeMapping TypeName="ReportDBModel.MT_IMAGES">
+              <MappingFragment StoreEntitySet="MT_IMAGES">
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -653,26 +763,15 @@
                 <ScalarProperty Name="Shift" ColumnName="Shift" />
                 <ScalarProperty Name="Member_One_ID" ColumnName="Member_One_ID" />
                 <ScalarProperty Name="Member_Two_ID" ColumnName="Member_Two_ID" />
+                <ScalarProperty Name="ShiftID" ColumnName="ShiftID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="LogTable">
-            <EntityTypeMapping TypeName="ReportDBModel.LogTable">
-              <MappingFragment StoreEntitySet="LogTable">
-                <ScalarProperty Name="L_USER_ID" ColumnName="L_USER_ID" />
-                <ScalarProperty Name="L_MESSAGE" ColumnName="L_MESSAGE" />
-                <ScalarProperty Name="L_TYPE" ColumnName="L_TYPE" />
-                <ScalarProperty Name="L_DATE" ColumnName="L_DATE" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MT_IMAGES">
-            <EntityTypeMapping TypeName="ReportDBModel.MT_IMAGES">
-              <MappingFragment StoreEntitySet="MT_IMAGES">
-                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
-                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
-                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+          <EntitySetMapping Name="ShiftTable">
+            <EntityTypeMapping TypeName="ReportDBModel.ShiftTable">
+              <MappingFragment StoreEntitySet="ShiftTable">
+                <ScalarProperty Name="ShiftID" ColumnName="ShiftID" />
+                <ScalarProperty Name="ShiftName" ColumnName="ShiftName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

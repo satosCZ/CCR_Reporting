@@ -85,14 +85,14 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "MainTaskID,Time,Duration,Shop,System,Problem,Solution,Cooperation,ReportID")] MainTaskTable mainTaskTable)
         {
-            TempData["ErrorMessage"] = "";
+            Session["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
                 passID = (Guid)Session["ActiveGUID"];
             else
             {
                 // Close as 
-                TempData["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
+                Session["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
                 return Json(this, JsonRequestBehavior.AllowGet);
             }
             if (ModelState.IsValid)
@@ -100,9 +100,13 @@ namespace Project_REPORT_v7.Controllers
                 mainTaskTable.MainTaskID = Guid.NewGuid();
                 mainTaskTable.ReportID = passID;
                 db.MainTaskTable.Add(mainTaskTable);
-                int userID;
-                if (int.TryParse(Session["UserID"].ToString(), out userID))
-                    LogHelper.AddLog(DateTime.Now, "MainTaskTable | Create", $"Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "MainTaskTable | Create", $"Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
+                }
+                catch { }
                 db.SaveChanges();
                 return Json(new { success = true });
             }
@@ -136,7 +140,7 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MainTaskID,Time,Duration,Shop,System,Problem,Solution,Cooperation,ReportID")] MainTaskTable mainTaskTable)
         {
-            TempData["ErrorMessage"] = "";
+            Session["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
             {
@@ -145,7 +149,7 @@ namespace Project_REPORT_v7.Controllers
             else
             {
                 // Close as 
-                TempData["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
+                Session["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
                 return Json(this, JsonRequestBehavior.AllowGet);
             }
             if (ModelState.IsValid)
@@ -153,10 +157,13 @@ namespace Project_REPORT_v7.Controllers
                 mainTaskTable.ReportID = passID;
                 db.Entry(mainTaskTable).State = EntityState.Modified;
                 // Remove comments to enable logging
-
-                int userID;
-                if (int.TryParse(Session["UserID"].ToString(), out userID))
-                    LogHelper.AddLog(DateTime.Now, "MainTaskTable | Edit", $"Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "MainTaskTable | Edit", $"Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
+                }
+                catch { }
                 db.SaveChanges();
                 return Json(new { success = true });
             }
@@ -189,10 +196,13 @@ namespace Project_REPORT_v7.Controllers
             MainTaskTable mainTaskTable = db.MainTaskTable.Find(id);
             db.MainTaskTable.Remove(mainTaskTable);
             // Remove comments to enable logging
-
-            int userID;
-            if (int.TryParse(Session["UserID"].ToString(), out userID))
-                LogHelper.AddLog(DateTime.Now, "MainTaskTable | Delete", $"Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
+            try
+            {
+                int userID;
+                if (int.TryParse(Session["UserID"].ToString(), out userID))
+                    LogHelper.AddLog(DateTime.Now, "MainTaskTable | Delete", $"Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
+                }
+            catch { }
             db.SaveChanges();
             return Json(new { success = true });
         }

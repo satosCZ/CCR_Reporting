@@ -13,7 +13,7 @@ namespace Project_REPORT_v7.Models
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
-    
+
     public partial class ReportTable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -40,11 +40,15 @@ namespace Project_REPORT_v7.Models
         [Required]
         [DisplayName("Member 2")]
         public Nullable<int> Member_Two_ID { get; set; }
+        [DisplayName("Shift ID")]
+        public Nullable<int> ShiftID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HourOvertimeTable> HourOvertimeTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MainTaskTable> MainTaskTable { get; set; }
+        public virtual MembersTable MembersTable { get; set; }
+        public virtual MembersTable MembersTable1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PasswordTable> PasswordTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -53,7 +57,6 @@ namespace Project_REPORT_v7.Models
         public virtual ICollection<PrintersTable> PrintersTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReIssueTable> ReIssueTable { get; set; }
-        public virtual MembersTable MembersTable { get; set; }
-        public virtual MembersTable MembersTable1 { get; set; }
+        public virtual ShiftTable ShiftTable { get; set; }
     }
 }

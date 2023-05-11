@@ -55,3 +55,20 @@ ul.ui-autocomplete {
 ui-tabs-nav {
     background-color: #ffffff;
 }
+
+.slim {
+    width: 35%;
+}
+
+select.input-lg {
+    height: 259px;
+    padding: 10px 0px;
+    font-size: 200px;
+    line-height: 1.3333333;
+    border-radius: 6px;
+}
+
+select.input-lg > option {
+    height: 36px;
+    font-size: 44px;
+}

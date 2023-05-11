@@ -35,14 +35,14 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "PreCheckID,Time,System,Check,EmailTime,ReportID")] PreCheckTable preCheckTable)
         {
-            TempData["ErrorMessage"] = "";
+            Session["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
                 passID = (Guid)Session["ActiveGUID"];
             else
             {
                 // Close as 
-                TempData["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
+                Session["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
                 return Json(this, JsonRequestBehavior.AllowGet);
             }
             if (ModelState.IsValid)
@@ -50,9 +50,13 @@ namespace Project_REPORT_v7.Controllers
                 preCheckTable.PreCheckID = Guid.NewGuid();
                 preCheckTable.ReportID = passID;
                 db.PreCheckTable.Add(preCheckTable);
-                int userID;
-                if (int.TryParse(Session["UserID"].ToString(), out userID))
-                    LogHelper.AddLog(DateTime.Now, "PreCheckTable | Create", $"Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "PreCheckTable | Create", $"Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
+                }
+                catch { }
                 db.SaveChanges();
                 return Json(new { success = true });
             }
@@ -85,7 +89,7 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "PreCheckID,Time,System,Check,EmailTime,ReportID")] PreCheckTable preCheckTable)
         {
-            TempData["ErrorMessage"] = "";
+            Session["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
             {
@@ -94,7 +98,7 @@ namespace Project_REPORT_v7.Controllers
             else
             {
                 // Close as 
-                TempData["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
+                Session["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
                 return Json(this, JsonRequestBehavior.AllowGet);
             }
             if (ModelState.IsValid)
@@ -102,10 +106,13 @@ namespace Project_REPORT_v7.Controllers
                 preCheckTable.ReportID = passID;
                 db.Entry(preCheckTable).State = EntityState.Modified;
                 // Remove comments to enable logging
-
-                int userID;
-                if (int.TryParse(Session["UserID"].ToString(), out userID))
-                    LogHelper.AddLog(DateTime.Now, "PreCheckTable | Edit", $"Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "PreCheckTable | Edit", $"Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
+                }
+                catch { }
 
                 db.SaveChanges();
                 return Json(new { success = true });
@@ -142,10 +149,13 @@ namespace Project_REPORT_v7.Controllers
                 PreCheckTable preCheckTable = db.PreCheckTable.Find(id);
                 db.PreCheckTable.Remove(preCheckTable);
                 // Remove comments to enable logging
-
-                int userID;
-                if (int.TryParse(Session["UserID"].ToString(), out userID))
-                    LogHelper.AddLog(DateTime.Now, "PreCheckTable | Delete", $"Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "PreCheckTable | Delete", $"Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
+                }
+                catch { }
                 db.SaveChanges();
                 return Json(new { success = true });
             }

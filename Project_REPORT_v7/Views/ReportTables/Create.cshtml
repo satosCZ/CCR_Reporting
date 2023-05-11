@@ -54,67 +54,165 @@
             }
         });
 
-        $("#Date").datepicker("option", "showAnim", "slideDown");
+        $("#Date").datepicker('option', 'showAnim', 'slideDown');
 
         $("#radio input").checkboxradio({
             icon: false
         });
 
-        $('#ReportCreate').on('shown', function () {
-            $('#Date').focus();
-        })
     });
 </script>
+<script charset="windows-1250">
+    addEventListener('load', (event) => {
+        const date = new Date();
 
-<h2>Create</h2>
+        let curDay = String(date.getDate()).padStart(2, '0');
+        let curMonth = String(date.getMonth() + 1).padStart(2, "0");
+        let curYear = date.getFullYear();
+
+        let curDate = `${curYear}-${curMonth}-${curDay}`;
+
+        $("#Date").val(curDate);
+
+        var shift = '@ViewBag.Shift';
+        var shiftID = '@ViewBag.ShiftID';
+        if (shift == 'M') {
+            var radio = document.getElementById("Morning");
+            radio.setAttribute('checked', '');
+        }
+        else if (shift == 'A') {
+            var radio = document.getElementById("Afternoon");
+            radio.setAttribute('checked', '');
+        }
+        else if (shift == 'N') {
+            var radio = document.getElementById("Night");
+            radio.setAttribute('checked', '');
+        };
+
+        var member1 = @Html.Raw(Json.Encode(ViewBag.Members[0].Name));
+        var memberID1 = @Html.Raw(Json.Encode(ViewBag.Members[0].MemberID));
+        var member2 = @Html.Raw(Json.Encode(ViewBag.Members[1].Name));
+        var memberID2 = @Html.Raw(Json.Encode(ViewBag.Members[1].MemberID));
+
+        var tbm1 = document.getElementById("MembersTable_Name");
+        var tbmh1 = document.getElementById("Member_One_ID");
+
+        var tbm2 = document.getElementById("MembersTable1_Name");
+        var tbmh2 = document.getElementById("Member_Two_ID");
 
 
-@using (Html.BeginForm("Create", "ReportTables", FormMethod.Post, htmlAttributes: new {@id = "ReportCreate" }))
+        if (member1 != "" && member2 != "") {
+            tbm1.value = member1;
+            tbmh1.value = memberID1;
+            tbm2.value = member2;
+            tbmh2.value = memberID2;
+        }
+
+        const $selectO = document.querySelector('#ShiftID');
+        switch (shiftID) {
+            case 1:
+                $selectO.value = $selectO.querySelector('option')[0].selected = 'selected';
+                break;
+            case 2:
+                $selectO.value = $selectO.querySelector('option')[1].selected = 'selected';
+                break;
+            case 3:
+                $selectO.value = $selectO.querySelector('option')[2].selected = 'selected';
+                break;
+        };
+
+        $("#ShiftID").change(function () {
+            var shiftID = $selectO.value;
+            $.ajax({
+                url: "../MembersTables/GetMembersByShiftID",
+                dataType: "json",
+                type: "GET",
+                data: {
+                    term: shiftID
+                },
+                success: function (data) {
+                    console.log(data);
+                    assingMembers(data);
+                }
+            });
+        });
+
+        function assingMembers(data) {
+            tbm1.value = data[0].Name;
+            tbmh1.value = data[0].ID;
+            tbm2.value = data[1].Name;
+            tbmh2.value = data[1].ID;
+        };
+
+        var dateVal = document.getElementById("Date");
+
+        $("Date").change(function () {
+            console.log(dateVal);
+        });
+
+    })
+</script>
+
+<h2>Create REPORT</h2>
+
+
+@using (Html.BeginForm("Create", "ReportTables", FormMethod.Post, htmlAttributes: new {@id = "ReportCreate", @class="slim center-block"}))
 {
     @Html.AntiForgeryToken()
-    
+
+<div class="row-no-gutters">
     <div class="form-horizontal">
-        <h4>ReportTable</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", autofocus = "autofocus" } })
-                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Shift, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10 clearfix">
-                <div id="radio" class="btn-group">
-                    <label class="btn btn-default" for="Morning">Morning</label>
-                    @Html.RadioButtonFor(model => model.Shift, "Morning", htmlAttributes: new { @checked = "checked", @title = "Morning", @class = "", @id = "Morning", @style = "visibility: hidden; width:0; height:0;" })
-                    <label class="btn btn-default" for="Afternoon">Afternoon</label>
-                    @Html.RadioButtonFor(model => model.Shift, "Afternoon", htmlAttributes: new { @title = "Afternoon", @id = "Afternoon", @style = "visibility: hidden; width:0; height:0;" })
-                    <label class="btn btn-default" for="Night">Night</label>
-                    @Html.RadioButtonFor(model => model.Shift, "Night", htmlAttributes: new { @title = "Night", @id = "Night", @style = "visibility: hidden; width:0; height:0;" })
+        <div class="col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", autofocus = "autofocus" } })
+                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
                 </div>
-                @Html.ValidationMessageFor(model => model.Shift, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Shift, htmlAttributes: new { @class = "control-label", @id = "lblShift" })
+                <div class="clearfix">
+                    <div id="radio" class="btn-group">
+                        <label class="btn btn-default" for="Morning">Morning</label>
+                        @Html.RadioButtonFor(model => model.Shift, "Morning", htmlAttributes: new{@title = "Morning", @class = "", @id = "Morning", @style = "visibility: hidden; width:0; height:0;" })
+                        <label class="btn btn-default" for="Afternoon">Afternoon</label>
+                        @Html.RadioButtonFor(model => model.Shift, "Afternoon", htmlAttributes: new {@title = "Afternoon", @id = "Afternoon", @style = "visibility: hidden; width:0; height:0;" })
+                        <label class="btn btn-default" for="Night">Night</label>
+                        @Html.RadioButtonFor(model => model.Shift, "Night", htmlAttributes: new {@title = "Night", @id = "Night", @style = "visibility: hidden; width:0; height:0;"})
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Shift, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Member_One_ID, "CCR Member", htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.EditorFor(model => model.MembersTable.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.Member_One_ID)
+                    @Html.ValidationMessageFor(model => model.Member_One_ID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Member_Two_ID, "CCR Member", htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.EditorFor(model => model.MembersTable1.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.Member_Two_ID)
+                    @Html.ValidationMessageFor(model => model.Member_Two_ID, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Member_One_ID, "CCR Member", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MembersTable.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.HiddenFor(model => model.Member_One_ID)
-                @Html.ValidationMessageFor(model => model.Member_One_ID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Member_Two_ID, "CCR Member", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MembersTable1.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.HiddenFor(model => model.Member_Two_ID)
-                @Html.ValidationMessageFor(model => model.Member_Two_ID, "", new { @class = "text-danger" })
+        <div class="col-sm-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ShiftID, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.DropDownListFor(model => model.ShiftID, Project_REPORT_v7.Controllers.MembersTablesController.GetShifts(), htmlAttributes: new { @class = "form-control input-lg text-center", })
+                    @Html.ValidationMessageFor(model => model.ShiftID, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 
@@ -124,6 +222,7 @@
             </div>
         </div>
     </div>
+</div>
 }
 
 <div>

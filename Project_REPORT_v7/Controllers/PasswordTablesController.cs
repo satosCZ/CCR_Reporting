@@ -82,14 +82,14 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "PasswordID,Time,FullName,UserID,System,ReportID")] PasswordTable passwordTable)
         {
-            TempData["ErrorMessage"] = "";
+            Session["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
                 passID = (Guid)Session["ActiveGUID"];
             else
             {
                 // Close as 
-                TempData["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
+                Session["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
                 return Json(this, JsonRequestBehavior.AllowGet);
             }
             if (ModelState.IsValid)
@@ -98,9 +98,13 @@ namespace Project_REPORT_v7.Controllers
                 passwordTable.ReportID = passID;
                 db.PasswordTable.Add(passwordTable);
                 // Remove comments to enable logging
-                int userID;
-                if (int.TryParse(Session["UserID"].ToString(), out userID))
-                    LogHelper.AddLog(DateTime.Now, "PasswordTable | Create", $"Time:{passwordTable.Time} Full Name:{passwordTable.FullName} UserID:{passwordTable.UserID} System:{passwordTable.System} ", userID);
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "PasswordTable | Create", $"Time:{passwordTable.Time} Full Name:{passwordTable.FullName} UserID:{passwordTable.UserID} System:{passwordTable.System} ", userID);
+                }
+                catch { }
                 db.SaveChanges();
                 return Json (new { success = true });
             }
@@ -134,7 +138,7 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "PasswordID,Time,FullName,UserID,System,ReportID")] PasswordTable passwordTable)
         {
-            TempData["ErrorMessage"] = "";
+            Session["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
             {
@@ -143,7 +147,7 @@ namespace Project_REPORT_v7.Controllers
             else
             {
                 // Close as 
-                TempData["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
+                Session["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
                 return Json(this, JsonRequestBehavior.AllowGet);
             }
             if (ModelState.IsValid)
@@ -151,10 +155,13 @@ namespace Project_REPORT_v7.Controllers
                 passwordTable.ReportID = passID;
                 db.Entry(passwordTable).State = EntityState.Modified;
                 // Remove comments to enable logging
-
-                int userID;
-                if (int.TryParse(Session["UserID"].ToString(), out userID))
-                    LogHelper.AddLog(DateTime.Now, "PasswordTable | Edit", $"Time:{passwordTable.Time} Full Name:{passwordTable.FullName} UserID:{passwordTable.UserID} System:{passwordTable.System} ", userID);
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "PasswordTable | Edit", $"Time:{passwordTable.Time} Full Name:{passwordTable.FullName} UserID:{passwordTable.UserID} System:{passwordTable.System} ", userID);
+                }
+                catch { }
                 db.SaveChanges();
                 return Json(new { success = true });
             }
@@ -187,10 +194,13 @@ namespace Project_REPORT_v7.Controllers
             PasswordTable passwordTable = db.PasswordTable.Find(id);
             db.PasswordTable.Remove(passwordTable);
             // Remove comments to enable logging
-
-            int userID;
-            if (int.TryParse(Session["UserID"].ToString(), out userID))
-                LogHelper.AddLog(DateTime.Now, "PasswordTable | Delete", $"Time:{passwordTable.Time} Full Name:{passwordTable.FullName} UserID:{passwordTable.UserID} System:{passwordTable.System} ", userID);
+            try
+            {
+                int userID;
+                if (int.TryParse(Session["UserID"].ToString(), out userID))
+                    LogHelper.AddLog(DateTime.Now, "PasswordTable | Delete", $"Time:{passwordTable.Time} Full Name:{passwordTable.FullName} UserID:{passwordTable.UserID} System:{passwordTable.System} ", userID);
+                }
+            catch { }
             db.SaveChanges();
             return Json(new { success = true });
         }

@@ -26,14 +26,15 @@ namespace Project_REPORT_v7.Models
         }
     
         public virtual DbSet<HourOvertimeTable> HourOvertimeTable { get; set; }
+        public virtual DbSet<LogTable> LogTable { get; set; }
         public virtual DbSet<MainTaskTable> MainTaskTable { get; set; }
         public virtual DbSet<MembersTable> MembersTable { get; set; }
+        public virtual DbSet<MT_IMAGES> MT_IMAGES { get; set; }
         public virtual DbSet<PasswordTable> PasswordTable { get; set; }
         public virtual DbSet<PreCheckTable> PreCheckTable { get; set; }
         public virtual DbSet<PrintersTable> PrintersTable { get; set; }
         public virtual DbSet<ReIssueTable> ReIssueTable { get; set; }
         public virtual DbSet<ReportTable> ReportTable { get; set; }
-        public virtual DbSet<LogTable> LogTable { get; set; }
-        public virtual DbSet<MT_IMAGES> MT_IMAGES { get; set; }
+        public virtual DbSet<ShiftTable> ShiftTable { get; set; }
     }
 }

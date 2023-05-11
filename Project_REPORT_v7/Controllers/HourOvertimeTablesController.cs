@@ -39,14 +39,14 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "OvertimeID,Time,Duration,Shop,Type,Description,Cooperation,ReportID")] HourOvertimeTable hourOvertimeTable)
         {
-            TempData["ErrorMessage"] = "";
+            Session["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
                 passID = (Guid)Session["ActiveGUID"];
             else
             {
                 // Close as 
-                TempData["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
+                Session["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
                 return Json(this, JsonRequestBehavior.AllowGet);
             }
             if (ModelState.IsValid)
@@ -54,10 +54,13 @@ namespace Project_REPORT_v7.Controllers
                 hourOvertimeTable.OvertimeID = Guid.NewGuid();
                 hourOvertimeTable.ReportID = passID;
                 db.HourOvertimeTable.Add(hourOvertimeTable);
-
-                int userID;
-                if (int.TryParse(Session["UserID"].ToString(), out userID))
-                    LogHelper.AddLog(DateTime.Now, "HourOvertime | Create", $"Time:{hourOvertimeTable.Time} Duration:{hourOvertimeTable.Duration} Shop:{hourOvertimeTable.Shop} Type:{hourOvertimeTable.Type} Description:{hourOvertimeTable.Description} Cooperation:{hourOvertimeTable.Cooperation}", userID);
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "HourOvertime | Create", $"Time:{hourOvertimeTable.Time} Duration:{hourOvertimeTable.Duration} Shop:{hourOvertimeTable.Shop} Type:{hourOvertimeTable.Type} Description:{hourOvertimeTable.Description} Cooperation:{hourOvertimeTable.Cooperation}", userID);
+                }
+                catch { }
 
                 db.SaveChanges();
                 return Json(new { success = true });
@@ -93,7 +96,7 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "OvertimeID,Time,Duration,Shop,Type,Description,Cooperation,ReportID")] HourOvertimeTable hourOvertimeTable)
         {
-            TempData["ErrorMessage"] = "";
+            Session["ErrorMessage"] = "";
             Guid passID;
             if (Session["ActiveGUID"] != null)
             {
@@ -102,16 +105,20 @@ namespace Project_REPORT_v7.Controllers
             else
             {
                 // Close as 
-                TempData["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
+                Session["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
                 return Json(this, JsonRequestBehavior.AllowGet);
             }
             if (ModelState.IsValid)
             {
                 hourOvertimeTable.ReportID = passID;
                 db.Entry(hourOvertimeTable).State = EntityState.Modified;
-                int userID;
-                if (int.TryParse(Session["UserID"].ToString(), out userID))
-                    LogHelper.AddLog(DateTime.Now, "HourOvertime | Edit", $"Time:{hourOvertimeTable.Time} Duration:{hourOvertimeTable.Duration} Shop:{hourOvertimeTable.Shop} Type:{hourOvertimeTable.Type} Description:{hourOvertimeTable.Description} Cooperation:{hourOvertimeTable.Cooperation}", userID);
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "HourOvertime | Edit", $"Time:{hourOvertimeTable.Time} Duration:{hourOvertimeTable.Duration} Shop:{hourOvertimeTable.Shop} Type:{hourOvertimeTable.Type} Description:{hourOvertimeTable.Description} Cooperation:{hourOvertimeTable.Cooperation}", userID);
+                }
+                catch { }
                 db.SaveChanges();
                 return Json(new { success = true });
             }
@@ -143,9 +150,13 @@ namespace Project_REPORT_v7.Controllers
         {
             HourOvertimeTable hourOvertimeTable = db.HourOvertimeTable.Find(id);
             db.HourOvertimeTable.Remove(hourOvertimeTable);
-            int userID;
-            if (int.TryParse(Session["UserID"].ToString(), out userID))
-                LogHelper.AddLog(DateTime.Now, "HourOvertime | Delete", $"Time:{hourOvertimeTable.Time} Duration:{hourOvertimeTable.Duration} Shop:{hourOvertimeTable.Shop} Type:{hourOvertimeTable.Type} Description:{hourOvertimeTable.Description} Cooperation:{hourOvertimeTable.Cooperation}", userID);
+            try
+            {
+                int userID;
+                if (int.TryParse(Session["UserID"].ToString(), out userID))
+                    LogHelper.AddLog(DateTime.Now, "HourOvertime | Delete", $"Time:{hourOvertimeTable.Time} Duration:{hourOvertimeTable.Duration} Shop:{hourOvertimeTable.Shop} Type:{hourOvertimeTable.Type} Description:{hourOvertimeTable.Description} Cooperation:{hourOvertimeTable.Cooperation}", userID);
+                }
+            catch { }
             db.SaveChanges();
             return Json(new { success = true });
         }
@@ -155,24 +166,52 @@ namespace Project_REPORT_v7.Controllers
             ReportDBEntities1 sdb = new ReportDBEntities1();
             var ls = new List<SelectListItem>();
 
-            var temp = sdb.HourOvertimeTable.Select(s => new
+            var temp = sdb.MainTaskTable.Select(s => new
             {
                 Shop = s.Shop
             }).Distinct().ToList();
 
-            ls = temp.ConvertAll(a =>
-            {
-                return new SelectListItem()
-                {
-                    Text = a.Shop.ToString(),
-                    Value = a.Shop.ToString(),
-                    Selected = false
-                };
-            });
-            if (ls.Count() > 1)
-                ls[1].Selected = true;
 
-            return ls;
+            if (temp.Count > 2)
+            {
+                ls = temp.ConvertAll(a =>
+                {
+                    return new SelectListItem()
+                    {
+                        Text = a.Shop.ToString(),
+                        Value = a.Shop.ToString(),
+                        Selected = false
+                    };
+                });
+            }
+            else if (temp.Count <= 2)
+            {
+                ls.Add(
+                    new SelectListItem()
+                    {
+                        Text = "HMMC",
+                        Value = "HMMC",
+                        Selected = false
+                    });
+                ls.Add(
+                    new SelectListItem()
+                    {
+                        Text = "GLOVIS",
+                        Value = "GLOVIS",
+                        Selected = false
+                    });
+                ls.Add(
+                    new SelectListItem()
+                    {
+                        Text = "TRANSYS",
+                        Value = "TRANSYS",
+                        Selected = false
+                    });
+            }
+            var result = ls.Distinct().ToList();
+            result[1].Selected = true;
+
+            return result;
         }
 
         protected override void Dispose(bool disposing)

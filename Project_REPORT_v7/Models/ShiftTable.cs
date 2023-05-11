@@ -11,28 +11,22 @@ namespace Project_REPORT_v7.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-
-    public partial class MembersTable
+    
+    public partial class ShiftTable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public MembersTable()
+        public ShiftTable()
         {
+            this.MembersTable = new HashSet<MembersTable>();
             this.ReportTable = new HashSet<ReportTable>();
-            this.ReportTable1 = new HashSet<ReportTable>();
         }
-
-        [DisplayName("Member ID")]
-        public int MemberID { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        [DisplayName("Shift")]
-        public Nullable<int> ShiftID { get; set; }
     
-        public virtual ShiftTable ShiftTable { get; set; }
+        public int ShiftID { get; set; }
+        public string ShiftName { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MembersTable> MembersTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReportTable> ReportTable { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ReportTable> ReportTable1 { get; set; }
     }
 }

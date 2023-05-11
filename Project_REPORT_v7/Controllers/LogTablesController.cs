@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Project_REPORT_v7.Models;
 using Project_REPORT_v7.Controllers.Addon;
+using System.Linq;
 
 namespace Project_REPORT_v7.Controllers
 {
@@ -15,7 +16,7 @@ namespace Project_REPORT_v7.Controllers
         [AuthorizeAD(Groups = "CCR_Report_Admin")]
         public async Task<ActionResult> Index()
         {
-            return View(await db.LogTable.ToListAsync());
+            return View(await db.LogTable.OrderByDescending(o => o.L_DATE).ToListAsync());
         }
 
         public static LogTablesController LTC

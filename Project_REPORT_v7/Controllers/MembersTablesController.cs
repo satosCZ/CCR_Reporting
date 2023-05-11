@@ -1,4 +1,6 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using Project_REPORT_v7.Models;
@@ -28,6 +30,59 @@ namespace Project_REPORT_v7.Controllers
             }
         }
 
+        public ActionResult Index()
+        {
+            var memberTable = db.MembersTable;
+            return View(memberTable);
+        }
+
+        public ActionResult Details(int MemberID) 
+        {
+            if (MemberID ==  0)
+            {
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            }
+
+            MembersTable member = db.MembersTable.Find(MemberID);
+
+            ViewData["CurrentMember"] = MemberID;
+
+            if (member == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(member);
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            if (id == 0)
+            {
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            }
+            MembersTable member = db.MembersTable.Find(id);
+            if (member == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(member);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "MemberID, Name, Email, ShiftID")] MembersTable membersTable)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(membersTable).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+            return View();
+        }
+
         public bool CheckMember(int ID)
         {
             return db.MembersTable.Any(i => i.MemberID == ID);
@@ -41,6 +96,46 @@ namespace Project_REPORT_v7.Controllers
                 Name = q.Name,
                 Id = q.MemberID
             }).Where(q => q.Name.Contains(term));
+            return Json(members, JsonRequestBehavior.AllowGet);
+        }
+
+        public static List<SelectListItem> GetShifts()
+        {
+            ReportDBEntities1 sdb = new ReportDBEntities1();
+            var ls = new List<SelectListItem>();
+
+            var temp = sdb.ShiftTable.Select(s => new
+            {
+                Shift = s.ShiftName,
+                ID = s.ShiftID
+            }).ToList();
+
+            ls = temp.ConvertAll(a =>
+            {
+                return new SelectListItem()
+                {
+                    Text = a.Shift,
+                    Value = a.ID.ToString(),
+                    Selected = false
+                };
+            });
+
+            ls[0].Selected = true;
+
+            return ls;
+        }
+
+        public JsonResult GetMembersByShiftID(string term)
+        {
+            int id = 0;
+            if (int.TryParse(term, out id))
+                Debug.WriteLine("Int.TryParse in GetMembersByShiftID success");
+            var members = db.MembersTable.Select(s => new
+            {
+                Name = s.Name,
+                ID = s.MemberID,
+                s.ShiftID
+            }).Where(w => w.ShiftID == id);
             return Json(members, JsonRequestBehavior.AllowGet);
         }
 
