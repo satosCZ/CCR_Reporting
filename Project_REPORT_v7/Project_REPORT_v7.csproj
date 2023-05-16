@@ -152,6 +152,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Addon\ADHelper.cs" />
     <Compile Include="Controllers\Addon\AuthorizeADAttribute.cs" />
+    <Compile Include="Controllers\Addon\CheckSessionTimeOutAttribute.cs" />
     <Compile Include="Controllers\Addon\LDAPHelper.cs" />
     <Compile Include="Controllers\Addon\LogHelper.cs" />
     <Compile Include="Controllers\ErrorController.cs" />

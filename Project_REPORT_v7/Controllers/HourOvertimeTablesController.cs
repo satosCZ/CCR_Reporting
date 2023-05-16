@@ -65,6 +65,16 @@ namespace Project_REPORT_v7.Controllers
                 db.SaveChanges();
                 return Json(new { success = true });
             }
+            else
+            {
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "HourOvertime | Create | Error", $"Time:{hourOvertimeTable.Time} Duration:{hourOvertimeTable.Duration} Shop:{hourOvertimeTable.Shop} Type:{hourOvertimeTable.Type} Description:{hourOvertimeTable.Description} Cooperation:{hourOvertimeTable.Cooperation}", userID);
+                }
+                catch { }
+            }
 
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", hourOvertimeTable.ReportID);
             //return Json(new { success = false });
@@ -121,6 +131,16 @@ namespace Project_REPORT_v7.Controllers
                 catch { }
                 db.SaveChanges();
                 return Json(new { success = true });
+            }
+            else
+            {
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "HourOvertime | Edit | Error", $"Time:{hourOvertimeTable.Time} Duration:{hourOvertimeTable.Duration} Shop:{hourOvertimeTable.Shop} Type:{hourOvertimeTable.Type} Description:{hourOvertimeTable.Description} Cooperation:{hourOvertimeTable.Cooperation}", userID);
+                }
+                catch { }
             }
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", hourOvertimeTable.ReportID);
             return Json(new { success = false });

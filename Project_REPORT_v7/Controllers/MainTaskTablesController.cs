@@ -110,6 +110,16 @@ namespace Project_REPORT_v7.Controllers
                 db.SaveChanges();
                 return Json(new { success = true });
             }
+            else
+            {
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "MainTaskTable | Create | Error", $"Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
+                }
+                catch { }
+            }
 
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", mainTaskTable.ReportID);
             return Json(mainTaskTable, JsonRequestBehavior.AllowGet);
@@ -166,6 +176,16 @@ namespace Project_REPORT_v7.Controllers
                 catch { }
                 db.SaveChanges();
                 return Json(new { success = true });
+            }
+            else
+            {
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "MainTaskTable | Edit | Error", $"Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
+                }
+                catch { }
             }
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", mainTaskTable.ReportID);
             return PartialView(new { success = true });

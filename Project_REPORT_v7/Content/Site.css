@@ -72,3 +72,14 @@ select.input-lg > option {
     height: 36px;
     font-size: 44px;
 }
+
+.required::after {
+    content: " *";
+    font-weight: bolder;
+}
+
+.bg-warning {
+    width: 80%;
+    padding: 10px 10px 10px 20px;
+    font-weight: bolder:
+}

@@ -63,6 +63,16 @@ namespace Project_REPORT_v7.Controllers
                 db.SaveChanges();
                 return Json (new { success = true });
             }
+            else
+            {
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "PrintersTable | Create | Error", $"Time:{printersTable.Time} Who:{printersTable.User} What:{printersTable.Objective} Printer:{printersTable.Printer}", userID);
+                }
+                catch { }
+            }
 
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", printersTable.ReportID);
             return Json(printersTable, JsonRequestBehavior.AllowGet);
@@ -119,6 +129,16 @@ namespace Project_REPORT_v7.Controllers
                 catch { }
                 db.SaveChanges();
                 return Json(new { success = true });
+            }
+            else
+            {
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "PrintersTable | Edit | Error", $"Time:{printersTable.Time} Who:{printersTable.User} What:{printersTable.Objective} Printer:{printersTable.Printer}", userID);
+                }
+                catch { }
             }
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", printersTable.ReportID);
             return PartialView("Edit", printersTable);

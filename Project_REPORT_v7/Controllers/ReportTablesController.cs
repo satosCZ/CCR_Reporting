@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Net.Http.Headers;
 using System.Web.Mvc;
 using PagedList;
 using Project_REPORT_v7.Controllers.Addon;
@@ -13,6 +12,7 @@ using Project_REPORT_v7.Models;
 namespace Project_REPORT_v7.Controllers
 {
     //[AuthorizeAD(Groups ="CCR_Report")]
+    [CheckSessionTimeOut]
     public class ReportTablesController : Controller
     {
         private ReportDBEntities1 db = new ReportDBEntities1();
@@ -117,7 +117,7 @@ namespace Project_REPORT_v7.Controllers
                 {
                     int userID;
                     if (int.TryParse(Session["UserID"].ToString(), out userID))
-                        LogHelper.AddLog(DateTime.Now, "ReportTable | Create[GET]", $"Error in switch(reportTable.Shift): {ex.ToString()}", userID);
+                        LogHelper.AddLog(DateTime.Now, "ReportTable | Create[GET] | Error", $"Error in switch(reportTable.Shift): {ex.ToString()}", userID);
                 }
                 catch { }
             }
@@ -150,7 +150,7 @@ namespace Project_REPORT_v7.Controllers
                 {
                     int userID;
                     if (int.TryParse(Session["UserID"].ToString(), out userID))
-                        LogHelper.AddLog(DateTime.Now, "ReportTable | Create[GET]", $"Error in switch(reportTable.Shift): {ex.ToString()}", userID);
+                        LogHelper.AddLog(DateTime.Now, "ReportTable | Create[GET] | Error", $"Error in switch(reportTable.Shift): {ex.ToString()}", userID);
                 }
                 catch { }
             }
@@ -194,7 +194,7 @@ namespace Project_REPORT_v7.Controllers
                     {
                         int userID;
                         if (int.TryParse(Session["UserID"].ToString(), out userID))
-                            LogHelper.AddLog(DateTime.Now, "ReportTable | Create[POST]", $"Error in switch(reportTable.Shift): {ex.ToString()}", userID);
+                            LogHelper.AddLog(DateTime.Now, "ReportTable | Create[POST] | Error", $"Error in switch(reportTable.Shift): {ex.ToString()}", userID);
                     }
                     catch { }
                 }
@@ -280,7 +280,7 @@ namespace Project_REPORT_v7.Controllers
                         {
                             int userID;
                             if (int.TryParse(Session["UserID"].ToString(), out userID))
-                                LogHelper.AddLog(DateTime.Now, "ReportTable | Edit[POST]", $"Error in switch(reportTable.Shift) adding time: {ex.ToString()}", userID);
+                                LogHelper.AddLog(DateTime.Now, "ReportTable | Edit[POST] | Error", $"Error in switch(reportTable.Shift) adding time: {ex.ToString()}", userID);
                         }
                         catch { }
                     }

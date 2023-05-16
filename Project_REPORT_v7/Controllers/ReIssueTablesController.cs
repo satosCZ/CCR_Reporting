@@ -71,7 +71,7 @@ namespace Project_REPORT_v7.Controllers
                         {
                             int userId;
                             if (int.TryParse(Session["UserID"].ToString(), out userId))
-                                LogHelper.AddLog(DateTime.Now, "ReIssueTable | CreateMultiple", $"Time:{time} Who:{user} Where:{objective} BodyNums:{bodyNum}", userId);
+                                LogHelper.AddLog(DateTime.Now, "ReIssueTable | CreateMultiple", $"Time:{time} Who:{user} Where:{objective} BodyNum:{body}", userId);
                         }
                         catch { }
                     }
@@ -99,6 +99,16 @@ namespace Project_REPORT_v7.Controllers
                     db.SaveChanges();
                     return Json(new { success = true });
                 }
+            }
+            else
+            {
+                try
+                {
+                    int userId;
+                    if (int.TryParse(Session["UserID"].ToString(), out userId))
+                        LogHelper.AddLog(DateTime.Now, "ReIssueTable | Create | Error", $"Time:{time} Who:{user} Where:{objective} BodyNums:{bodyNum}", userId);
+                }
+                catch { }
             }
             return Json(this, JsonRequestBehavior.AllowGet);
         }
@@ -154,6 +164,16 @@ namespace Project_REPORT_v7.Controllers
                 }
                 catch { }
                 return Json(new { success = true });
+            }
+            else
+            {
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "ReIssueTable | Edit | Error", $"Time:{reIssueTable.Time} Who:{reIssueTable.User} Where:{reIssueTable.Objective} BodyNum:{reIssueTable.BodyNum}", userID);
+                }
+                catch { }
             }
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", reIssueTable.ReportID);
             return PartialView("Edit", reIssueTable);

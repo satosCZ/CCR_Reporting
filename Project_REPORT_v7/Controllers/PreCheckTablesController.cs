@@ -60,6 +60,16 @@ namespace Project_REPORT_v7.Controllers
                 db.SaveChanges();
                 return Json(new { success = true });
             }
+            else
+            {
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "PreCheckTable | Create | Error", $"Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
+                }
+                catch { }
+            }
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", preCheckTable.ReportID);
             return Json (preCheckTable, JsonRequestBehavior.AllowGet);
         }
@@ -116,6 +126,16 @@ namespace Project_REPORT_v7.Controllers
 
                 db.SaveChanges();
                 return Json(new { success = true });
+            }
+            else
+            {
+                try
+                {
+                    int userID;
+                    if (int.TryParse(Session["UserID"].ToString(), out userID))
+                        LogHelper.AddLog(DateTime.Now, "PreCheckTable | Edit | Error", $"Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
+                }
+                catch { }
             }
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", preCheckTable.ReportID);
             return PartialView("Edit", preCheckTable);

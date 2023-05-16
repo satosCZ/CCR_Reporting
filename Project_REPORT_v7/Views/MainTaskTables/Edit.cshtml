@@ -73,7 +73,7 @@
             @Html.HiddenFor(model => model.MainTaskID)
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-2 required" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control" } })
                     <div>
@@ -83,7 +83,7 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2 required" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
                     <div>
@@ -93,7 +93,7 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Shop, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Shop, htmlAttributes: new { @class = "control-label col-md-2 required" })
                 <div class="col-md-10 clearfix">
                     <div class="btn-group" id="radio">
                         <label class="btn btn-default" for="HMMC">HMMC</label>
@@ -107,7 +107,8 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.System, htmlAttributes: new { @class = "control-label col-md-2" })
+                required
+                @Html.LabelFor(model => model.System, htmlAttributes: new { @class = "control-label col-md-2 required" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.System, new { htmlAttributes = new { @class = "form-control" } })
                     <div>
@@ -117,7 +118,7 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Problem, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Problem, htmlAttributes: new { @class = "control-label col-md-2 required" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Problem, new { htmlAttributes = new { @class = "form-control" } })
                     <div>
@@ -127,7 +128,7 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Solution, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Solution, htmlAttributes: new { @class = "control-label col-md-2 required" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Solution, new { htmlAttributes = new { @class = "form-control" } })
                     <div>
@@ -147,6 +148,7 @@
             </div>
         </div>
     </div>
+    <p class="bg-warning">* - Required</p>
     <div class="modal-footer">
         <span id="progress" class="text-center center-block">
             <img src="~/Content/Animation/Rhombus.gif" alt="Wait" />
