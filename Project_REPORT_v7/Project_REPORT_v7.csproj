@@ -414,6 +414,7 @@
     <Content Include="Views\Error\Error401.cshtml" />
     <Content Include="Views\Home\Information.cshtml" />
     <Content Include="Views\Error\Error302.cshtml" />
+    <Content Include="Views\LogTables\Filter.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

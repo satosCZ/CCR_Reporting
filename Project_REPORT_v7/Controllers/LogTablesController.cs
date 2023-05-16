@@ -16,11 +16,17 @@ namespace Project_REPORT_v7.Controllers
 
         // GET: LogTables
         [AuthorizeAD(Groups = "CCR_Report_Admin")]
-        public async Task<ActionResult> Index(string FilterLog, string UserDD, DateTime? dateFrom, DateTime? dateTo, int? page)
+        public async Task<ActionResult> Index()
         {
-            IQueryable<LogTable> logTable = db.LogTable;
-            IOrderedQueryable<LogTable> filtered;
+            var logTable = await db.LogTable.ToListAsync();
+            return View();
+        }
 
+        public async Task<ActionResult> Filter(string FilterLog, string UserDD, DateTime? dateFrom, DateTime? dateTo, int? page)
+        {
+            IQueryable<LogTable> logTable = db.LogTable.AsQueryable();
+            IOrderedQueryable<LogTable> filtered;
+            
             int pageSize = 35;
             int pageNumber = (page ?? 1);
 
@@ -40,7 +46,7 @@ namespace Project_REPORT_v7.Controllers
 
             if (int.TryParse(UserDD, out userID))
             {
-                filtered = filtered.Where(w => w.L_USER_ID ==  userID).OrderByDescending(o => o.L_DATE);
+                filtered = filtered.Where(w => w.L_USER_ID == userID).OrderByDescending(o => o.L_DATE);
             }
 
             if (dateFrom != null && dateTo != null)
@@ -55,7 +61,7 @@ namespace Project_REPORT_v7.Controllers
             {
                 filtered = filtered.Where(w => w.L_DATE <= to).OrderByDescending(o => o.L_DATE);
             }
-            return View("Index", filtered.ToPagedList(pageNumber, pageSize));
+            return PartialView("Filter", filtered.ToPagedList(pageNumber, pageSize));
         }
 
         public static LogTablesController LTC
