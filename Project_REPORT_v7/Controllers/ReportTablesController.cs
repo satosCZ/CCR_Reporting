@@ -91,10 +91,11 @@ namespace Project_REPORT_v7.Controllers
         [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Create()
         {
-            ReportTable reportTable = db.ReportTable.OrderByDescending(o => o.Date).First();
+            
             try
             {
-                switch(reportTable.Shift)
+                ReportTable reportTable = db.ReportTable.OrderByDescending(o => o.Date).First();
+                switch (reportTable.Shift)
                 {
                     case "Morning":
                         ViewBag.Shift = "A";
@@ -109,20 +110,7 @@ namespace Project_REPORT_v7.Controllers
                         ViewBag.Shift = "M";
                         break;
                 }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.ToString());
-                try
-                {
-                    int userID;
-                    if (int.TryParse(Session["UserID"].ToString(), out userID))
-                        LogHelper.AddLog(DateTime.Now, "ReportTable | Create[GET] | Error", $"Error in switch(reportTable.Shift): {ex.ToString()}", userID);
-                }
-                catch { }
-            }
-            try
-            {
+
                 int tempShift;
                 switch (reportTable.ShiftID)
                 {
@@ -141,16 +129,18 @@ namespace Project_REPORT_v7.Controllers
                 }
 
                 var members = db.MembersTable.Where(w => w.ShiftID == tempShift).ToList();
+
+                // Save selected members for assigning to members select as default.
                 ViewBag.Members = members;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine (ex.ToString());
+                Debug.WriteLine(ex.ToString());
                 try
                 {
                     int userID;
                     if (int.TryParse(Session["UserID"].ToString(), out userID))
-                        LogHelper.AddLog(DateTime.Now, "ReportTable | Create[GET] | Error", $"Error in switch(reportTable.Shift): {ex.ToString()}", userID);
+                        LogHelper.AddLog(DateTime.Now, "ReportTable | Create[GET] | Error", $"Message: {ex.ToString()}", userID);
                 }
                 catch { }
             }
