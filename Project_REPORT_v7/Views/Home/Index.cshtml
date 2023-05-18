@@ -5,9 +5,14 @@
 }
 
 <div class="jumbotron">
-    <h1>Project REPORT</h1>
-    <p class="lead">Prototype version 7.</p>
-    <h4>More information: @Html.ActionLink("here","Information","Home")</h4>
+    <h1>CCR Report</h1>
+    <p class="lead">Web page style</p>
+    <p>All problems or error please send an email with screenshots of error and how it could be repeated.</p>
+    <p>Email:<strong>jiri.kukuczka@hyundai-autoever.cz</strong></p>
+    <hr/>
+    <div>
+        @Html.ActionLink("Create Report", "Create", "ReportTables", htmlAttributes: new { @class = "btn btn-primary" })
+    </div>
 </div>
 
 <div>
