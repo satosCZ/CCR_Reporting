@@ -64,6 +64,25 @@ namespace Project_REPORT_v7.Controllers
             return PartialView("Filter", filtered.ToPagedList(pageNumber, pageSize));
         }
 
+        [HttpGet]
+        public ActionResult Delete()
+        {
+            return View();
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(int SpinNumber)
+        {
+            if (SpinNumber > 0) 
+            { 
+                var logTable = await db.LogTable.OrderBy(o => o.L_DATE).Take(SpinNumber).ToListAsync();
+                db.LogTable.RemoveRange(logTable.ToList());
+                await db.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
+
         public static LogTablesController LTC
         {
             get { return ltc; }

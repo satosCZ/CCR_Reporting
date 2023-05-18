@@ -414,6 +414,7 @@
     <Content Include="Views\Error\Error302.cshtml" />
     <Content Include="Views\LogTables\Filter.cshtml" />
     <Content Include="Views\MembersTables\Index.cshtml" />
+    <Content Include="Views\LogTables\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

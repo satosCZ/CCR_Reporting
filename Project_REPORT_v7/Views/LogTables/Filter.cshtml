@@ -32,7 +32,7 @@
                 icon: false
             });
 
-            dateFrom = $("dateFrom")
+            dateFrom = $("#dateFrom")
                 .datepicker({
                     defaultDate: "",
                     changeMonth: true,
@@ -41,8 +41,8 @@
                 })
                 .on("change", function () {
                     dateTo.datepicker("option", "minDate", getDate(this));
-                });
-            dateTo = $("dateTo")
+                }),
+            dateTo = $("#dateTo")
                 .datepicker({
                     defaultDate: "",
                     changeMonth: true,

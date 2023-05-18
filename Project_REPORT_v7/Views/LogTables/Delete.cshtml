@@ -1,0 +1,53 @@
+﻿@model Project_REPORT_v7.Models.LogTable
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    <script>
+        $(function () {
+            $("#SpinNumber").spinner({
+                incremental: true,
+                min: 1
+            });
+        }
+    </script>
+
+    <h2>Delete data</h2>
+
+    <div class="normal center-block">
+        @using (Html.BeginForm())
+        {
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h4>ARE YOU SURE?</h4>
+                </div>
+                <div class="panel-body">
+                    <p class="text-danger lead">This is not reversible! The Log data will be permanently removed. Impossilbe to take it back after deleting.</p>
+                </div>
+            </div>
+
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <label for="SpinNumber" class="col-md-2">Number of logs to delete:</label>
+                    <div class="col-md-1">
+                        @*@Html.TextBox("SpinNumber", 0, htmlAttributes: new { @class = "form-control", @id = "SpinNumber" })*@
+                        <input type="number" name="SpinNumber" id="SpinNumber" value="0" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                </div>
+            </div>
+            <br />
+            <br />
+        }
+    </div>
+
+</div>
+

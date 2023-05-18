@@ -60,6 +60,10 @@ ui-tabs-nav {
     width: 35%;
 }
 
+.normal {
+    width: 60%;
+}
+
 select.input-lg {
     height: 259px;
     padding: 10px 0px;
