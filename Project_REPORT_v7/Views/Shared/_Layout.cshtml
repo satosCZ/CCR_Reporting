@@ -5,11 +5,11 @@
     <meta lang="cs" />
     <meta name="viewport" content="width=100%, initial-scale=1.0">
     <title>@ViewBag.Title - Project Report</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jquery-other")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Styles.Render("~/Content/css")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -31,6 +31,7 @@
                     @if (((string)Session["isAdmin"]) == "Admin")
             {
                     <li>@Html.ActionLink("Logs", "Index", "LogTables") </li>
+                    <li>@Html.ActionLink("Members", "Index", "MembersTables")</li>
             }
                 </ul>
             </div>
