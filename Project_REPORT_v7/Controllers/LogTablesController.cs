@@ -22,9 +22,9 @@ namespace Project_REPORT_v7.Controllers
             return View();
         }
 
-        public ActionResult Filter(string FilterLog, string UserDD, DateTime? dateFrom, DateTime? dateTo, int? page)
+        public async Task<ActionResult> Filter(string FilterLog, string UserDD, DateTime? dateFrom, DateTime? dateTo, int? page)
         {
-            IQueryable<LogTable> logTable = db.LogTable.AsQueryable();
+            IQueryable<LogTable> logTable = db.LogTable;
             IOrderedQueryable<LogTable> filtered;
             
             int pageSize = 35;
