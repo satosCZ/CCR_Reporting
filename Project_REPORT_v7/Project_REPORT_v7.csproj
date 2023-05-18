@@ -396,12 +396,10 @@
     <Content Include="Views\PasswordTables\_index.cshtml" />
     <Content Include="Views\HourOvertimeTables\_index.cshtml" />
     <Content Include="Views\MainTaskTables\_index.cshtml" />
-    <Content Include="Views\MembersTables\_index.cshtml" />
     <Content Include="Views\ReportTables\IndexHome.cshtml" />
     <Content Include="Views\MainTaskTables\FilterIndex.cshtml" />
     <Content Include="Views\ReIssueTables\CreateMultiple.cshtml" />
     <Content Include="Views\MainTaskTables\Create.cshtml" />
-    <Content Include="Views\MembersTables\Register.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Other\Filtered.cshtml" />
     <Content Include="Views\Home\Filtered.cshtml" />
@@ -415,6 +413,7 @@
     <Content Include="Views\Home\Information.cshtml" />
     <Content Include="Views\Error\Error302.cshtml" />
     <Content Include="Views\LogTables\Filter.cshtml" />
+    <Content Include="Views\MembersTables\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
