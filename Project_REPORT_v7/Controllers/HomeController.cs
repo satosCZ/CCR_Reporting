@@ -27,16 +27,20 @@ namespace Project_REPORT_v7.Controllers
 
             if (!member.CheckMember(ad.MemberID))
             {
-                if (member.AddMember(ad.MemberID, ad.MemberName, ad.MemberEmail))
+                JSConsoleLog.ConsoleLog($"User ID {ad.MemberID} & User Name {ad.MemberName} is not in local DB");
+                if (member.AddMember(ad))
                 {
-                    Session["User"] = ad.MemberName;
+                    Session["User"] = $"{ad.MemberName} [{ad.MemberID}]";
                     Session["UserID"] = ad.MemberID;
                 }
                 else
                 {
+                    JSConsoleLog.ConsoleLog($"User wasn't added to DB.");
                     Session["User"] = "Unknown";
                     Session["UserID"] = 99999999;
                 }
+
+
             }
             else
             {

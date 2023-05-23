@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using Project_REPORT_v7.Controllers.Addon;
 using Project_REPORT_v7.Models;
 
 namespace Project_REPORT_v7.Controllers
@@ -12,20 +14,25 @@ namespace Project_REPORT_v7.Controllers
         private readonly ReportDBEntities1 db = new ReportDBEntities1();
 
         // Add Member from AD to DB        
-        public bool AddMember(int ID, string Name, string Email)
+        public bool AddMember(ADHelper ad)
         {
-            if (ID > 0 && string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(Email)) 
+            JSConsoleLog.ConsoleLog($"Function AddMember(int {ad.MemberID}, string {ad.MemberName}, string {ad.MemberEmail}");
+            if (ad.MemberID > 0 && string.IsNullOrEmpty(ad.MemberName) && string.IsNullOrEmpty(ad.MemberEmail)) 
             {
-                MembersTable member = new MembersTable();
-                member.MemberID = ID;
-                member.Name = Name;
-                member.Email = Email;
+                MembersTable member = new MembersTable
+                {
+                    MemberID = ad.MemberID,
+                    Name = ad.MemberName,
+                    Email = ad.MemberEmail
+                };
                 db.MembersTable.Add(member);
                 db.SaveChanges();
+                JSConsoleLog.ConsoleLog($"AddMember - User was successfuly");
                 return true;
             }
             else
             {
+                JSConsoleLog.ConsoleLog($"AddMember - Error in adding user");
                 return false;
             }
         }
@@ -83,8 +90,30 @@ namespace Project_REPORT_v7.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            MembersTable membersTable = db.MembersTable.Find(id);
+            if (membersTable == null)
+                return HttpNotFound();
+            return View("Delete", membersTable);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            MembersTable membersTable = db.MembersTable.Find(id);
+            db.MembersTable.Remove(membersTable);
+            db.SaveChanges();
+            return View("Index");
+        }
+
         public bool CheckMember(int ID)
         {
+            JSConsoleLog.ConsoleLog($"Checking user: {ID}");
             return db.MembersTable.Any(i => i.MemberID == ID);
         }
 
@@ -129,7 +158,11 @@ namespace Project_REPORT_v7.Controllers
         {
             int id = 0;
             if (int.TryParse(term, out id))
+            {
                 Debug.WriteLine("Int.TryParse in GetMembersByShiftID success");
+                JSConsoleLog.ConsoleLog($"GetMembersByShiftID - Int.TryParse got int {id} from {term}.");
+            }
+
             var members = db.MembersTable.Select(s => new
             {
                 Name = s.Name,
