@@ -17,7 +17,7 @@ namespace Project_REPORT_v7.Controllers
         public bool AddMember(ADHelper ad)
         {
             JSConsoleLog.ConsoleLog($"Function AddMember(int {ad.MemberID}, string {ad.MemberName}, string {ad.MemberEmail}");
-            if (ad.MemberID > 0 && string.IsNullOrEmpty(ad.MemberName) && string.IsNullOrEmpty(ad.MemberEmail)) 
+            if (ad.MemberID > 0 && !string.IsNullOrEmpty(ad.MemberName) && !string.IsNullOrEmpty(ad.MemberEmail)) 
             {
                 MembersTable member = new MembersTable
                 {
