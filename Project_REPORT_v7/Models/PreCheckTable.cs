@@ -17,14 +17,14 @@ namespace Project_REPORT_v7.Models
         public System.Guid PreCheckID { get; set; }
         [Required]
         [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:HH\\:mm}", ApplyFormatInEditMode = true)]
         public System.TimeSpan Time { get; set; }
         [Required]
         public string System { get; set; }
         [Required]
         public string Check { get; set; }
         [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:HH\\:mm}", ApplyFormatInEditMode = true)]
         public string EmailTime { get; set; }
         public System.Guid ReportID { get; set; }
     
