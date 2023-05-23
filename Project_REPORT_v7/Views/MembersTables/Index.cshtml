@@ -35,8 +35,8 @@
                 @Html.HiddenFor(modelItem => item.ShiftTable.ShiftID)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.MemberID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.MemberID })
+                @Html.ActionLink("Edit", "Edit", new { id = item.MemberID }) | 
+                @Html.ActionLink("Delete", "Delete", new { id = item.MemberID })
             </td>
         </tr>
     }
