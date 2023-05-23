@@ -90,7 +90,8 @@ namespace Project_REPORT_v7.Controllers
             return View();
         }
 
-        [HttpPost]
+        // GET: /MembersTable/Delete/5
+        [HttpGet]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -101,6 +102,7 @@ namespace Project_REPORT_v7.Controllers
             return View("Delete", membersTable);
         }
 
+        // POST: /MembersTable/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
