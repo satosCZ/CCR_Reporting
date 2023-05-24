@@ -18,7 +18,7 @@ namespace Project_REPORT_v7.Models
         public System.Guid PasswordID { get; set; }
         [Required]
         [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:hh:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         public System.TimeSpan Time { get; set; }
         [Required]
         [DisplayName("Name")]
