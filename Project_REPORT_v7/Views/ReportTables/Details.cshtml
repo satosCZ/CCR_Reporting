@@ -63,6 +63,35 @@
         $("#ModalPopup").on('shown.bs.modal', function () {
             $('#Time').focus();
         });
+
+
+        $("body").keypress(function (event) {
+            var link = "#link";
+            if (event.key == "r" || event.key == "R") {
+                showAcc("#RiAcc")
+                link = "#btnReIssueCreate";
+            } else if (event.key == "p" || event.key == "P") {
+                showAcc("#PrAcc")
+                link = "#btnPrintersCreate";
+            } else if (event.key == "w" || event.key == "W") {
+                showAcc("#PaAcc")
+                link = "#btnPasswordTableCreate";
+            } else if (event.key == "c" || event.key == "C") {
+                showAcc("#PcAcc")
+                link = "#btnPreCheckCreate";
+            } else if (event.key == "h" || event.key == "H") {
+                showAcc("#HoAcc")
+                $("#btnHourOvertimeCreate");
+            } else if (event.key == "m" || event.key == "M") {
+                link = "#MainTaskCreate";
+            }
+            if (link != "#link") $(link).trigger("click");
+        });
+
+        function showAcc(id) {
+            $(".ui-accordion-content").hide();
+            $(id).show();
+        }
     });
 </script>
 
@@ -93,23 +122,23 @@
 <div>
     <div id="accordion">
         <h3>Re-Issue</h3>
-        <div class="contentFrame">
+        <div class="contentFrame" id="RiAcc">
             @Html.Partial("../ReIssueTables/_index", Model.ReIssueTable)
         </div>
         <h3>Printers</h3>
-        <div class="contentFrame">
+        <div class="contentFrame" id="PrAcc">
             @Html.Partial("../PrintersTables/_index", Model.PrintersTable)
         </div>
         <h3>PreCheck</h3>
-        <div class="contentFrame">
+        <div class="contentFrame" id="PcAcc">
             @Html.Partial("../PreCheckTables/_index", Model.PreCheckTable)
         </div>
         <h3>Password</h3>
-        <div class="contentFrame">
+        <div class="contentFrame" id="PaAcc">
             @Html.Partial("../PasswordTables/_index", Model.PasswordTable)
         </div>
         <h3>Hour Overtime</h3>
-        <div class="contentFrame">
+        <div class="contentFrame" id="HoAcc">
             @Html.Partial("../HourOvertimeTables/_index", Model.HourOvertimeTable)
         </div>
     </div>
