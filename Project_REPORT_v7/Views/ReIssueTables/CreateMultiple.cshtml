@@ -67,7 +67,7 @@
         <div class="form-horizontal" id="ReIssueModalCreate">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
-                @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-2 required" })
+                @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-4 required" })
                 <div class="col-md-2">
                     @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control text-center", @autofocus = "autofocus" } })
                     <div>
@@ -77,8 +77,8 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.User, htmlAttributes: new { @class = "control-label col-md-2 required" })
-                <div class="col-md-4">
+                @Html.LabelFor(model => model.User, htmlAttributes: new { @class = "control-label col-md-4 required" })
+                <div class="col-md-8">
                     @Html.EditorFor(model => model.User, new { htmlAttributes = new { @class = "form-control" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.User, "", new { @class = "text-danger" })
@@ -87,8 +87,8 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Objective, htmlAttributes: new { @class = "control-label col-md-2 required" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Objective, htmlAttributes: new { @class = "control-label col-md-4 required" })
+                <div class="col-md-8">
                     @Html.EditorFor(model => model.Objective, new { htmlAttributes = new { @class = "form-control" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.Objective, "", new { @class = "text-danger" })
@@ -97,8 +97,8 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.BodyNum, htmlAttributes: new { @class = "control-label col-md-2 required" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.BodyNum, htmlAttributes: new { @class = "control-label col-md-4 required" })
+                <div class="col-md-8">
                     @Html.TextAreaFor(model => model.BodyNum, htmlAttributes: new { @class = "form-control", aria_describedby = "helperText" })
                     <span id="helperText" class="help-block">For multiple body numbers, seperate by new line.</span>
                     <div>

@@ -73,8 +73,8 @@
             @Html.HiddenFor(model => model.MainTaskID)
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-2 required" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-4 required" })
+                <div class="col-md-2">
                     @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
@@ -83,8 +83,8 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2 required" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-4 required" })
+                <div class="col-md-2">
                     @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
@@ -93,8 +93,8 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Shop, htmlAttributes: new { @class = "control-label col-md-2 required" })
-                <div class="col-md-10 clearfix">
+                @Html.LabelFor(model => model.Shop, htmlAttributes: new { @class = "control-label col-md-4 required" })
+                <div class="col-md-8 clearfix">
                     <div class="btn-group" id="radio">
                         <label class="btn btn-default" for="HMMC">HMMC</label>
                         @Html.RadioButtonFor(model => model.Shop, "HMMC", htmlAttributes: new { @checked = "checked", @title = "HMMC", @id = "HMMC", @style = "visibility: hidden, width: 0, height: 0;" })
@@ -108,8 +108,8 @@
 
             <div class="form-group">
                 required
-                @Html.LabelFor(model => model.System, htmlAttributes: new { @class = "control-label col-md-2 required" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.System, htmlAttributes: new { @class = "control-label col-md-4 required" })
+                <div class="col-md-8">
                     @Html.EditorFor(model => model.System, new { htmlAttributes = new { @class = "form-control" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.System, "", new { @class = "text-danger" })
@@ -118,9 +118,9 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Problem, htmlAttributes: new { @class = "control-label col-md-2 required" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Problem, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.LabelFor(model => model.Problem, htmlAttributes: new { @class = "control-label col-md-4 required" })
+                <div class="col-md-8">
+                    @Html.TextAreaFor(model => model.Problem, htmlAttributes: new { @class = "form-control", @style="height:75px;"})
                     <div>
                         @Html.ValidationMessageFor(model => model.Problem, "", new { @class = "text-danger" })
                     </div>
@@ -128,9 +128,9 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Solution, htmlAttributes: new { @class = "control-label col-md-2 required" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Solution, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.LabelFor(model => model.Solution, htmlAttributes: new { @class = "control-label col-md-4 required" })
+                <div class="col-md-8">
+                    @Html.TextAreaFor(model => model.Solution, htmlAttributes: new { @class = "form-control", @style = "height:75px;" })
                     <div>
                         @Html.ValidationMessageFor(model => model.Solution, "", new { @class = "text-danger" })
                     </div>
@@ -138,8 +138,8 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Cooperation, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Cooperation, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
                     @Html.EditorFor(model => model.Cooperation, new { htmlAttributes = new { @class = "form-control" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.Cooperation, "", new { @class = "text-danger" })

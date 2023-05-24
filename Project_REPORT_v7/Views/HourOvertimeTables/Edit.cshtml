@@ -19,8 +19,8 @@
             @Html.HiddenFor(model => model.OvertimeID)
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-4">
                     @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
@@ -29,8 +29,8 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-4">
                     @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
@@ -39,11 +39,13 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Shop, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10 clearfix">
+                @Html.LabelFor(model => model.Shop, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8 clearfix">
                     <div id="radio" class="btn-group">
+                        <label class="btn btn-default" for="ALL">ALL</label>
+                        @Html.RadioButtonFor(model => model.Shop, "ALL", htmlAttributes: new { @checked = "checked", @title = "ALL", @id = "ALL", @style = "visibility: hidden; width: 0; height: 0;" })
                         <label class="btn btn-default" for="HMMC">HMMC</label>
-                        @Html.RadioButtonFor(model => model.Shop, "HMMC", htmlAttributes: new { @checked = "checked", @title = "HMMC", @id = "HMMC", @style = "visibility: hidden; width: 0; height: 0;" })
+                        @Html.RadioButtonFor(model => model.Shop, "HMMC", htmlAttributes: new { @title = "HMMC", @id = "HMMC", @style = "visibility: hidden; width: 0; height: 0;" })
                         <label class="btn btn-default" for="GLOVIS">GLOVIS</label>
                         @Html.RadioButtonFor(model => model.Shop, "GLOVIS", htmlAttributes: new { @title = "GLOVIS", @id = "GLOVIS", @style = "visibility: hidden; width: 0; height: 0;" })
                         <label class="btn btn-default" for="TRANSYS">TRANSYS</label>
@@ -53,8 +55,8 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
                     @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "from-control" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
@@ -63,8 +65,8 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
                     @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
@@ -73,8 +75,8 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Cooperation, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Cooperation, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
                     @Html.EditorFor(model => model.Cooperation, new { htmlAttributes = new { @class = "form-control" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.Cooperation, "", new { @class = "text-danger" })
