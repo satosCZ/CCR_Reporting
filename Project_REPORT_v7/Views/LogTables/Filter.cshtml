@@ -72,11 +72,13 @@
         })
     </script>
     <div>
-        <div class="panel panel-info bg-info">
-            <div class="" style="font-size:large;">
-                <p class="col-lg-9 text-justify">Number logs in DB: <span class="text-capitalize text-danger" style="font-weight:bold;">@Model.Count()</span></p>
-                <div class="col-lg-3">
-                    @Html.ActionLink("Delete older logs", "Delete", "LogTables", htmlAttributes: new { @class = "btn btn-danger disabled "})
+        <div class="panel">
+            <div class="panel-body panel-info bg-info">
+                <div style="font-size:large;">
+                    <p class="col-lg-10 text-justify">Number logs in DB: <span class="text-capitalize text-danger" style="font-weight:bold;">@Model.Count()</span></p>
+                </div>
+                <div class="col-lg-2">
+                    @Html.ActionLink( "Delete older logs", "Delete", "LogTables", htmlAttributes: new { @class = "btn btn-danger disabled " } )
                 </div>
             </div>
         </div>

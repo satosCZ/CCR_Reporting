@@ -66,26 +66,31 @@
 
 
         $("body").keypress(function (event) {
-            var link = "#link";
-            if (event.key == "r" || event.key == "R") {
-                showAcc("#RiAcc")
-                link = "#btnReIssueCreate";
-            } else if (event.key == "p" || event.key == "P") {
-                showAcc("#PrAcc")
-                link = "#btnPrintersCreate";
-            } else if (event.key == "w" || event.key == "W") {
-                showAcc("#PaAcc")
-                link = "#btnPasswordTableCreate";
-            } else if (event.key == "c" || event.key == "C") {
-                showAcc("#PcAcc")
-                link = "#btnPreCheckCreate";
-            } else if (event.key == "h" || event.key == "H") {
-                showAcc("#HoAcc")
-                $("#btnHourOvertimeCreate");
-            } else if (event.key == "m" || event.key == "M") {
-                link = "#MainTaskCreate";
+            event = event || window.event;
+            var target = event.target || event.srcElement;
+            if (!/INPUT|TEXTAREA|SELECT|BUTTON/.test(target.nodeName)) {
+                var link = "#link";
+                if (event.key == "r" || event.key == "R") {
+                    showAcc("#RiAcc")
+                    link = "#btnReIssueCreate";
+                } else if (event.key == "p" || event.key == "P") {
+                    showAcc("#PrAcc")
+                    link = "#btnPrintersCreate";
+                } else if (event.key == "w" || event.key == "W") {
+                    showAcc("#PaAcc")
+                    link = "#btnPasswordTableCreate";
+                } else if (event.key == "c" || event.key == "C") {
+                    showAcc("#PcAcc")
+                    link = "#btnPreCheckCreate";
+                } else if (event.key == "h" || event.key == "H") {
+                    showAcc("#HoAcc")
+                    link = $("#btnHourOvertimeCreate");
+                } else if (event.key == "m" || event.key == "M") {
+                    link = "#MainTaskCreate";
+                }
+                //console.log(link);
+                if (link != "#link") $(link).trigger("click");
             }
-            if (link != "#link") $(link).trigger("click");
         });
 
         function showAcc(id) {

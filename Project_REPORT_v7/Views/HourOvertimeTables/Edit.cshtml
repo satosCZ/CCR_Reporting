@@ -20,7 +20,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-4" })
-                <div class="col-md-4">
+                <div class="col-md-3">
                     @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
@@ -30,7 +30,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-4" })
-                <div class="col-md-4">
+                <div class="col-md-3">
                     @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
