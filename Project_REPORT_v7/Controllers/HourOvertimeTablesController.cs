@@ -234,6 +234,36 @@ namespace Project_REPORT_v7.Controllers
             return result;
         }
 
+        public JsonResult GetTypes(string term)
+        {
+            var check = db.HourOvertimeTable.Select( s => new
+            {
+                Type = s.Type
+            }).Where(w => w.Type.Contains(term)).Distinct();
+
+            return Json(check, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetDescriptions(string term)
+        {
+            var check = db.HourOvertimeTable.Select(s => new
+            {
+                Description = s.Description
+            }).Where(w => w.Description.Contains(term)).Distinct();
+
+            return Json(check, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetCooperations(string term)
+        {
+            var check = db.HourOvertimeTable.Select(s => new
+            {
+                Cooperation = s.Cooperation
+            }).Where(w => w.Cooperation.Contains(term)).Distinct();
+
+            return Json(check, JsonRequestBehavior.AllowGet);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
