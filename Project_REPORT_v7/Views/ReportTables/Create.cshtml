@@ -63,34 +63,36 @@
     });
 </script>
 
-@if (ViewBag.Members != null && ViewBag.Shift != null && ViewBag.ShiftID != null)
+@if ( ViewBag.Members != null && ViewBag.Shift != null && ViewBag.ShiftID != null )
 {
     <script charset="windows-1250">
         addEventListener('load', (event) => {
             const date = new Date();
-
+            
             let curDay = String(date.getDate()).padStart(2, '0');
             let curMonth = String(date.getMonth() + 1).padStart(2, "0");
             let curYear = date.getFullYear();
-
+            
             let curDate = `${curYear}-${curMonth}-${curDay}`;
-
+            
             $("#Date").val(curDate);
-
-            var shift = '@ViewBag.Shift';
-            var shiftID = '@ViewBag.ShiftID';
-            if (shift == 'M') {
-                var radio = document.getElementById("Morning");
-                radio.setAttribute('checked', '');
+            @if ( ViewBag.Shift != null && ViewBag.ShiftID != null )
+            {
+                var shift = '@ViewBag.Shift';
+                var shiftID = '@ViewBag.ShiftID';
+                if ( shift == 'M' ) {
+                    var radio = document.getElementById("Morning");
+                    radio.setAttribute( 'checked', '' );
+                }
+                else if ( shift == 'A' ) {
+                    var radio = document.getElementById("Afternoon");
+                    radio.setAttribute( 'checked', '' );
+                }
+                else if ( shift == 'N' ) {
+                    var radio = document.getElementById("Night");
+                    radio.setAttribute( 'checked', '' );
+                };
             }
-            else if (shift == 'A') {
-                var radio = document.getElementById("Afternoon");
-                radio.setAttribute('checked', '');
-            }
-            else if (shift == 'N') {
-                var radio = document.getElementById("Night");
-                radio.setAttribute('checked', '');
-            };
 
             var member1 = @Html.Raw(Json.Encode(ViewBag.Members[0].Name));
             var memberID1 = @Html.Raw(Json.Encode(ViewBag.Members[0].MemberID));
@@ -103,6 +105,8 @@
             var tbm2 = document.getElementById("MembersTable1_Name");
             var tbmh2 = document.getElementById("Member_Two_ID");
 
+            console.log("Name: " + member1 + ", ID: " + memberID1);
+            console.log("Name: " + member2 + ", ID: " + memberID2);
 
             if (member1 != "" && member2 != "") {
                 tbm1.value = member1;
@@ -154,70 +158,69 @@
             });
 
         })
-</script>
+    </script>
 }
-
 
 <h2>Create REPORT</h2>
 
 
-@using (Html.BeginForm("Create", "ReportTables", FormMethod.Post, htmlAttributes: new { @id = "ReportCreate", @class = "slim center-block" }))
+@using ( Html.BeginForm( "Create", "ReportTables", FormMethod.Post, htmlAttributes: new { @id = "ReportCreate", @class = "slim center-block" } ) )
 {
     @Html.AntiForgeryToken()
 
     <div class="row-no-gutters">
         <div class="form-horizontal">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.ValidationSummary( true, "", new { @class = "text-danger" } )
             <div class="col-sm-6">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label required" })
+                    @Html.LabelFor( model => model.Date, htmlAttributes: new { @class = "control-label required" } )
                     <div class="">
-                        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", autofocus = "autofocus" } })
-                        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                        @Html.EditorFor( model => model.Date, new { htmlAttributes = new { @class = "form-control", autofocus = "autofocus" } } )
+                        @Html.ValidationMessageFor( model => model.Date, "", new { @class = "text-danger" } )
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Shift, htmlAttributes: new { @class = "control-label required", @id = "lblShift" })
+                    @Html.LabelFor( model => model.Shift, htmlAttributes: new { @class = "control-label required", @id = "lblShift" } )
                     <div class="clearfix">
                         <div id="radio" class="btn-group">
                             <label class="btn btn-default" for="Morning">Morning</label>
-                            @Html.RadioButtonFor(model => model.Shift, "Morning", htmlAttributes: new { @title = "Morning", @class = "", @id = "Morning", @style = "visibility: hidden; width:0; height:0;" })
+                            @Html.RadioButtonFor( model => model.Shift, "Morning", htmlAttributes: new { @title = "Morning", @class = "", @id = "Morning", @style = "visibility: hidden; width:0; height:0;" } )
                             <label class="btn btn-default" for="Afternoon">Afternoon</label>
-                            @Html.RadioButtonFor(model => model.Shift, "Afternoon", htmlAttributes: new { @title = "Afternoon", @id = "Afternoon", @style = "visibility: hidden; width:0; height:0;" })
+                            @Html.RadioButtonFor( model => model.Shift, "Afternoon", htmlAttributes: new { @title = "Afternoon", @id = "Afternoon", @style = "visibility: hidden; width:0; height:0;" } )
                             <label class="btn btn-default" for="Night">Night</label>
-                            @Html.RadioButtonFor(model => model.Shift, "Night", htmlAttributes: new { @title = "Night", @id = "Night", @style = "visibility: hidden; width:0; height:0;" })
+                            @Html.RadioButtonFor( model => model.Shift, "Night", htmlAttributes: new { @title = "Night", @id = "Night", @style = "visibility: hidden; width:0; height:0;" } )
                         </div>
-                        @Html.ValidationMessageFor(model => model.Shift, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor( model => model.Shift, "", new { @class = "text-danger" } )
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Member_One_ID, "CCR Member", htmlAttributes: new { @class = "control-label required" })
+                    @Html.LabelFor( model => model.Member_One_ID, "CCR Member", htmlAttributes: new { @class = "control-label required" } )
                     <div class="">
-                        @Html.EditorFor(model => model.MembersTable.Name, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.HiddenFor(model => model.Member_One_ID)
-                        @Html.ValidationMessageFor(model => model.Member_One_ID, "", new { @class = "text-danger" })
+                        @Html.EditorFor( model => model.MembersTable.Name, new { htmlAttributes = new { @class = "form-control" } } )
+                        @Html.HiddenFor( model => model.Member_One_ID )
+                        @Html.ValidationMessageFor( model => model.Member_One_ID, "", new { @class = "text-danger" } )
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Member_Two_ID, "CCR Member", htmlAttributes: new { @class = "control-label required" })
+                    @Html.LabelFor( model => model.Member_Two_ID, "CCR Member", htmlAttributes: new { @class = "control-label required" } )
                     <div class="">
-                        @Html.EditorFor(model => model.MembersTable1.Name, new { htmlAttributes = new { @class = "form-control", aria_describedby = "helpblock" } })
+                        @Html.EditorFor( model => model.MembersTable1.Name, new { htmlAttributes = new { @class = "form-control", aria_describedby = "helpblock" } } )
                         <span id="helpblock" class="help-block bg-warning">* - Required</span>
-                        @Html.HiddenFor(model => model.Member_Two_ID)
-                        @Html.ValidationMessageFor(model => model.Member_Two_ID, "", new { @class = "text-danger" })
+                        @Html.HiddenFor( model => model.Member_Two_ID )
+                        @Html.ValidationMessageFor( model => model.Member_Two_ID, "", new { @class = "text-danger" } )
                     </div>
                 </div>
             </div>
 
             <div class="col-sm-4">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ShiftID, htmlAttributes: new { @class = "control-label required" })
+                    @Html.LabelFor( model => model.ShiftID, htmlAttributes: new { @class = "control-label required" } )
                     <div class="">
-                        @Html.DropDownListFor(model => model.ShiftID, Project_REPORT_v7.Controllers.MembersTablesController.GetShifts(), htmlAttributes: new { @class = "form-control input-lg text-center", })
-                        @Html.ValidationMessageFor(model => model.ShiftID, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor( model => model.ShiftID, Project_REPORT_v7.Controllers.MembersTablesController.GetShifts(), htmlAttributes: new { @class = "form-control input-lg text-center", } )
+                        @Html.ValidationMessageFor( model => model.ShiftID, "", new { @class = "text-danger" } )
                     </div>
                 </div>
             </div>
@@ -232,7 +235,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+    @Html.ActionLink( "Back to List", "Index", null, new { @class = "btn btn-default" } )
 </div>
 
 @*@section Scripts {
