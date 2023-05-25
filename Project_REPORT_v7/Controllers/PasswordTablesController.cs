@@ -120,7 +120,7 @@ namespace Project_REPORT_v7.Controllers
             }
 
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", passwordTable.ReportID);
-            return Json(passwordTable, JsonRequestBehavior.AllowGet);
+            return Json(this, JsonRequestBehavior.AllowGet);
         }
 
         // GET: PasswordTables/Edit/5
@@ -225,12 +225,12 @@ namespace Project_REPORT_v7.Controllers
             return Json(new { success = true });
         }
 
-        public JsonResult GetWhere(string term)
+        public JsonResult GetWhere(string term, int cnt)
         {
             var data = db.PasswordTable.Select(q => new
             {
                 System = q.System
-            }).Where(q => q.System.Contains(term)).Distinct().ToList();
+            }).Where(q => q.System.Contains(term)).Distinct().Take(cnt);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 

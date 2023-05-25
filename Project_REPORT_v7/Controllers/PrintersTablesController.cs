@@ -75,7 +75,7 @@ namespace Project_REPORT_v7.Controllers
             }
 
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", printersTable.ReportID);
-            return Json(printersTable, JsonRequestBehavior.AllowGet);
+            return Json(this, JsonRequestBehavior.AllowGet);
         }
 
         // GET: PrintersTables/Edit/5
@@ -180,30 +180,30 @@ namespace Project_REPORT_v7.Controllers
             return Json(new { success = true });
         }
 
-        public JsonResult GetWho(string term)
+        public JsonResult GetWho(string term, int cnt)
         {
             var data = db.PrintersTable.Select(q => new
             {
                 User = q.User
-            }).Where(q => q.User.Contains(term)).Distinct().ToList();
+            }).Where(q => q.User.Contains(term)).Distinct().Take(cnt);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetWhat(string term)
+        public JsonResult GetWhat(string term, int cnt)
         {
             var data = db.PrintersTable.Select(q => new
             {
                 Objective = q.Objective
-            }).Where(q => q.Objective.Contains(term)).Distinct().ToList();
+            }).Where(q => q.Objective.Contains(term)).Distinct().Take(cnt);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetWhere(string term)
+        public JsonResult GetWhere(string term, int cnt)
         {
             var data = db.PrintersTable.Select(q => new
             {
                 Printer = q.Printer
-            }).Where(q => q.Printer.Contains(term)).Distinct().ToList();
+            }).Where(q => q.Printer.Contains(term)).Distinct().Take(cnt);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 

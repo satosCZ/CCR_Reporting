@@ -122,7 +122,7 @@ namespace Project_REPORT_v7.Controllers
             }
 
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", mainTaskTable.ReportID);
-            return Json(mainTaskTable, JsonRequestBehavior.AllowGet);
+            return Json(this, JsonRequestBehavior.AllowGet);
         }
 
         // GET: MainTaskTables/Edit/5
@@ -227,33 +227,33 @@ namespace Project_REPORT_v7.Controllers
             return Json(new { success = true });
         }
 
-        public JsonResult GetSystem(string term)
+        public JsonResult GetSystem(string term, int cnt)
         {
             var check = db.MainTaskTable.Select(q => new
             {
                 System = q.System
             }).Where(
-                q => q.System.Contains(term)).Distinct();
+                q => q.System.Contains(term)).Distinct().Take(cnt);
             return Json(check, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetProblem(string term)
+        public JsonResult GetProblem(string term, int cnt)
         {
             var check = db.MainTaskTable.Select(q => new
             {
                 Problem = q.Problem
             }).Where(
-                q => q.Problem.Contains(term)).Distinct();
+                q => q.Problem.Contains(term)).Distinct().Take(cnt);
             return Json(check, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetSolution(string term)
+        public JsonResult GetSolution(string term, int cnt)
         {
             var check = db.MainTaskTable.Select(q => new
             {
                 Solution = q.Solution
             }).Where(
-                q => q.Solution.Contains(term)).Distinct();
+                q => q.Solution.Contains(term)).Distinct().Take(cnt);
             return Json(check, JsonRequestBehavior.AllowGet);
         }
 

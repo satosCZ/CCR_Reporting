@@ -71,7 +71,7 @@ namespace Project_REPORT_v7.Controllers
                 catch { }
             }
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", preCheckTable.ReportID);
-            return Json (preCheckTable, JsonRequestBehavior.AllowGet);
+            return Json (this, JsonRequestBehavior.AllowGet);
         }
 
         // GET: PreCheckTables/Edit/5
@@ -186,12 +186,12 @@ namespace Project_REPORT_v7.Controllers
             
         }
 
-        public JsonResult GetSystem(string term)
+        public JsonResult GetSystem(string term, int cnt)
         {
             var check = db.PreCheckTable.Select(q => new
             {
                 System = q.System
-            }).Where(q => q.System.Contains(term)).Distinct();
+            }).Where(q => q.System.Contains(term)).Distinct().Take(cnt);
             return Json(check, JsonRequestBehavior.AllowGet);
         }
 

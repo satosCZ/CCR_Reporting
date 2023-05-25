@@ -78,7 +78,7 @@ namespace Project_REPORT_v7.Controllers
 
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", hourOvertimeTable.ReportID);
             //return Json(new { success = false });
-            return Json(hourOvertimeTable, JsonRequestBehavior.AllowGet);
+            return Json(this, JsonRequestBehavior.AllowGet);
         }
 
         // GET: HourOvertimeTables/Edit/5
@@ -234,32 +234,32 @@ namespace Project_REPORT_v7.Controllers
             return result;
         }
 
-        public JsonResult GetTypes(string term)
+        public JsonResult GetTypes(string term, int cnt)
         {
             var check = db.HourOvertimeTable.Select( s => new
             {
                 Type = s.Type
-            }).Where(w => w.Type.Contains(term)).Distinct();
+            }).Where(w => w.Type.Contains(term)).Distinct().Take(cnt);
 
             return Json(check, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetDescriptions(string term)
+        public JsonResult GetDescriptions(string term, int cnt)
         {
             var check = db.HourOvertimeTable.Select(s => new
             {
                 Description = s.Description
-            }).Where(w => w.Description.Contains(term)).Distinct();
+            }).Where(w => w.Description.Contains(term)).Distinct().Take(cnt);
 
             return Json(check, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetCooperations(string term)
+        public JsonResult GetCooperations(string term, int cnt)
         {
             var check = db.HourOvertimeTable.Select(s => new
             {
                 Cooperation = s.Cooperation
-            }).Where(w => w.Cooperation.Contains(term)).Distinct();
+            }).Where(w => w.Cooperation.Contains(term)).Distinct().Take(cnt);
 
             return Json(check, JsonRequestBehavior.AllowGet);
         }
