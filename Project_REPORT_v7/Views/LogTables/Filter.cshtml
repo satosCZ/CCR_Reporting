@@ -4,7 +4,6 @@
 <div id="Logs">
     <script>
         $(function () {
-
             $.fn.keepValue = function (name) {
                 if (!name) {
                     name = "";
@@ -34,7 +33,6 @@
 
             dateFrom = $("#dateFrom")
                 .datepicker({
-                    defaultDate: "",
                     changeMonth: true,
                     numberOfMonths: 1,
                     dateFormat: "mm-dd-yy"
@@ -44,7 +42,6 @@
                 }),
             dateTo = $("#dateTo")
                 .datepicker({
-                    defaultDate: "",
                     changeMonth: true,
                     numberOfMonths: 1,
                     dateFormat: "mm-dd-yy"
@@ -69,13 +66,15 @@
             $("#dateFrom").keepValue();
             $("#dateTo").keepValue();
 
-        })
+        });
     </script>
     <div>
         <div class="panel">
             <div class="panel-body panel-info bg-info">
                 <div style="font-size:large;">
-                    <p class="col-lg-10 text-justify">Number logs in DB: <span class="text-capitalize text-danger" style="font-weight:bold;">@Model.Count()</span></p>
+                    <p class="col-lg-10 text-justify">
+                        Number logs in DB: <span class="text-capitalize text-danger" style="font-weight:bold;">@if ( ViewBag.LogCount > 0 ) { @ViewBag.LogCount; }</span>
+                    </p>
                 </div>
                 <div class="col-lg-2">
                     @Html.ActionLink( "Delete older logs", "Delete", "LogTables", htmlAttributes: new { @class = "btn btn-danger disabled " } )
@@ -115,7 +114,7 @@
                         </div>
                         <div class="form-group" style="padding-left: 5px;">
                             <label for="dateTo">To</label>
-                            <input type="text" id="dateTo" name="dateTo" class="form-control" placeholder="@DateTime.MaxValue.ToString("MM-dd-yyyy")" style="width:100px;" />
+                            <input type="text" id="dateTo" name="dateTo" class="form-control" placeholder="@DateTime.Now.ToString("MM-dd-yyyy")" style="width:100px;" />
                         </div>
                     </div>
                     <div class="navbar-right" style="padding-top: 3px;">
