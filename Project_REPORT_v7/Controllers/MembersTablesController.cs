@@ -156,8 +156,9 @@ namespace Project_REPORT_v7.Controllers
             return ls;
         }
 
-        public JsonResult GetMembersByShiftID(string term)
+        public JsonResult GetMembersByShiftID( string term)
         {
+            JSConsoleLog.ConsoleLog($"GetMembersByShiftID - Got term = {term}.");
             int id = 0;
             if (int.TryParse(term, out id))
             {
