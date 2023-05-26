@@ -18,7 +18,6 @@ namespace Project_REPORT_v7.Controllers
         [AuthorizeAD(Groups = "CCR_Report_Admin")]
         public async Task<ActionResult> Index()
         {
-            var logTable = await db.LogTable.ToListAsync();
             return View();
         }
 
@@ -26,6 +25,9 @@ namespace Project_REPORT_v7.Controllers
         {
             IQueryable<LogTable> logTable = db.LogTable;
             IOrderedQueryable<LogTable> filtered;
+
+            ViewBag.LogCount = 0;
+            ViewBag.LogCount = logTable.Count();
             
             int pageSize = 35;
             int pageNumber = (page ?? 1);
