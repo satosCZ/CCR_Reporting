@@ -34,7 +34,7 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-    <h2>Add Pre-Check</h2>
+    <h2 class="text-center">Add Pre-Check</h2>
 </div>
 
 @using (Html.BeginForm())
@@ -46,7 +46,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-4 required" })
                 <div class="col-md-3">
-                    @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-contro text-centerl" } })
+                    @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control text-center" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
                     </div>
@@ -56,7 +56,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.System, htmlAttributes: new { @class = "control-label col-md-4 required" })
                 <div class="col-md-8">
-                    @Html.EditorFor(model => model.System, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.System, new { htmlAttributes = new { @class = "form-control", @style = "text-transform:capitalize" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.System, "", new { @class = "text-danger" })
                     </div>
@@ -66,7 +66,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Check, htmlAttributes: new { @class = "control-label col-md-4 required" })
                 <div class="col-md-8">
-                    @Html.EditorFor(model => model.Check, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.Check, new { htmlAttributes = new { @class = "form-control", @style = "text-transform:uppercase" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.Check, "", new { @class = "text-danger" })
                     </div>

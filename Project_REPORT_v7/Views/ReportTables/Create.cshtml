@@ -76,23 +76,20 @@
             let curDate = `${curYear}-${curMonth}-${curDay}`;
             
             $("#Date").val(curDate);
-            @if ( ViewBag.Shift != null && ViewBag.ShiftID != null )
-            {
-                var shift = '@ViewBag.Shift';
-                var shiftID = '@ViewBag.ShiftID';
-                if ( shift == 'M' ) {
-                    var radio = document.getElementById("Morning");
-                    radio.setAttribute( 'checked', '' );
-                }
-                else if ( shift == 'A' ) {
-                    var radio = document.getElementById("Afternoon");
-                    radio.setAttribute( 'checked', '' );
-                }
-                else if ( shift == 'N' ) {
-                    var radio = document.getElementById("Night");
-                    radio.setAttribute( 'checked', '' );
-                };
+            var shift = '@ViewBag.Shift';
+            var shiftID = '@ViewBag.ShiftID';
+            if ( shift == 'M' ) {
+                var radio = document.getElementById("Morning");
+                radio.setAttribute( 'checked', '' );
             }
+            else if ( shift == 'A' ) {
+                var radio = document.getElementById("Afternoon");
+                radio.setAttribute( 'checked', '' );
+            }
+            else if ( shift == 'N' ) {
+                var radio = document.getElementById("Night");
+                radio.setAttribute( 'checked', '' );
+            };
 
             var member1 = @Html.Raw(Json.Encode(ViewBag.Members[0].Name));
             var memberID1 = @Html.Raw(Json.Encode(ViewBag.Members[0].MemberID));

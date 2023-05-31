@@ -33,7 +33,7 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-    <h2>Add Password</h2>
+    <h2 class="text-center">Add Password</h2>
 </div>
 
 @using (Html.BeginForm())
@@ -56,7 +56,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-md-4 required" })
                 <div class="col-md-8">
-                    @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control", @style = "text-transform:capitalize" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
                     </div>
@@ -66,7 +66,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.UserID, htmlAttributes: new { @class = "control-label col-md-4 required" })
                 <div class="col-md-8">
-                    @Html.EditorFor(model => model.UserID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.UserID, new { htmlAttributes = new { @class = "form-control", @style = "text-transform:uppercase" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
                     </div>
@@ -76,7 +76,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.System, htmlAttributes: new { @class = "control-label col-md-4 required" })
                 <div class="col-md-8">
-                    @Html.EditorFor(model => model.System, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.System, new { htmlAttributes = new { @class = "form-control", @style = "text-transform:uppercase" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.System, "", new { @class = "text-danger" })
                     </div>

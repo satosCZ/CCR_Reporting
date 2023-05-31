@@ -59,14 +59,53 @@
         $("#radio input").checkboxradio({
             icon: false
         });
-
-        $('#ReportCreate').on('shown', function () {
-            $('#Date').focus();
-        })
-
-        var date = @Html.Raw(Json.Encode(ViewBag.Date));
-        $("#Date").val(date);
     });
+</script>
+
+<script charset="windows-1250">
+    addEventListener('load', (event) => {
+        var tbm1 = document.getElementById("MembersTable_Name");
+        var tbmh1 = document.getElementById("Member_One_ID");
+
+        var tbm2 = document.getElementById("MembersTable1_Name");
+        var tbmh2 = document.getElementById("Member_Two_ID");
+
+        const $select0 = document.querySelector('#ShiftID');
+        switch (shiftID) {
+            case 1:
+                $selectO.value = $selectO.querySelector('option')[0].selected = 'selected';
+                break;
+            case 2:
+                $selectO.value = $selectO.querySelector('option')[1].selected = 'selected';
+                break;
+            case 3:
+                $selectO.value = $selectO.querySelector('option')[2].selected = 'selected';
+                break;
+        };
+
+        $("#ShiftID").change(function () {
+            var shiftID = $selectO.value;
+            $.ajax({
+                url: "../MembersTables/GetMembersByShiftID",
+                dataType: "json",
+                type: "GET",
+                data: {
+                    term: shiftID
+                },
+                success: function (data) {
+                    console.log(data);
+                    assingMembers(data);
+                }
+            });
+        });
+
+        function assingMembers(data) {
+            tbm1.value = data[0].Name;
+            tbmh1.value = data[0].ID;
+            tbm2.value = data[1].Name;
+            tbmh2.value = data[1].ID;
+        };
+    })
 </script>
 
 <h2>Edit REPORT</h2>

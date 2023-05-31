@@ -80,7 +80,7 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-    <h2>Add Printer</h2>
+    <h2 class="text-center">Add Printer</h2>
 </div>
 
 @using (Html.BeginForm())
@@ -102,7 +102,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.User, htmlAttributes: new { @class = "control-label col-md-4 required" })
                 <div class="col-md-8">
-                    @Html.EditorFor(model => model.User, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.User, new { htmlAttributes = new { @class = "form-control", @style = "text-transform:uppercase" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.User, "", new { @class = "text-danger" })
                     </div>
@@ -112,7 +112,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Objective, htmlAttributes: new { @class = "control-label col-md-4 required" })
                 <div class="col-md-8">
-                    @Html.EditorFor(model => model.Objective, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.Objective, new { htmlAttributes = new { @class = "form-control", @autocapitalize="sentences" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.Objective, "", new { @class = "text-danger" })
                     </div>
@@ -122,7 +122,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Printer, htmlAttributes: new { @class = "control-label col-md-4 required" })
                 <div class="col-md-8">
-                    @Html.EditorFor(model => model.Printer, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.Printer, new { htmlAttributes = new { @class = "form-control", @style = "text-transform:uppercase" } })
                     <div>
                         @Html.ValidationMessageFor(model => model.Printer, "", new { @class = "text-danger" })
                     </div>
