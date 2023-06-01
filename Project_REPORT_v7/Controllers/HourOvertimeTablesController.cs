@@ -53,6 +53,8 @@ namespace Project_REPORT_v7.Controllers
             {
                 hourOvertimeTable.OvertimeID = Guid.NewGuid();
                 hourOvertimeTable.ReportID = passID;
+                hourOvertimeTable.Type = hourOvertimeTable.Type.ToAutoCapitalize();
+                hourOvertimeTable.Description = hourOvertimeTable.Description.ToAutoCapitalize();
                 db.HourOvertimeTable.Add(hourOvertimeTable);
                 try
                 {
@@ -121,6 +123,8 @@ namespace Project_REPORT_v7.Controllers
             if (ModelState.IsValid)
             {
                 hourOvertimeTable.ReportID = passID;
+                hourOvertimeTable.Type = hourOvertimeTable.Type.ToAutoCapitalize();
+                hourOvertimeTable.Description = hourOvertimeTable.Description.ToAutoCapitalize();
                 db.Entry(hourOvertimeTable).State = EntityState.Modified;
                 try
                 {

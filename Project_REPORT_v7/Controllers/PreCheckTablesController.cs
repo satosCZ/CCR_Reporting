@@ -49,6 +49,8 @@ namespace Project_REPORT_v7.Controllers
             {
                 preCheckTable.PreCheckID = Guid.NewGuid();
                 preCheckTable.ReportID = passID;
+                preCheckTable.System = preCheckTable.System.ToCapitalize();
+                preCheckTable.Check = preCheckTable.Check.ToUpperCaps();
                 db.PreCheckTable.Add(preCheckTable);
                 try
                 {
@@ -114,6 +116,8 @@ namespace Project_REPORT_v7.Controllers
             if (ModelState.IsValid)
             {
                 preCheckTable.ReportID = passID;
+                preCheckTable.System = preCheckTable.System.ToCapitalize();
+                preCheckTable.Check = preCheckTable.Check.ToUpperCaps();
                 db.Entry(preCheckTable).State = EntityState.Modified;
                 // Remove comments to enable logging
                 try

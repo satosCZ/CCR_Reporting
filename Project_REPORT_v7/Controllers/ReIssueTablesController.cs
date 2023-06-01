@@ -51,6 +51,9 @@ namespace Project_REPORT_v7.Controllers
 
             if (ModelState.IsValid)
             {
+                user = user.ToUpperCaps();
+                objective = objective.ToUpperCaps();
+                bodyNum = bodyNum.ToUpperCaps();
                 if (bodyNum.Contains("\r\n"))
                 {
                     string[] separators = new string[] { "\r\n" };

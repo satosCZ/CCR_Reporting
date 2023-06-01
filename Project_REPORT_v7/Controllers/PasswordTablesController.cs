@@ -96,6 +96,9 @@ namespace Project_REPORT_v7.Controllers
             {
                 passwordTable.PasswordID = Guid.NewGuid();
                 passwordTable.ReportID = passID;
+                passwordTable.FullName = passwordTable.FullName.ToCapitalize();
+                passwordTable.UserID = passwordTable.UserID.ToUpperCaps();
+                passwordTable.System = passwordTable.System.ToUpperCaps();
                 db.PasswordTable.Add(passwordTable);
                 // Remove comments to enable logging
                 try
@@ -163,6 +166,9 @@ namespace Project_REPORT_v7.Controllers
             if (ModelState.IsValid)
             {
                 passwordTable.ReportID = passID;
+                passwordTable.FullName = passwordTable.FullName.ToCapitalize();
+                passwordTable.UserID = passwordTable.UserID.ToUpperCaps();
+                passwordTable.System = passwordTable.System.ToUpperCaps();
                 db.Entry(passwordTable).State = EntityState.Modified;
                 // Remove comments to enable logging
                 try

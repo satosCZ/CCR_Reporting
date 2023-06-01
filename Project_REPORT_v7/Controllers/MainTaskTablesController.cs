@@ -99,6 +99,9 @@ namespace Project_REPORT_v7.Controllers
             {
                 mainTaskTable.MainTaskID = Guid.NewGuid();
                 mainTaskTable.ReportID = passID;
+                mainTaskTable.System = mainTaskTable.System.ToUpper();
+                mainTaskTable.Problem = mainTaskTable.Problem.ToAutoCapitalize();
+                mainTaskTable.Solution = mainTaskTable.Solution.ToAutoCapitalize();
                 db.MainTaskTable.Add(mainTaskTable);
                 try
                 {
@@ -165,6 +168,9 @@ namespace Project_REPORT_v7.Controllers
             if (ModelState.IsValid)
             {
                 mainTaskTable.ReportID = passID;
+                mainTaskTable.System = mainTaskTable.System.ToUpper();
+                mainTaskTable.Problem = mainTaskTable.Problem.ToAutoCapitalize();
+                mainTaskTable.Solution = mainTaskTable.Solution.ToAutoCapitalize();
                 db.Entry(mainTaskTable).State = EntityState.Modified;
                 // Remove comments to enable logging
                 try

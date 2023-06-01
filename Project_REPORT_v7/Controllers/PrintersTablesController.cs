@@ -51,6 +51,9 @@ namespace Project_REPORT_v7.Controllers
             {
                 printersTable.PrinterID = Guid.NewGuid();
                 printersTable.ReportID = passID;
+                printersTable.User = printersTable.User.ToUpper();
+                printersTable.Objective = printersTable.Objective.ToAutoCapitalize();
+                printersTable.Printer = printersTable.Printer.ToUpper();
                 db.PrintersTable.Add(printersTable);
                 // Remove comments to enable logging
                 try
@@ -118,6 +121,9 @@ namespace Project_REPORT_v7.Controllers
             if (ModelState.IsValid)
             {
                 printersTable.ReportID = passID;
+                printersTable.User = printersTable.User.ToUpper();
+                printersTable.Objective = printersTable.Objective.ToAutoCapitalize();
+                printersTable.Printer = printersTable.Printer.ToUpper();
                 db.Entry(printersTable).State = EntityState.Modified;
                 // Remove comments to enable logging
                 try

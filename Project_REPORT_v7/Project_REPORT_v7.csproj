@@ -156,6 +156,7 @@
     <Compile Include="Controllers\Addon\JSConsoleLog.cs" />
     <Compile Include="Controllers\Addon\LDAPHelper.cs" />
     <Compile Include="Controllers\Addon\LogHelper.cs" />
+    <Compile Include="Controllers\Addon\StringExtension.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HourOvertimeTablesController.cs" />
