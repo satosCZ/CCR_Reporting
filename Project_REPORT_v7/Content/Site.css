@@ -87,3 +87,37 @@ select.input-lg > option {
     padding: 10px 10px 10px 20px;
     font-weight: bolder:
 }
+
+.divider {
+    position: relative;
+    height: 1px;
+}
+
+.div-transparent:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 5%;
+    right: 5%;
+    width: 90%;
+    height: 1px;
+    background-image: linear-gradient(to right, transparent, rgb(0, 0, 0), trasparent);
+    background-image: -webkit-repeating-linear-gradient(to right, transparent, rgb(0, 0, 0), transparent);
+    background-image: -moz-repeating-linear-gradient(to right, transparent, rgb(0, 0, 0), transparent);
+    background-image: -o-linear-gradient(to right, transparent, rgb(0, 0, 0), transparent);
+    background-image: repeating-linear-gradient(to right, transparent, rgb(0, 0, 0), transparent);
+}
+
+.div-arrow-down:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: -7px;
+    left: calc(50% - 7px);
+    width: 14px;
+    height: 14px;
+    transform: rotate(45deg);
+    background-color: white;
+    border-bottom: 1px solid rgb(48, 49, 51);
+    border-right: 1px solid rgb(48, 49, 51);
+}
