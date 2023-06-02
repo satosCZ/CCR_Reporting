@@ -87,7 +87,7 @@ namespace Project_REPORT_v7.Controllers
         [AuthorizeAD(Groups = "CCR_Report_Admin")]
         public ActionResult Information()
         {
-            return View("Information");
+            return PartialView("Information");
         }
     }
 }
