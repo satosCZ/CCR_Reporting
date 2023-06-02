@@ -1,37 +1,53 @@
-﻿
-@{
-    ViewBag.Title = "Information";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿<div class="modal-header">
+    <h3 class="modal-title">HELP - Information</h3>
+</div>
+<div class="divider div-transparent div-arrow-down"></div>
+<br />
+<div class="modal-body">
+    <h4>Shortcuts</h4>
+    <p>Little addon was added to quickly open modal windows for adding things to report. Shortcuts are:</p>
+    <dl class="dl-horizontal">
+        <dt>R or r</dt>
+        <dd>Open a modular window with Add Re-Issue</dd>
+        <dt>P or p</dt>
+        <dd>Open a modular window with Add Printer</dd>
+        <dt>C or c</dt>
+        <dd>Open a modular window with Add Pre-Check</dd>
+        <dt>W or w</dt>
+        <dd>Open a modular window with Add Password</dd>
+        <dt>H or h</dt>
+        <dd>Open a modular window with Add Hour Overtime</dd>
+        <dt>M or m</dt>
+        <dd>Open a modular window with Add Main Task</dd>
+    </dl>
+    <p>Shortcuts only work if the page is in foreground and is in focus. Wont work when focus is on another window or is active write cursor at any inputs for data.</p>
 
-<h2>Information about CCR Report project</h2>
-
-<h4>Basic information</h4>
-<p>This will help you to understand my vision about this project.</p>
-
-<p>Right now you see this page as member of CCR_Report_Admin which members are Office members + Me only temporary</p>
-<p>There are 3 groups which each of this group have different page view.</p>
-<ul>
-    <li>CCR_Report</li>
-    <li>CCR_Report_Control</li>
-    <li>CCR_Report_Admin</li>
-</ul>
-<br />
-<h5><strong>CCR_Report</strong></h5>
-<p>Is a group of members who will only have access to view reports. They will not have an access to Edit Create and Delete. It's technicaly only guest access</p>
-<br />
-<h5><strong>CCR_Report_Control</strong></h5>
-<p>Is a group of CCR members who will have permission to Create Reports and add their data to actual report. They will not have an access to edit or delete older reports for security reasons</p>
-<br />
-<h5><strong>CCR_Report_Admin</strong></h5>
-<p>Is a group of Office members who will have complete access to page. They have a permission to Create, Edit & Delete all of existed reports & view LOG page which will store logs of creating, editing and deleting reports and their inner tables</p>
-<br />
-<br />
-<h4>Todo list:</h4>
-<ul>
-    <li>Automatic refresh page (opened report details page) after an update from different session. Update means - Edited, Deleted and Created an inner table in Report</li>
-    <li>Default CCR members by shifts for creating reports. Still possible to edit when there are vacations, illness etc.</li>
-    <li>Debating if it's good to add images to MainTask issue (not required) and view it in popup when mouse is over table line.</li>
-    <li>Meaby more ideas in future</li>
-</ul>
-
+    <div class="divider div-transparent div-arrow-down"><hr />   </div>
+    <br />
+    <h4>Requirement for filling forms</h4>
+    <p>Each forms for adding - Re-Issue,Printers,PreCheck,Password,Hour Overtime,Main Task are required to fill except few inputs:</p>
+    <dl class="dl-horizontal">
+        <dt>Re-Issue</dt>
+        <dd><strong><span class="text-danger text-uppercase">Each inputs must be filled!</span></strong></dd>
+        <dt>Printers</dt>
+        <dd><strong><span class="text-danger text-uppercase">Each inputs must be filled!</span></strong></dd>
+        <dt>PreCheck</dt>
+        <dd><strong><span class="text-danger text-uppercase">Time, System, Check - must be filled.</span></strong> Email Time can be empty.</dd>
+        <dt>Password</dt>
+        <dd><strong><span class="text-danger text-uppercase">Each inputs must be filled!</span></strong></dd>
+        <dt>Hour OverTime</dt>
+        <dd><strong><span class="text-danger text-uppercase">Time, Duration, Shop, Type, Description - must be filled!</span></strong> Cooperation can be empty.</dd>
+        <dt>Main Task</dt>
+        <dd><strong><span class="text-danger text-uppercase">Time, Duration, Shop, System, What happened, How it was solved - must be filled!</span></strong> Cooperation can be empty.</dd>
+    </dl>
+    <div class="divider div-transparent div-arrow-down"><hr /></div>
+    <br />
+    <h4>Adding Re-Issue</h4>
+    <p>Adding re-issue could be with only one re-issue or multiple re-issues.</p>
+    <p>For multiple re-issue must be body numbers/sequences seperated with enter/new line. Example image bellow.</p>
+    <img src="~/Content/Images/1.png" class="img-responsive img-thumbnail" alt="Add Re-Issue Multiple cars" />
+    <p>This will seperate each of cars/sequences with same <strong>Time, Who, What</strong>.</p>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" data-dismiss="modal">Close</button>
+</div>
