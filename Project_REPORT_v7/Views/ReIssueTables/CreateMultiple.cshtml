@@ -102,7 +102,7 @@
                 @Html.LabelFor(model => model.BodyNum, htmlAttributes: new { @class = "control-label col-md-4 required" })
                 <div class="col-md-8">
                     @Html.TextAreaFor(model => model.BodyNum, htmlAttributes: new { @class = "form-control", aria_describedby = "helperText", @style = "text-transform:uppercase" } )
-                    <span id="helperText" class="help-block">For multiple body numbers, seperate by new line.</span>
+                    <span id="helperText" class="help-block">For multiple body numbers, separate by new line.</span>
                     <div>
                         @Html.ValidationMessageFor(model => model.BodyNum, "", new { @class = "text-danger" })
                     </div>
