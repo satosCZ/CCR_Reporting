@@ -17,6 +17,7 @@ namespace Project_REPORT_v7.Controllers.Addon
         public static string ToAutoCapitalize( this string str )
         {
             var temp = str.Split('.');
+            var last = temp.Last();
             string result = "";
             if ( temp.Length > 1 )
             {
@@ -24,17 +25,18 @@ namespace Project_REPORT_v7.Controllers.Addon
                 {
                     if ( item.Length > 1 && !item.StartsWith( " " ) )
                     {
-                        result += item.Substring( 0, 1 ).ToUpper() + item.Substring( 1 ).ToLower() + ". ";
+                        result += item.Substring( 0, 1 ).ToUpper() + item.Substring( 1 ) + ". ";
                     }
                     else if ( item.Length > 1 )
                     {
-                        result += item.Substring( 0, 2 ).ToUpper() + item.Substring( 2 ).ToLower() + ". ";
+                        result += item.Substring( 0, 2 ).ToUpper() + item.Substring( 2 ) + ". ";
                     }
                 }
+                result = result.TrimEnd( ' ' );
             }
             else
             {
-                result = str.Substring( 0, 1 ).ToUpper() + str.Substring( 1 ).ToLower() + ".";
+                result = str.Substring( 0, 1 ).ToUpper() + str.Substring( 1 ) + ".";
             }
             return result;
         }
@@ -47,6 +49,7 @@ namespace Project_REPORT_v7.Controllers.Addon
         public static string ToCapitalize( this string str )
         {
             var temp = str.Split(' ');
+            var last = temp.Last();
             string result = "";
 
             if ( temp.Length > 1 )
@@ -57,11 +60,16 @@ namespace Project_REPORT_v7.Controllers.Addon
                     {
                         if ( item.StartsWith( " " ) )
                         {
-                            result += item.Substring( 0, 2 ).ToUpper() + item.Substring( 2 ).ToLower() + " ";
+                            result += item.Substring( 0, 2 ).ToUpper() + item.Substring( 2 ) + " ";
                         }
                         else
                         {
-                            result += item.Substring( 0, 1 ).ToUpper() + item.Substring( 1 ).ToLower() + " ";
+                            result += item.Substring( 0, 1 ).ToUpper() + item.Substring( 1 ) + " ";
+                        }
+
+                        if (item.Equals(last))
+                        {
+                            result = result.TrimEnd(' ');
                         }
                     }
                 }
