@@ -22,11 +22,15 @@ namespace Project_REPORT_v7.Models
         public System.TimeSpan Time { get; set; }
         [Required]
         [DisplayName("Who")]
+        [MaxLength( 50, ErrorMessage = "Maximum length can't be more than 50 characters." )]
         public string User { get; set; }
         [Required]
         [DisplayName("What")]
+        [MaxLength( 50, ErrorMessage = "Maximum length can't be more than 50 characters." )]
         public string Objective { get; set; }
         [Required]
+        [DisplayName("Printer")]
+        [MaxLength( 50, ErrorMessage = "Maximum length can't be more than 50 characters." )]
         public string Printer { get; set; }
         public System.Guid ReportID { get; set; }
     
