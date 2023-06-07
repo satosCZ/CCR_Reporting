@@ -63,100 +63,6 @@
     });
 </script>
 
-@*@if ( ViewBag.Members != null && ViewBag.Shift != null && ViewBag.ShiftID != null )
-    {
-        <script charset="windows-1250">
-            addEventListener('load', (event) => {
-                const date = new Date();
-
-                let curDay = String(date.getDate()).padStart(2, '0');
-                let curMonth = String(date.getMonth() + 1).padStart(2, "0");
-                let curYear = date.getFullYear();
-
-                let curDate = `${curYear}-${curMonth}-${curDay}`;
-
-                $("#Date").val(curDate);
-
-                var shift = '@ViewBag.Shift';
-                var shiftID = '@ViewBag.ShiftID';
-
-                if ( shift == 'M' ) {
-                    var radio = document.getElementById("Morning");
-                    radio.setAttribute( 'checked', '' );
-                }
-                else if ( shift == 'A' ) {
-                    var radio = document.getElementById("Afternoon");
-                    radio.setAttribute( 'checked', '' );
-                }
-                else if ( shift == 'N' ) {
-                    var radio = document.getElementById("Night");
-                    radio.setAttribute( 'checked', '' );
-                };
-
-                var member1 = @Html.Raw(Json.Encode(ViewBag.Members[0].Name));
-                var memberID1 = @Html.Raw(Json.Encode(ViewBag.Members[0].MemberID));
-                var member2 = @Html.Raw(Json.Encode(ViewBag.Members[1].Name));
-                var memberID2 = @Html.Raw(Json.Encode(ViewBag.Members[1].MemberID));
-
-                var tbm1 = document.getElementById("MembersTable_Name");
-                var tbmh1 = document.getElementById("Member_One_ID");
-
-                var tbm2 = document.getElementById("MembersTable1_Name");
-                var tbmh2 = document.getElementById("Member_Two_ID");
-
-                if (member1 != "" && member2 != "") {
-                    tbm1.value = member1;
-                    tbmh1.value = memberID1;
-                    tbm2.value = member2;
-                    tbmh2.value = memberID2;
-                }
-
-                const $selectO = document.querySelector('#ShiftID');
-                switch (shiftID) {
-                    case 1:
-                        $selectO.value = $selectO.querySelector('option')[0].selected = 'selected';
-                        break;
-                    case 2:
-                        $selectO.value = $selectO.querySelector('option')[1].selected = 'selected';
-                        break;
-                    case 3:
-                        $selectO.value = $selectO.querySelector('option')[2].selected = 'selected';
-                        break;
-                };
-
-                $("#ShiftID").change(function () {
-                    var shiftID = $selectO.value;
-                    $.ajax({
-                        url: "../MembersTables/GetMembersByShiftID",
-                        dataType: "json",
-                        type: "GET",
-                        data: {
-                            term: shiftID
-                        },
-                        success: function (data) {
-                            console.log(data);
-                            assingMembers(data);
-                        }
-                    });
-                });
-
-                function assingMembers(data) {
-                    tbm1.value = data[0].Name;
-                    tbmh1.value = data[0].ID;
-                    tbm2.value = data[1].Name;
-                    tbmh2.value = data[1].ID;
-                };
-
-                var dateVal = document.getElementById("Date");
-
-                $("Date").change(function () {
-                    console.log(dateVal);
-                });
-
-            })
-        </script>
-    }*@
-
 @if ( ViewBag.Members != null && ViewBag.Shift != null && ViewBag.ShiftID != null )
 {
     <script charset="windows-1250">
@@ -186,60 +92,75 @@
                 radio.setAttribute('checked', '');
             };
 
-                var member1 = @Html.Raw(Json.Encode(ViewBag.Members[0].Name));
-                var memberID1 = @Html.Raw(Json.Encode(ViewBag.Members[0].MemberID));
-                var member2 = @Html.Raw(Json.Encode(ViewBag.Members[1].Name));
-                var memberID2 = @Html.Raw(Json.Encode(ViewBag.Members[1].MemberID));
+            var member1 = @Html.Raw(Json.Encode(ViewBag.Members[0].Name));
+            var memberID1 = @Html.Raw(Json.Encode(ViewBag.Members[0].MemberID));
+            var member2 = @Html.Raw(Json.Encode(ViewBag.Members[1].Name));
+            var memberID2 = @Html.Raw(Json.Encode(ViewBag.Members[1].MemberID));
 
-                var tbm1 = document.getElementById("MembersTable_Name");
-                var tbmh1 = document.getElementById("Member_One_ID");
+            var tbm1 = document.getElementById("MembersTable_Name");
+            var tbmh1 = document.getElementById("Member_One_ID");
 
-                var tbm2 = document.getElementById("MembersTable1_Name");
-                var tbmh2 = document.getElementById("Member_Two_ID");
+            var tbm2 = document.getElementById("MembersTable1_Name");
+            var tbmh2 = document.getElementById("Member_Two_ID");
 
 
-                if (member1 != "" && member2 != "") {
-                    tbm1.value = member1;
-                    tbmh1.value = memberID1;
-                    tbm2.value = member2;
-                    tbmh2.value = memberID2;
-                }
+            if (member1 != "" && member2 != "") {
+                tbm1.value = member1;
+                tbmh1.value = memberID1;
+                tbm2.value = member2;
+                tbmh2.value = memberID2;
+            }
 
-                const $selectO = document.querySelector('#ShiftID');
-                switch (shiftID) {
-                    case 1:
-                        $selectO.value = $selectO.querySelector('option')[0].selected = 'selected';
-                        break;
-                    case 2:
-                        $selectO.value = $selectO.querySelector('option')[1].selected = 'selected';
-                        break;
-                    case 3:
-                        $selectO.value = $selectO.querySelector('option')[2].selected = 'selected';
-                        break;
-                };
+            const $selectO = document.querySelector('#ShiftID');
+            switch (shiftID) {
+                case 1:
+                    $selectO.value = $selectO.querySelector('option')[0].selected = 'selected';
+                    break;
+                case 2:
+                    $selectO.value = $selectO.querySelector('option')[1].selected = 'selected';
+                    break;
+                case 3:
+                    $selectO.value = $selectO.querySelector('option')[2].selected = 'selected';
+                    break;
+            };
 
-                $("#ShiftID").change(function () {
-                    var shiftID = $selectO.value;
-                    $.ajax({
-                        url: "../MembersTables/GetMembersByShiftID",
-                        dataType: "json",
-                        type: "GET",
-                        data: {
-                            term: shiftID
-                        },
-                        success: function (data) {
-                            console.log(data);
-                            assingMembers(data);
-                        }
-                    });
+            //$("#ShiftID").change(function () {
+            //    var shiftID = $selectO.value;
+            //    $.ajax({
+            //        url: "../MembersTables/GetMembersByShiftID",
+            //        dataType: "json",
+            //        type: "GET",
+            //        data: {
+            //            term: shiftID
+            //        },
+            //        success: function (data) {
+            //            console.log(data);
+            //            assingMembers(data);
+            //        }
+            //    });
+            //});
+            $("#ShiftID").on("change", (function () {
+                var shiftID = $selectO.value;
+                $.ajax({
+                    url: "../MembersTables/GetMembersByShiftID",
+                    dataType: "json",
+                    type: "GET",
+                    data: {
+                        term: shiftID
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        assingMembers(data);
+                    }
                 });
+            }));
 
-                function assingMembers(data) {
-                    tbm1.value = data[0].Name;
-                    tbmh1.value = data[0].ID;
-                    tbm2.value = data[1].Name;
-                    tbmh2.value = data[1].ID;
-                };
+            function assingMembers(data) {
+                tbm1.value = data[0].Name;
+                tbmh1.value = data[0].ID;
+                tbm2.value = data[1].Name;
+                tbmh2.value = data[1].ID;
+            };
             var dateVal = document.getElementById("Date");
 
             $("Date").change(function () {
