@@ -156,14 +156,14 @@ namespace Project_REPORT_v7.Controllers
             return ls;
         }
 
-        public JsonResult GetMembersByShiftID( string term)
+        public JsonResult GetMembersByShiftID(string term)
         {
-            JSConsoleLog.ConsoleLog($"GetMembersByShiftID - Got term = {term}.");
+            //JSConsoleLog.ConsoleLog($"GetMembersByShiftID - Got term = {term}.");
             int id = 0;
             if (int.TryParse(term, out id))
             {
                 Debug.WriteLine("Int.TryParse in GetMembersByShiftID success");
-                JSConsoleLog.ConsoleLog($"GetMembersByShiftID - Int.TryParse got int {id} from {term}.");
+                //JSConsoleLog.ConsoleLog($"GetMembersByShiftID - Int.TryParse got int {id} from {term}.");
             }
 
             var members = db.MembersTable.Select(s => new
