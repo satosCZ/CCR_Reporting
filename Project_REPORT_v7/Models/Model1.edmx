@@ -13,9 +13,9 @@
           <Property Name="Time" Type="time" Precision="7" Nullable="false" />
           <Property Name="Duration" Type="time" Precision="7" Nullable="false" />
           <Property Name="Shop" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Type" Type="varchar(max)" Nullable="false" />
-          <Property Name="Description" Type="varchar(max)" Nullable="false" />
-          <Property Name="Cooperation" Type="varchar(max)" />
+          <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Cooperation" Type="nvarchar(max)" />
           <Property Name="ReportID" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="LogTable">
@@ -36,10 +36,10 @@
           <Property Name="Time" Type="time" Precision="7" Nullable="false" />
           <Property Name="Duration" Type="time" Precision="7" Nullable="false" />
           <Property Name="Shop" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="System" Type="varchar" MaxLength="150" />
-          <Property Name="Problem" Type="varchar(max)" />
-          <Property Name="Solution" Type="varchar(max)" />
-          <Property Name="Cooperation" Type="varchar" MaxLength="255" />
+          <Property Name="System" Type="varchar" MaxLength="150" Nullable="false"/>
+          <Property Name="Problem" Type="nvarchar(max)" Nullable="false"/>
+          <Property Name="Solution" Type="nvarchar(max)" Nullable="false"/>
+          <Property Name="Cooperation" Type="nvarchar(max)" />
           <Property Name="ReportID" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="MembersTable">
@@ -47,7 +47,7 @@
             <PropertyRef Name="MemberID" />
           </Key>
           <Property Name="MemberID" Type="int" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="ShiftID" Type="int" />
         </EntityType>
@@ -65,7 +65,7 @@
           </Key>
           <Property Name="PasswordID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Time" Type="time" Precision="7" Nullable="false" />
-          <Property Name="FullName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar(max)" Nullable="false" />
           <Property Name="UserID" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="System" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ReportID" Type="uniqueidentifier" Nullable="false" />
@@ -76,8 +76,8 @@
           </Key>
           <Property Name="PreCheckID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Time" Type="time" Precision="7" Nullable="false" />
-          <Property Name="System" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Check" Type="varchar" MaxLength="5" />
+          <Property Name="System" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Check" Type="varchar" MaxLength="100" />
           <Property Name="EmailTime" Type="varchar" MaxLength="50" />
           <Property Name="ReportID" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
@@ -87,8 +87,8 @@
           </Key>
           <Property Name="PrinterID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Time" Type="time" Precision="7" Nullable="false" />
-          <Property Name="User" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Objective" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="User" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Objective" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Printer" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ReportID" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
@@ -98,8 +98,8 @@
           </Key>
           <Property Name="ReIssueID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Time" Type="time" Precision="7" Nullable="false" />
-          <Property Name="User" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Objective" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="User" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Objective" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="BodyNum" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ReportID" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
@@ -323,9 +323,9 @@
           <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
           <Property Name="Duration" Type="Time" Nullable="false" Precision="7" />
           <Property Name="Shop" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Cooperation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Cooperation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ReportID" Type="Guid" Nullable="false" />
           <NavigationProperty Name="ReportTable" Relationship="Self.FK_HourOvertimeTable_ReportTable" FromRole="HourOvertimeTable" ToRole="ReportTable" />
         </EntityType>
@@ -347,10 +347,10 @@
           <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
           <Property Name="Duration" Type="Time" Nullable="false" Precision="7" />
           <Property Name="Shop" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="System" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Problem" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Solution" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Cooperation" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="System" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Problem" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Solution" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Cooperation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ReportID" Type="Guid" Nullable="false" />
           <NavigationProperty Name="ReportTable" Relationship="Self.FK_MainTaskTable" FromRole="MainTaskTable" ToRole="ReportTable" />
           <NavigationProperty Name="MT_IMAGES" Relationship="Self.FK_MT_Images" FromRole="MainTaskTable" ToRole="MT_IMAGES" />
@@ -360,7 +360,7 @@
             <PropertyRef Name="MemberID" />
           </Key>
           <Property Name="MemberID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ShiftID" Type="Int32" />
           <NavigationProperty Name="ShiftTable" Relationship="Self.FK_MembersTable" FromRole="MembersTable" ToRole="ShiftTable" />
@@ -382,7 +382,7 @@
           </Key>
           <Property Name="PasswordID" Type="Guid" Nullable="false" />
           <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="System" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ReportID" Type="Guid" Nullable="false" />
@@ -394,8 +394,8 @@
           </Key>
           <Property Name="PreCheckID" Type="Guid" Nullable="false" />
           <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="System" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Check" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="System" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Check" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="EmailTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ReportID" Type="Guid" Nullable="false" />
           <NavigationProperty Name="ReportTable" Relationship="Self.FK_PreCheckTable_ReportTable" FromRole="PreCheckTable" ToRole="ReportTable" />
@@ -406,8 +406,8 @@
           </Key>
           <Property Name="PrinterID" Type="Guid" Nullable="false" />
           <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="User" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Objective" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="User" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Objective" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Printer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ReportID" Type="Guid" Nullable="false" />
           <NavigationProperty Name="ReportTable" Relationship="Self.FK_PrintersTable_ReportID" FromRole="PrintersTable" ToRole="ReportTable" />
@@ -418,8 +418,8 @@
           </Key>
           <Property Name="ReIssueID" Type="Guid" Nullable="false" />
           <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="User" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Objective" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="User" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Objective" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="BodyNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ReportID" Type="Guid" Nullable="false" />
           <NavigationProperty Name="ReportTable" Relationship="Self.FK_ReIssueTable_ReportID" FromRole="ReIssueTable" ToRole="ReportTable" />
