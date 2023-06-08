@@ -347,9 +347,9 @@
           <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
           <Property Name="Duration" Type="Time" Nullable="false" Precision="7" />
           <Property Name="Shop" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="System" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Problem" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Solution" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="System" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Problem" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Solution" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Cooperation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ReportID" Type="Guid" Nullable="false" />
           <NavigationProperty Name="ReportTable" Relationship="Self.FK_MainTaskTable" FromRole="MainTaskTable" ToRole="ReportTable" />
