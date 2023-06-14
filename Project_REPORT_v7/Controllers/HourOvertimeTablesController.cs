@@ -126,6 +126,7 @@ namespace Project_REPORT_v7.Controllers
                 hourOvertimeTable.Type = hourOvertimeTable.Type.ToAutoCapitalize();
                 hourOvertimeTable.Description = hourOvertimeTable.Description.ToAutoCapitalize();
                 db.Entry(hourOvertimeTable).State = EntityState.Modified;
+                db.SaveChanges();
                 try
                 {
                     int userID;
@@ -133,7 +134,6 @@ namespace Project_REPORT_v7.Controllers
                         LogHelper.AddLog(DateTime.Now, "HourOvertime | Edit", $"Time:{hourOvertimeTable.Time} Duration:{hourOvertimeTable.Duration} Shop:{hourOvertimeTable.Shop} Type:{hourOvertimeTable.Type} Description:{hourOvertimeTable.Description} Cooperation:{hourOvertimeTable.Cooperation}", userID);
                 }
                 catch { }
-                db.SaveChanges();
                 return Json(new { success = true });
             }
             else
@@ -243,7 +243,7 @@ namespace Project_REPORT_v7.Controllers
             var check = db.HourOvertimeTable.Select( s => new
             {
                 Type = s.Type
-            }).Where(w => w.Type.Contains(term)).Distinct().Take(cnt);
+            }).Where(w => w.Type.ToLower().Contains(term.ToLower())).Distinct().Take(cnt);
 
             return Json(check, JsonRequestBehavior.AllowGet);
         }
@@ -253,17 +253,17 @@ namespace Project_REPORT_v7.Controllers
             var check = db.HourOvertimeTable.Select(s => new
             {
                 Description = s.Description
-            }).Where(w => w.Description.Contains(term)).Distinct().Take(cnt);
+            }).Where(w => w.Description.ToLower().Contains(term.ToLower())).Distinct().Take(cnt);
 
             return Json(check, JsonRequestBehavior.AllowGet);
-        }
+        }   
 
         public JsonResult GetCooperations(string term, int cnt)
         {
             var check = db.HourOvertimeTable.Select(s => new
             {
                 Cooperation = s.Cooperation
-            }).Where(w => w.Cooperation.Contains(term)).Distinct().Take(cnt);
+            }).Where(w => w.Cooperation.ToLower().Contains(term.ToLower())).Distinct().Take(cnt);
 
             return Json(check, JsonRequestBehavior.AllowGet);
         }

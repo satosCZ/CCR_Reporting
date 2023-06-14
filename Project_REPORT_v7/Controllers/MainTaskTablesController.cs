@@ -172,6 +172,7 @@ namespace Project_REPORT_v7.Controllers
                 mainTaskTable.Problem = mainTaskTable.Problem.ToAutoCapitalize();
                 mainTaskTable.Solution = mainTaskTable.Solution.ToAutoCapitalize();
                 db.Entry(mainTaskTable).State = EntityState.Modified;
+                db.SaveChanges();
                 // Remove comments to enable logging
                 try
                 {
@@ -180,7 +181,6 @@ namespace Project_REPORT_v7.Controllers
                         LogHelper.AddLog(DateTime.Now, "MainTaskTable | Edit", $"Time:{mainTaskTable.Time} Duration:{mainTaskTable.Duration} Shop:{mainTaskTable.Shop} System:{mainTaskTable.System}, Problem:{mainTaskTable.Problem} Solution:{mainTaskTable.Solution} Cooperation:{mainTaskTable.Cooperation}", userID);
                 }
                 catch { }
-                db.SaveChanges();
                 return Json(new { success = true });
             }
             else
@@ -239,7 +239,7 @@ namespace Project_REPORT_v7.Controllers
             {
                 System = q.System
             }).Where(
-                q => q.System.Contains(term)).Distinct().Take(cnt);
+                q => q.System.ToLower().Contains(term.ToLower())).Distinct().Take(cnt);
             return Json(check, JsonRequestBehavior.AllowGet);
         }
 
@@ -249,7 +249,7 @@ namespace Project_REPORT_v7.Controllers
             {
                 Problem = q.Problem
             }).Where(
-                q => q.Problem.Contains(term)).Distinct().Take(cnt);
+                q => q.Problem.ToLower().Contains(term.ToLower())).Distinct().Take(cnt);
             return Json(check, JsonRequestBehavior.AllowGet);
         }
 
@@ -259,7 +259,7 @@ namespace Project_REPORT_v7.Controllers
             {
                 Solution = q.Solution
             }).Where(
-                q => q.Solution.Contains(term)).Distinct().Take(cnt);
+                q => q.Solution.ToLower().Contains(term.ToLower())).Distinct().Take(cnt);
             return Json(check, JsonRequestBehavior.AllowGet);
         }
 

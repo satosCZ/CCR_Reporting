@@ -66,9 +66,9 @@ namespace Project_REPORT_v7.Controllers
                             ReIssueID = Guid.NewGuid(),
                             ReportID = passID,
                             Time = time,
-                            User = user,
-                            Objective = objective,
-                            BodyNum = body
+                            User = user.ToUpperCaps(),
+                            Objective = objective.ToUpperCaps(),
+                            BodyNum = body.ToUpperCaps()
                         });
                         try
                         {
@@ -89,9 +89,9 @@ namespace Project_REPORT_v7.Controllers
                     reIssueTable.ReIssueID = Guid.NewGuid();
                     reIssueTable.ReportID = passID;
                     reIssueTable.Time = time;
-                    reIssueTable.User= user;
-                    reIssueTable.Objective = objective;
-                    reIssueTable.BodyNum = bodyNum;
+                    reIssueTable.User= user.ToUpperCaps();
+                    reIssueTable.Objective = objective.ToUpperCaps();
+                    reIssueTable.BodyNum = bodyNum.ToUpperCaps();
                     db.ReIssueTable.Add(reIssueTable);
                     // Remove comments to enable logging
 
@@ -158,7 +158,12 @@ namespace Project_REPORT_v7.Controllers
             if (ModelState.IsValid)
             {
                 reIssueTable.ReportID = passID;
+                reIssueTable.Time = reIssueTable.Time;
+                reIssueTable.User = reIssueTable.User.ToUpperCaps();
+                reIssueTable.Objective = reIssueTable.Objective.ToUpperCaps();
+                reIssueTable.BodyNum = reIssueTable.BodyNum.ToUpperCaps();
                 db.Entry(reIssueTable).State = EntityState.Modified;
+                db.SaveChanges();
                 try
                 {
                     int userID;
@@ -224,7 +229,7 @@ namespace Project_REPORT_v7.Controllers
             var data = db.ReIssueTable.Select(q => new
             {
                 User = q.User
-            }).Where(q=>q.User.Contains(term)).Distinct().Take(cnt);
+            }).Where(q=>q.User.ToLower().Contains(term.ToLower())).Distinct().Take(cnt);
             return Json(data, JsonRequestBehavior.AllowGet);      
         }
 
@@ -233,7 +238,7 @@ namespace Project_REPORT_v7.Controllers
             var data = db.ReIssueTable.Select(q => new
             {
                 Objective = q.Objective
-            }).Where(q => q.Objective.Contains(term)).Distinct().Take(cnt);
+            }).Where(q => q.Objective.ToLower().Contains(term.ToLower())).Distinct().Take(cnt);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 

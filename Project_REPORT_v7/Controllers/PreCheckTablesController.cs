@@ -119,7 +119,7 @@ namespace Project_REPORT_v7.Controllers
                 preCheckTable.System = preCheckTable.System.ToCapitalize();
                 preCheckTable.Check = preCheckTable.Check.ToUpperCaps();
                 db.Entry(preCheckTable).State = EntityState.Modified;
-                // Remove comments to enable logging
+                db.SaveChanges();
                 try
                 {
                     int userID;
@@ -127,8 +127,6 @@ namespace Project_REPORT_v7.Controllers
                         LogHelper.AddLog(DateTime.Now, "PreCheckTable | Edit", $"Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
                 }
                 catch { }
-
-                db.SaveChanges();
                 return Json(new { success = true });
             }
             else
@@ -195,7 +193,7 @@ namespace Project_REPORT_v7.Controllers
             var check = db.PreCheckTable.Select(q => new
             {
                 System = q.System
-            }).Where(q => q.System.Contains(term)).Distinct().Take(cnt);
+            }).Where(q => q.System.ToLower().Contains(term.ToLower())).Distinct().Take(cnt);
             return Json(check, JsonRequestBehavior.AllowGet);
         }
 

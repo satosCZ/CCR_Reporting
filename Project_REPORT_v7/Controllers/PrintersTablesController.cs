@@ -125,7 +125,7 @@ namespace Project_REPORT_v7.Controllers
                 printersTable.Objective = printersTable.Objective.ToAutoCapitalize();
                 printersTable.Printer = printersTable.Printer.ToUpper();
                 db.Entry(printersTable).State = EntityState.Modified;
-                // Remove comments to enable logging
+                db.SaveChanges();
                 try
                 {
                     int userID;
@@ -133,7 +133,6 @@ namespace Project_REPORT_v7.Controllers
                         LogHelper.AddLog(DateTime.Now, "PrintersTable | Edit", $"Time:{printersTable.Time} Who:{printersTable.User} What:{printersTable.Objective} Printer:{printersTable.Printer}", userID);
                 }
                 catch { }
-                db.SaveChanges();
                 return Json(new { success = true });
             }
             else
@@ -191,7 +190,7 @@ namespace Project_REPORT_v7.Controllers
             var data = db.PrintersTable.Select(q => new
             {
                 User = q.User
-            }).Where(q => q.User.Contains(term)).Distinct().Take(cnt);
+            }).Where(q => q.User.ToLower().Contains(term.ToLower())).Distinct().Take(cnt);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
@@ -200,7 +199,7 @@ namespace Project_REPORT_v7.Controllers
             var data = db.PrintersTable.Select(q => new
             {
                 Objective = q.Objective
-            }).Where(q => q.Objective.Contains(term)).Distinct().Take(cnt);
+            }).Where(q => q.Objective.ToLower().Contains(term.ToLower())).Distinct().Take(cnt);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
@@ -209,7 +208,7 @@ namespace Project_REPORT_v7.Controllers
             var data = db.PrintersTable.Select(q => new
             {
                 Printer = q.Printer
-            }).Where(q => q.Printer.Contains(term)).Distinct().Take(cnt);
+            }).Where(q => q.Printer.ToLower().Contains(term.ToLower())).Distinct().Take(cnt);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
