@@ -6,14 +6,39 @@
 
 <script>
     $(function () {
-        $("#Problem").autocomplete({
+        $("#System").autocomplete({
             source: function (request, response) {
                 $.ajax({
-                    url: "../MainTaskTables/GetProblem",
+                    url: "/MainTaskTables/GetSystem",
                     dataType: "json",
                     type: "POST",
                     data: {
-                        term: request.term
+                        term: request.term,
+                        cnt: 5
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        response($.map(data, function (item) {
+                            return { label: item.System, value: item.System };
+                        }))
+                    }
+                });
+            },
+            minLength: 2,
+            select: function (event, ui) {
+                console.log(ui);
+            }
+        });
+
+        $("#Problem").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/MainTaskTables/GetProblem",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        term: request.term,
+                        cnt: 5
                     },
                     success: function (data) {
                         console.log(data);
@@ -32,11 +57,12 @@
         $("#Solution").autocomplete({
             source: function (request, response) {
                 $.ajax({
-                    url: "../MainTaskTables/GetSolution",
+                    url: "/MainTaskTables/GetSolution",
                     dataType: "json",
                     type: "POST",
                     data: {
-                        term: request.term
+                        term: request.term,
+                        cnt: 5
                     },
                     success: function (data) {
                         console.log(data);

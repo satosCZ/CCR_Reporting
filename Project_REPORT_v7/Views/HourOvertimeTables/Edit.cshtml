@@ -9,6 +9,78 @@
         $("#radio input").checkboxradio({
             icon: false
         });
+
+        $("#Type").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/HourOvertimeTables/GetTypes",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        term: request.term,
+                        cnt: 5
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        respo($.map(data, function (item) {
+                            return { label: item.Type, value: item.Type };
+                        }))
+                    }
+                });
+            },
+            minLength: 2,
+            select: function (event, ui) {
+                console.log(ui);
+            }
+        });
+
+        $("#Description").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/HourOvertimeTables/GetDescriptions",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        term: request.term,
+                        cnt: 5
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        response($.map(data, function (item) {
+                            return { label: item.Description, value: item.Description }
+                        }))
+                    }
+                });
+            },
+            minLength: 4,
+            select: function (event, ui) {
+                console.log(ui);
+            }
+        });
+
+        $("#Cooperation").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/HourOvertimeTables/GetCooperations",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        term: request.term,
+                        cnt: 5
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        response($.map(data, function (item) {
+                            return { label: item.Cooperation, value: item.Cooperation }
+                        }))
+                    }
+                });
+            },
+            minLength: 3,
+            select: function (event, ui) {
+                console.log(ui);
+            }
+        });
     });
 </script>
 

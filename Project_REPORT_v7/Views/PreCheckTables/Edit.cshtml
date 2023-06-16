@@ -4,6 +4,34 @@
     ViewBag.Title = "Edit";
 }
 
+<script>
+    $(function () {
+        $("#System").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/PreCheckTables/GetSystem",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        term: request.term,
+                        cnt: 5
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        response($.map(data, function (item) {
+                            return { label: item.System, value: item.System };
+                        }))
+                    }
+                });
+            },
+            minLength: 2,
+            select: function (event, ui) {
+                console.log(ui);
+            }
+        });
+    });
+</script>
+
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
     <h3 class="text-center">Edit Pre-Check</h3>

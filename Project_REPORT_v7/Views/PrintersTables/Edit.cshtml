@@ -4,6 +4,80 @@
     ViewBag.Title = "Edit";
 }
 
+<script>
+    $(function () {
+        $("#User").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/PrintersTables/GetWho",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        term: request.term,
+                        cnt: 5
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        response($.map(data, function (item) {
+                            return { label: item.User, value: item.User };
+                        }))
+                    }
+                });
+            },
+            minLength: 2,
+            select: function (event, ui) {
+                console.log(ui);
+            }
+        });
+        $("#Objective").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/PrintersTables/GetWhat",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        term: request.term,
+                        cnt: 5
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        response($.map(data, function (item) {
+                            return { label: item.Objective, value: item.Objective };
+                        }))
+                    }
+                });
+            },
+            minLength: 2,
+            select: function (event, ui) {
+                console.log(ui);
+            }
+        });
+        $("#Printer").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/PrintersTables/GetWhere",
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        term: request.term,
+                        cnt: 5
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        response($.map(data, function (item) {
+                            return { label: item.Printer, value: item.Printer };
+                        }))
+                    }
+                });
+            },
+            minLength: 2,
+            select: function (event, ui) {
+                console.log(ui);
+            }
+        });
+    });
+</script>
+
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
     <h3 class="text-center">Edit Printer</h3>
