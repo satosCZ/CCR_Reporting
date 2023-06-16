@@ -87,7 +87,7 @@ namespace Project_REPORT_v7.Controllers
                 db.Entry(membersTable).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
             }
-            return View();
+            return View("Index");
         }
 
         // GET: /MembersTable/Delete/5
