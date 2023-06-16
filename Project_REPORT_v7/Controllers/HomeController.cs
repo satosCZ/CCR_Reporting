@@ -1,5 +1,8 @@
 ﻿using Project_REPORT_v7.Controllers.Addon;
 using Project_REPORT_v7.Models;
+using System;
+using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -39,8 +42,6 @@ namespace Project_REPORT_v7.Controllers
                     Session["User"] = "Unknown";
                     Session["UserID"] = 99999999;
                 }
-
-
             }
             else
             {
@@ -74,8 +75,17 @@ namespace Project_REPORT_v7.Controllers
 
         public ActionResult Logout()
         {
-            Session.Clear();
-            return RedirectToAction("Index");
+            HttpCookie cookie = new HttpCookie("ASP.NET_SessionId", "");
+            cookie.Expires = DateTime.Now.AddYears(-1);
+            Response.Cookies.Add(cookie);
+
+            SessionStateSection sessionStateSection = (SessionStateSection)WebConfigurationManager.GetSection("system.web/sessionState");
+            HttpCookie httpCookie = new HttpCookie(sessionStateSection.CookieName, "");
+            httpCookie.Expires = DateTime.Now.AddYears(-1);
+            Response.Cookies.Add(httpCookie);
+
+            FormsAuthentication.SignOut();
+            FormsAuthentication.RedirectFromLoginPage("Login", false);
         }
 
         [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
