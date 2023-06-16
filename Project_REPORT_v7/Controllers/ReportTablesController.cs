@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core.EntityClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -11,6 +13,13 @@ using Project_REPORT_v7.Models;
 
 namespace Project_REPORT_v7.Controllers
 {
+    static class BLogData
+    {
+        public static string Log { get; set; } = "";
+        public static bool IsError { get; set; } = false;
+    }
+
+
     //[AuthorizeAD(Groups ="CCR_Report")]
     [CheckSessionTimeOut]
     public class ReportTablesController : Controller
@@ -21,7 +30,14 @@ namespace Project_REPORT_v7.Controllers
         public ViewResult Index(int? page)
         {
             var reportTable = db.ReportTable.Include(r => r.MembersTable).Include(r => r.MembersTable1);
-
+            if (BLogData.IsError)
+            {
+                JSConsoleLog.Error(BLogData.Log);
+            }
+            else
+            {
+                JSConsoleLog.ConsoleLog(BLogData.Log);
+            }
             int pageSize = 15;
             int pageNumber = (page ?? 1);
             return View(reportTable.OrderByDescending(s => s.Date).ToPagedList(pageNumber, pageSize));
@@ -91,7 +107,6 @@ namespace Project_REPORT_v7.Controllers
         [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Create()
         {
-            
             try
             {
                 ReportTable reportTable = db.ReportTable.OrderByDescending(o => o.Date).First();
@@ -154,7 +169,35 @@ namespace Project_REPORT_v7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ReportID,Date,Shift,Member_One_ID,Member_Two_ID,ShiftID")] ReportTable reportTable)
         {
-            if (ModelState.IsValid)
+            // Backup DB
+            #region DB Backup
+            try
+            {
+                var sqlcon = new EntityConnectionStringBuilder(ConfigurationManager.ConnectionStrings["ReportDBEntities1"].ConnectionString);
+                var curDB = "[C:\\MES\\WWWROOT\\APP_DATA\\REPORTDB.MDF]";
+                var queryString = "BACKUP DATABASE " + curDB + " TO DISK = 'C:\\DB BACKUP\\REPORTDB_"+ DateTime.Now.ToString("yyyyMMdd") + ".BAK' WITH FORMAT, MEDIANAME = 'Z_SQLServerBackups', NAME = 'Full Backup of " + curDB + "';";
+                //var queryString = "BACKUP DATABASE " + curDB + " TO DISK = 'C:\\MES\\WWWROOT\\APP_DATA\\REPORTDB.BAK' WITH FORMAT, MEDIANAME = 'Z_SQLServerBackups', NAME = 'Full Backup of " + curDB + "';";
+
+                using ( var con = new System.Data.SqlClient.SqlConnection( sqlcon.ProviderConnectionString ) )
+                {
+                    using ( var cmd = new System.Data.SqlClient.SqlCommand( queryString, con ) )
+                    {
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                BLogData.Log = "Backup DB Success" ;
+                BLogData.IsError = false;
+                JSConsoleLog.ConsoleLog( BLogData.Log );
+            }
+            catch ( Exception ex )
+            {
+                BLogData.Log = "Backup DB Failed: " + ex.Message;
+                BLogData.IsError = true;
+            }
+            #endregion
+
+            if ( ModelState.IsValid)
             {
                 reportTable.ReportID = Guid.NewGuid();
                 int shiftID = reportTable.ShiftID.Value;
