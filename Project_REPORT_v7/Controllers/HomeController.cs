@@ -85,7 +85,8 @@ namespace Project_REPORT_v7.Controllers
             Response.Cookies.Add(httpCookie);
 
             FormsAuthentication.SignOut();
-            FormsAuthentication.RedirectFromLoginPage("Login", false);
+
+            return RedirectToAction("Login", "Home");
         }
 
         [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
