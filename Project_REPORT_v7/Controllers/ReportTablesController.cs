@@ -119,10 +119,10 @@ namespace Project_REPORT_v7.Controllers
                         ViewBag.Shift = "N"; 
                         break;
                     case "Night":
-                        ViewBag.Shift = "M";
+                        ViewBag.Shift = "D";
                         break;
                     default:
-                        ViewBag.Shift = "M";
+                        ViewBag.Shift = "D";
                         break;
                 }
 
@@ -171,29 +171,36 @@ namespace Project_REPORT_v7.Controllers
         {
             // Backup DB
             #region DB Backup
-            try
+            bool doBackup;
+            if ( bool.TryParse( ConfigurationManager.AppSettings ["DoDBBackup"].ToString(), out doBackup ) )
             {
-                var sqlcon = new EntityConnectionStringBuilder(ConfigurationManager.ConnectionStrings["ReportDBEntities1"].ConnectionString);
-                var curDB = "[C:\\MES\\WWWROOT\\APP_DATA\\REPORTDB.MDF]";
-                var queryString = "BACKUP DATABASE " + curDB + " TO DISK = 'C:\\DB BACKUP\\REPORTDB_"+ DateTime.Now.ToString("yyyyMMdd") + ".BAK' WITH FORMAT, MEDIANAME = 'Z_SQLServerBackups', NAME = 'Full Backup of " + curDB + "';";
-                //var queryString = "BACKUP DATABASE " + curDB + " TO DISK = 'C:\\MES\\WWWROOT\\APP_DATA\\REPORTDB.BAK' WITH FORMAT, MEDIANAME = 'Z_SQLServerBackups', NAME = 'Full Backup of " + curDB + "';";
-
-                using ( var con = new System.Data.SqlClient.SqlConnection( sqlcon.ProviderConnectionString ) )
+                if ( doBackup )
                 {
-                    using ( var cmd = new System.Data.SqlClient.SqlCommand( queryString, con ) )
+                    try
                     {
-                        con.Open();
-                        cmd.ExecuteNonQuery();
+                        var sqlcon = new EntityConnectionStringBuilder(ConfigurationManager.ConnectionStrings["ReportDBEntities1"].ConnectionString);
+                        var curDB = "[C:\\MES\\WWWROOT\\APP_DATA\\REPORTDB.MDF]";
+                        var queryString = "BACKUP DATABASE " + curDB + " TO DISK = 'C:\\DB BACKUP\\REPORTDB_"+ DateTime.Now.ToString("yyyyMMdd") + ".BAK' WITH FORMAT, MEDIANAME = 'Z_SQLServerBackups', NAME = 'Full Backup of " + curDB + "';";
+                        //var queryString = "BACKUP DATABASE " + curDB + " TO DISK = 'C:\\MES\\WWWROOT\\APP_DATA\\REPORTDB.BAK' WITH FORMAT, MEDIANAME = 'Z_SQLServerBackups', NAME = 'Full Backup of " + curDB + "';";
+
+                        using ( var con = new System.Data.SqlClient.SqlConnection( sqlcon.ProviderConnectionString ) )
+                        {
+                            using ( var cmd = new System.Data.SqlClient.SqlCommand( queryString, con ) )
+                            {
+                                con.Open();
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+                        BLogData.Log = "Backup DB Success";
+                        BLogData.IsError = false;
+                        JSConsoleLog.ConsoleLog( BLogData.Log );
+                    }
+                    catch ( Exception ex )
+                    {
+                        BLogData.Log = "Backup DB Failed: " + ex.Message;
+                        BLogData.IsError = true;
                     }
                 }
-                BLogData.Log = "Backup DB Success" ;
-                BLogData.IsError = false;
-                JSConsoleLog.ConsoleLog( BLogData.Log );
-            }
-            catch ( Exception ex )
-            {
-                BLogData.Log = "Backup DB Failed: " + ex.Message;
-                BLogData.IsError = true;
             }
             #endregion
 
@@ -209,7 +216,7 @@ namespace Project_REPORT_v7.Controllers
                 {
                     switch (reportTable.Shift)
                     {
-                        case "Morning":
+                        case "Day":
                             reportTable.Date = reportTable.Date.AddHours(6);
                             break;
                         case "Afternoon":
@@ -287,38 +294,41 @@ namespace Project_REPORT_v7.Controllers
             {
                 db.Entry(reportTable).State = EntityState.Modified;
 
+                // Test: Disabled code bellow in region to temperorary because unnecessary
+                #region Add Time to Date
                 // Check if date in report is withouth a time set
-                if (reportTable.Date.TimeOfDay.Ticks == 0)
-                {
-                    try
-                    {
+                //if (reportTable.Date.TimeOfDay.Ticks == 0)
+                //{
+                //    try
+                //    {
 
-                        switch (reportTable.Shift)
-                        {
-                            case "Morning":
-                                reportTable.Date = reportTable.Date.AddHours(6);
-                                break;
-                            case "Afternoon":
-                                reportTable.Date = reportTable.Date.AddHours(14);
-                                break;
-                            case "Night":
-                                reportTable.Date = reportTable.Date.AddHours(22);
-                                break;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine("ReportTablesController || Create || " + ex.Message);
-                        try
-                        {
-                            int userID;
-                            if (int.TryParse(Session["UserID"].ToString(), out userID))
-                                LogHelper.AddLog(DateTime.Now, "ReportTable | Edit[POST] | Error", $"Error in switch(reportTable.Shift) adding time: {ex.ToString()}", userID);
-                        }
-                        catch { }
-                    }
-                }
+                //        switch (reportTable.Shift)
+                //        {
+                //            case "Day":
+                //                reportTable.Date = reportTable.Date.AddHours(6);
+                //                break;
+                //            case "Afternoon":
+                //                reportTable.Date = reportTable.Date.AddHours(14);
+                //                break;
+                //            case "Night":
+                //                reportTable.Date = reportTable.Date.AddHours(22);
+                //                break;
+                //        }
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        Debug.WriteLine("ReportTablesController || Create || " + ex.Message);
+                //        try
+                //        {
+                //            int userID;
+                //            if (int.TryParse(Session["UserID"].ToString(), out userID))
+                //                LogHelper.AddLog(DateTime.Now, "ReportTable | Edit[POST] | Error", $"Error in switch(reportTable.Shift) adding time: {ex.ToString()}", userID);
+                //        }
+                //        catch { }
+                //    }
+                //}
                 // Remove comments to enable logging
+                #endregion
 
                 try
                 {
