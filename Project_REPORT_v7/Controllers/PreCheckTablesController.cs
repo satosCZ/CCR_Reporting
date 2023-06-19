@@ -43,6 +43,7 @@ namespace Project_REPORT_v7.Controllers
             {
                 // Close as 
                 Session["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
+                JSConsoleLog.Alert("No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.");
                 return Json(this, JsonRequestBehavior.AllowGet);
             }
             if (ModelState.IsValid)
@@ -52,6 +53,7 @@ namespace Project_REPORT_v7.Controllers
                 preCheckTable.System = preCheckTable.System.ToCapitalize();
                 preCheckTable.Check = preCheckTable.Check.ToUpperCaps();
                 db.PreCheckTable.Add(preCheckTable);
+                db.SaveChanges();
                 try
                 {
                     int userID;
@@ -59,7 +61,6 @@ namespace Project_REPORT_v7.Controllers
                         LogHelper.AddLog(DateTime.Now, "PreCheckTable | Create", $"Time:{preCheckTable.Time} System:{preCheckTable.System} Check:{preCheckTable.Check} EmailTime:{preCheckTable.EmailTime} ", userID);
                 }
                 catch { }
-                db.SaveChanges();
                 return Json(new { success = true });
             }
             else
