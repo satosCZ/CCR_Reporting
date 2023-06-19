@@ -74,6 +74,10 @@ namespace Project_REPORT_v7.Controllers.Addon
                     }
                 }
             }
+            else
+            {
+                result = temp [0].Substring(0, 1).ToUpper() + temp [0].Substring(1);
+            }
             return result;
         }
     }
