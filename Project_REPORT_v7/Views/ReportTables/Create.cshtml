@@ -80,7 +80,7 @@
             var shift = '@ViewBag.Shift';
             var shiftID = '@ViewBag.ShiftID';
             if (shift == 'M') {
-                var radio = document.getElementById("Morning");
+                var radio = document.getElementById("Day");
                 radio.setAttribute('checked', '');
             }
             else if (shift == 'A') {
@@ -194,8 +194,8 @@
                     @Html.LabelFor( model => model.Shift, htmlAttributes: new { @class = "control-label required", @id = "lblShift" } )
                     <div class="clearfix">
                         <div id="radio" class="btn-group">
-                            <label class="btn btn-default" for="Morning">Morning</label>
-                            @Html.RadioButtonFor( model => model.Shift, "Morning", htmlAttributes: new { @title = "Morning", @class = "", @id = "Morning", @style = "visibility: hidden; width:0; height:0;" } )
+                            <label class="btn btn-default" for="Day">Day</label>
+                            @Html.RadioButtonFor( model => model.Shift, "Day", htmlAttributes: new { @title = "Day", @class = "", @id = "Day", @style = "visibility: hidden; width:0; height:0;" } )
                             <label class="btn btn-default" for="Afternoon">Afternoon</label>
                             @Html.RadioButtonFor( model => model.Shift, "Afternoon", htmlAttributes: new { @title = "Afternoon", @id = "Afternoon", @style = "visibility: hidden; width:0; height:0;" } )
                             <label class="btn btn-default" for="Night">Night</label>
