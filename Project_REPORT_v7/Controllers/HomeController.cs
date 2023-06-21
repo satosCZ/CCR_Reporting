@@ -54,8 +54,8 @@ namespace Project_REPORT_v7.Controllers
                 Session ["UserID"] = ad.MemberID;
             }
 
-            JSConsoleLog.ConsoleLog( ViewBag.ReturnURL );
-            JSConsoleLog.ConsoleLog( ViewBag.LoggedUser );
+            JSConsoleLog.ConsoleLog( TempData ["ReturnURL"].ToString() );
+            JSConsoleLog.ConsoleLog( TempData ["LoggedUser"].ToString());
             #endregion
             return View();
         }
@@ -70,11 +70,11 @@ namespace Project_REPORT_v7.Controllers
         {
             if (Membership.ValidateUser(IDLogin, Password))
             {
-                ViewBag.LoggedUser = $"User {IDLogin} logged from {returnUrl}";
+                TempData["LoggedUser"] = $"User {IDLogin} logged from {returnUrl}";
                 FormsAuthentication.SetAuthCookie(IDLogin, true);
                 if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length> 1 && (returnUrl.StartsWith("/") || (returnUrl.StartsWith("%2f"))) && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                 {
-                    ViewBag.ReturnURL = "Return URL: " + returnUrl;
+                    TempData ["ReturnURL"] = "Return URL: " + returnUrl;
                     return Redirect(returnUrl);
                 }
 
