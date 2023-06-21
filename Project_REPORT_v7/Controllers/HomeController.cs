@@ -22,11 +22,15 @@ namespace Project_REPORT_v7.Controllers
             {
                 Session["isAdmin"] = "Admin";
                 Session["Closed"] = "false";
+                JSConsoleLog.ConsoleLog( $"Loged in as {ad.MemberName} [{ad.MemberID}]" );
             }
             else
             {
                 Session["isAdmin"] = "NonAdmin";
+                JSConsoleLog.ConsoleLog( $"Loged in as {ad.MemberName} [{ad.MemberID}]" );
             }
+
+            
 
             if (!member.CheckMember(ad.MemberID))
             {
@@ -61,9 +65,11 @@ namespace Project_REPORT_v7.Controllers
         {
             if (Membership.ValidateUser(IDLogin, Password))
             {
+                JSConsoleLog.ConsoleLog( $"User {IDLogin} logged from {returnUrl}" );
                 FormsAuthentication.SetAuthCookie(IDLogin, true);
-                if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length> 1 && returnUrl.StartsWith("/") && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length> 1 && (returnUrl.StartsWith("/") || (returnUrl.StartsWith("%2f"))) && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                 {
+                    JSConsoleLog.ConsoleLog( "Return URL: " + returnUrl );
                     return Redirect(returnUrl);
                 }
 
