@@ -17,6 +17,13 @@ namespace Project_REPORT_v7.Controllers
         public ActionResult Index()
         {
             #region Check Session
+            CheckSession();
+            #endregion
+            return View();
+        }
+
+        private void CheckSession()
+        {
             MembersTablesController member = new MembersTablesController();
             ADHelper ad = new ADHelper(User.Identity.Name);
             if ( LDAPHelper.UserIsMemberOfGroups( User.Identity.Name, new string [] { "CCR_Report_Admin" } ) )
@@ -54,12 +61,16 @@ namespace Project_REPORT_v7.Controllers
                 Session ["UserID"] = ad.MemberID;
             }
 
-            JSConsoleLog.ConsoleLog( TempData ["ReturnURL"].ToString() );
-            JSConsoleLog.ConsoleLog( TempData ["LoggedUser"].ToString());
-            #endregion
-            return View();
+            try
+            {
+                JSConsoleLog.ConsoleLog( Session ["ReturnURL"].ToString() );
+                JSConsoleLog.ConsoleLog( Session ["LoggedUser"].ToString() )
+            }
+            catch (Exception ex)
+            {
+                JSConsoleLog.ConsoleLog( ex.Message );
+            }
         }
-
         public ActionResult Login()
         {
             return View();
@@ -70,11 +81,12 @@ namespace Project_REPORT_v7.Controllers
         {
             if (Membership.ValidateUser(IDLogin, Password))
             {
-                TempData["LoggedUser"] = $"User {IDLogin} logged from {returnUrl}";
+                Session ["LoggedUser"] = $"User {IDLogin} logged from {returnUrl}";
                 FormsAuthentication.SetAuthCookie(IDLogin, true);
                 if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length> 1 && (returnUrl.StartsWith("/") || (returnUrl.StartsWith("%2f"))) && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                 {
-                    TempData ["ReturnURL"] = "Return URL: " + returnUrl;
+                    Session ["ReturnURL"] = "Return URL: " + returnUrl;
+                    CheckSession();
                     return Redirect(returnUrl);
                 }
 
