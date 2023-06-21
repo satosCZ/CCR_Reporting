@@ -54,6 +54,7 @@ namespace Project_REPORT_v7.Controllers
             }
 
             JSConsoleLog.ConsoleLog( ViewBag.ReturnURL );
+            JSConsoleLog.ConsoleLog( ViewBag.LoggedUser );
             return View();
         }
 
