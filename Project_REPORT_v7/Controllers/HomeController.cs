@@ -64,7 +64,7 @@ namespace Project_REPORT_v7.Controllers
             try
             {
                 JSConsoleLog.ConsoleLog( Session ["ReturnURL"].ToString() );
-                JSConsoleLog.ConsoleLog( Session ["LoggedUser"].ToString() )
+                JSConsoleLog.ConsoleLog( Session ["LoggedUser"].ToString() );
             }
             catch (Exception ex)
             {
