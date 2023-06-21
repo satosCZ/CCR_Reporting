@@ -25,6 +25,7 @@ namespace Project_REPORT_v7.Controllers
         private void CheckSession()
         {
             MembersTablesController member = new MembersTablesController();
+            JSConsoleLog.ConsoleLog("User.Identity.Name: " + User.Identity.Name);
             ADHelper ad = new ADHelper(User.Identity.Name);
             if ( LDAPHelper.UserIsMemberOfGroups( User.Identity.Name, new string [] { "CCR_Report_Admin" } ) )
             {

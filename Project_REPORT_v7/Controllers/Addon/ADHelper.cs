@@ -15,6 +15,7 @@ namespace Project_REPORT_v7.Controllers.Addon
             memberName = string.Empty;
             memberEmail = string.Empty;
             temp = name;
+            JSConsoleLog.ConsoleLog($"ADHelper - {name}");
             GetInformation(name);
         }
 
