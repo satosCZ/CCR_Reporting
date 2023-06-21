@@ -16,45 +16,47 @@ namespace Project_REPORT_v7.Controllers
         [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Index()
         {
+            #region Check Session
             MembersTablesController member = new MembersTablesController();
             ADHelper ad = new ADHelper(User.Identity.Name);
-            if (LDAPHelper.UserIsMemberOfGroups(User.Identity.Name, new string[] { "CCR_Report_Admin" }))
+            if ( LDAPHelper.UserIsMemberOfGroups( User.Identity.Name, new string [] { "CCR_Report_Admin" } ) )
             {
-                Session["isAdmin"] = "Admin";
-                Session["Closed"] = "false";
+                Session ["isAdmin"] = "Admin";
+                Session ["Closed"] = "false";
                 JSConsoleLog.ConsoleLog( $"Loged in as {ad.MemberName} [{ad.MemberID}]" );
             }
             else
             {
-                Session["isAdmin"] = "NonAdmin";
+                Session ["isAdmin"] = "NonAdmin";
                 JSConsoleLog.ConsoleLog( $"Loged in as {ad.MemberName} [{ad.MemberID}]" );
             }
 
-            
 
-            if (!member.CheckMember(ad.MemberID))
+
+            if ( !member.CheckMember( ad.MemberID ) )
             {
-                JSConsoleLog.ConsoleLog($"User ID {ad.MemberID} & User Name {ad.MemberName} is not in local DB");
-                if (member.AddMember(ad))
+                JSConsoleLog.ConsoleLog( $"User ID {ad.MemberID} & User Name {ad.MemberName} is not in local DB" );
+                if ( member.AddMember( ad ) )
                 {
-                    Session["User"] = $"{ad.MemberName} [{ad.MemberID}]";
-                    Session["UserID"] = ad.MemberID;
+                    Session ["User"] = $"{ad.MemberName} [{ad.MemberID}]";
+                    Session ["UserID"] = ad.MemberID;
                 }
                 else
                 {
-                    JSConsoleLog.ConsoleLog($"User wasn't added to DB.");
-                    Session["User"] = "Unknown";
-                    Session["UserID"] = 99999999;
+                    JSConsoleLog.ConsoleLog( $"User wasn't added to DB." );
+                    Session ["User"] = "Unknown";
+                    Session ["UserID"] = 99999999;
                 }
             }
             else
             {
-                Session["User"] = $"{ad.MemberName} [{ad.MemberID}]";
-                Session["UserID"] = ad.MemberID;
+                Session ["User"] = $"{ad.MemberName} [{ad.MemberID}]";
+                Session ["UserID"] = ad.MemberID;
             }
 
             JSConsoleLog.ConsoleLog( ViewBag.ReturnURL );
             JSConsoleLog.ConsoleLog( ViewBag.LoggedUser );
+            #endregion
             return View();
         }
 
