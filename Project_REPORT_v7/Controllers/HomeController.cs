@@ -52,6 +52,8 @@ namespace Project_REPORT_v7.Controllers
                 Session["User"] = $"{ad.MemberName} [{ad.MemberID}]";
                 Session["UserID"] = ad.MemberID;
             }
+
+            JSConsoleLog.ConsoleLog( ViewBag.ReturnURL );
             return View();
         }
 
@@ -65,11 +67,11 @@ namespace Project_REPORT_v7.Controllers
         {
             if (Membership.ValidateUser(IDLogin, Password))
             {
-                JSConsoleLog.ConsoleLog( $"User {IDLogin} logged from {returnUrl}" );
+                ViewBag.LoggedUser = $"User {IDLogin} logged from {returnUrl}";
                 FormsAuthentication.SetAuthCookie(IDLogin, true);
                 if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length> 1 && (returnUrl.StartsWith("/") || (returnUrl.StartsWith("%2f"))) && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                 {
-                    JSConsoleLog.ConsoleLog( "Return URL: " + returnUrl );
+                    ViewBag.ReturnURL = "Return URL: " + returnUrl;
                     return Redirect(returnUrl);
                 }
 
