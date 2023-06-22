@@ -44,6 +44,7 @@ namespace Project_REPORT_v7.Controllers.Addon
                     //this.Log().Error(() => "Error attempting to authorize user", ex);
                     JSConsoleLog.ConsoleLog("Error attempting to authorize user: " + ex.Message);
                     LogHelper.AddLog(DateTime.Now, "AuthorizeAD | Error","Error attempting to authorize user: " + ex.Message, 0);
+                    Logger.LogError("Error attempting to authorize user: " + ex.Message, "Project_REPORT_v7.Controllers.Addon.AuthorizeADAttribute.AuthorizeCore(HttpContextBase httpContext)");
                     _authorized = false;
                     return _authorized;
                 }

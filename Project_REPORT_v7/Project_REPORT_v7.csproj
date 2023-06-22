@@ -155,6 +155,7 @@
     <Compile Include="Controllers\Addon\CheckSessionTimeOutAttribute.cs" />
     <Compile Include="Controllers\Addon\JSConsoleLog.cs" />
     <Compile Include="Controllers\Addon\LDAPHelper.cs" />
+    <Compile Include="Controllers\Addon\Logger.cs" />
     <Compile Include="Controllers\Addon\LogHelper.cs" />
     <Compile Include="Controllers\Addon\StringExtension.cs" />
     <Compile Include="Controllers\ErrorController.cs" />

@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.DirectoryServices;
 using System.Web.Caching;
@@ -16,6 +17,7 @@ namespace Project_REPORT_v7.Controllers.Addon
             memberEmail = string.Empty;
             temp = name;
             JSConsoleLog.ConsoleLog($"ADHelper - {name}");
+            Logger.LogInfo($"ADHelper - {name}", "Project_REPORT_v7.Controllers.Addon.ADHelper.ADHelper(string name)");
             GetInformation(name);
         }
 
@@ -37,7 +39,11 @@ namespace Project_REPORT_v7.Controllers.Addon
                     memberEmail = result.Properties["mail"][0].ToString();
                 }
             }
-            catch { }
+            catch (Exception ex)
+            { 
+                Logger.LogError($"ADHelper - {name}", "Project_REPORT_v7.Controllers.Addon.ADHelper.GetInformation(string name)");
+                Logger.LogError( $"Error: {ex.Message}", "Project_REPORT_v7.Controllers.Addon.ADHelper.GetInformation(string name)" );
+            }
         }
 
         private int memberID;

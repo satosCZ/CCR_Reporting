@@ -26,17 +26,22 @@ namespace Project_REPORT_v7.Controllers
         {
             MembersTablesController member = new MembersTablesController();
             JSConsoleLog.ConsoleLog("User.Identity.Name: " + User.Identity.Name);
+            Logger.LogInfo("User.Identity.Name: " + User.Identity.Name, "Project_REPORT_v7.Controllers.HomeController.CheckSession()" );
             ADHelper ad = new ADHelper(User.Identity.Name);
+            JSConsoleLog.ConsoleLog( $"ADHelper initialed in CheckSession(): {ad.MemberName}, {ad.MemberID}, {ad.MemberEmail}" );
+            Logger.LogInfo( $"ADHelper initialed in CheckSession(): {ad.MemberName}, {ad.MemberID}, {ad.MemberEmail}", "Project_REPORT_v7.Controllers.HomeController.CheckSession()" );
             if ( LDAPHelper.UserIsMemberOfGroups( User.Identity.Name, new string [] { "CCR_Report_Admin" } ) )
             {
                 Session ["isAdmin"] = "Admin";
                 Session ["Closed"] = "false";
-                JSConsoleLog.ConsoleLog( $"Loged in as {ad.MemberName} [{ad.MemberID}]" );
+                JSConsoleLog.ConsoleLog( $"Loged in as {ad.MemberName} [{ad.MemberID}] - Admin" );
+                Logger.LogInfo( $"Loged in as {ad.MemberName} [{ad.MemberID}] - Admin", "Project_REPORT_v7.Controllers.HomeController.CheckSession()" );
             }
             else
             {
                 Session ["isAdmin"] = "NonAdmin";
-                JSConsoleLog.ConsoleLog( $"Loged in as {ad.MemberName} [{ad.MemberID}]" );
+                JSConsoleLog.ConsoleLog( $"Loged in as {ad.MemberName} [{ad.MemberID}] - User" );
+                Logger.LogInfo( $"Loged in as {ad.MemberName} [{ad.MemberID}] - User", "Project_REPORT_v7.Controllers.HomeController.CheckSession()" );
             }
 
 
@@ -44,14 +49,18 @@ namespace Project_REPORT_v7.Controllers
             if ( !member.CheckMember( ad.MemberID ) )
             {
                 JSConsoleLog.ConsoleLog( $"User ID {ad.MemberID} & User Name {ad.MemberName} is not in local DB" );
+                Logger.LogInfo( $"User ID {ad.MemberID} & User Name {ad.MemberName} is not in local DB", "Project_REPORT_v7.Controllers.HomeController.CheckSession()" );
                 if ( member.AddMember( ad ) )
                 {
+                    JSConsoleLog.ConsoleLog( $"User ID {ad.MemberID} & User Name {ad.MemberName} was added to local DB" );
+                    Logger.LogInfo( $"User ID {ad.MemberID} & User Name {ad.MemberName} was added to local DB", "Project_REPORT_v7.Controllers.HomeController.CheckSession()" );
                     Session ["User"] = $"{ad.MemberName} [{ad.MemberID}]";
                     Session ["UserID"] = ad.MemberID;
                 }
                 else
                 {
                     JSConsoleLog.ConsoleLog( $"User wasn't added to DB." );
+                    Logger.LogInfo( $"User wasn't added to DB.", "Project_REPORT_v7.Controllers.HomeController.CheckSession()" );
                     Session ["User"] = "Unknown";
                     Session ["UserID"] = 99999999;
                 }
@@ -60,16 +69,6 @@ namespace Project_REPORT_v7.Controllers
             {
                 Session ["User"] = $"{ad.MemberName} [{ad.MemberID}]";
                 Session ["UserID"] = ad.MemberID;
-            }
-
-            try
-            {
-                JSConsoleLog.ConsoleLog( Session ["ReturnURL"].ToString() );
-                JSConsoleLog.ConsoleLog( Session ["LoggedUser"].ToString() );
-            }
-            catch (Exception ex)
-            {
-                JSConsoleLog.ConsoleLog( ex.Message );
             }
         }
         public ActionResult Login()
@@ -83,10 +82,13 @@ namespace Project_REPORT_v7.Controllers
             if (Membership.ValidateUser(IDLogin, Password))
             {
                 Session ["LoggedUser"] = $"User {IDLogin} logged from {returnUrl}";
+
+                Logger.LogInfo( $"IDLogin - {IDLogin}", "Project_REPORT_v7.Controllers.HomeController.[POST]Login()" );
                 FormsAuthentication.SetAuthCookie(IDLogin, true);
                 if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length> 1 && (returnUrl.StartsWith("/") || (returnUrl.StartsWith("%2f"))) && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                 {
                     Session ["ReturnURL"] = "Return URL: " + returnUrl;
+                    Logger.LogInfo( $"returnUrl - {returnUrl}", "Project_REPORT_v7.Controllers.HomeController.[POST]Login()" );
                     CheckSession();
                     return Redirect(returnUrl);
                 }
