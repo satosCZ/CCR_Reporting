@@ -89,7 +89,7 @@ namespace Project_REPORT_v7.Controllers
                 {
                     Session ["ReturnURL"] = "Return URL: " + returnUrl;
                     Logger.LogInfo( $"returnUrl - {returnUrl}", "Project_REPORT_v7.Controllers.HomeController.[POST]Login()" );
-                    CheckSession();
+                    CheckSession(IDLogin);
                     return Redirect(returnUrl);
                 }
 
