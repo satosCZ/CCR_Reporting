@@ -17,7 +17,7 @@ namespace Project_REPORT_v7.Controllers
         public ActionResult Index()
         {
             #region Check Session
-            //CheckSession();
+            CheckSession();
             #endregion
             return View();
         }
@@ -30,7 +30,7 @@ namespace Project_REPORT_v7.Controllers
             ADHelper ad = new ADHelper(username != "" ? username : User.Identity.Name);
             JSConsoleLog.ConsoleLog( $"ADHelper initialed in CheckSession(): {ad.MemberName}, {ad.MemberID}, {ad.MemberEmail}" );
             Logger.LogInfo( $"ADHelper initialed in CheckSession(): {ad.MemberName}, {ad.MemberID}, {ad.MemberEmail}", "Project_REPORT_v7.Controllers.HomeController.CheckSession()" );
-            if ( LDAPHelper.UserIsMemberOfGroups( User.Identity.Name, new string [] { "CCR_Report_Admin" } ) )
+            if ( LDAPHelper.UserIsMemberOfGroups( username == "" ? User.Identity.Name : username, new string [] { "CCR_Report_Admin" } ) )
             {
                 Session ["isAdmin"] = "Admin";
                 Session ["Closed"] = "false";
@@ -84,7 +84,7 @@ namespace Project_REPORT_v7.Controllers
                 Session ["LoggedUser"] = $"User {IDLogin} logged from {returnUrl}";
 
                 Logger.LogInfo( $"IDLogin - {IDLogin}", "Project_REPORT_v7.Controllers.HomeController.[POST]Login()" );
-                FormsAuthentication.SetAuthCookie(IDLogin, true);
+                //FormsAuthentication.SetAuthCookie(IDLogin, true);
                 if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length> 1 && (returnUrl.StartsWith("/") || (returnUrl.StartsWith("%2f"))) && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                 {
                     Session ["ReturnURL"] = "Return URL: " + returnUrl;
