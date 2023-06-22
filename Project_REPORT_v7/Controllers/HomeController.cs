@@ -17,17 +17,17 @@ namespace Project_REPORT_v7.Controllers
         public ActionResult Index()
         {
             #region Check Session
-            CheckSession();
+            //CheckSession();
             #endregion
             return View();
         }
 
-        private void CheckSession()
+        private void CheckSession(string username = "")
         {
             MembersTablesController member = new MembersTablesController();
-            JSConsoleLog.ConsoleLog("User.Identity.Name: " + User.Identity.Name);
-            Logger.LogInfo("User.Identity.Name: " + User.Identity.Name, "Project_REPORT_v7.Controllers.HomeController.CheckSession()" );
-            ADHelper ad = new ADHelper(User.Identity.Name);
+            JSConsoleLog.ConsoleLog("User.Identity.Name: " + username != "" ? username : User.Identity.Name);
+            Logger.LogInfo("User.Identity.Name: " + username != "" ? username : User.Identity.Name, "Project_REPORT_v7.Controllers.HomeController.CheckSession()" );
+            ADHelper ad = new ADHelper(username != "" ? username : User.Identity.Name);
             JSConsoleLog.ConsoleLog( $"ADHelper initialed in CheckSession(): {ad.MemberName}, {ad.MemberID}, {ad.MemberEmail}" );
             Logger.LogInfo( $"ADHelper initialed in CheckSession(): {ad.MemberName}, {ad.MemberID}, {ad.MemberEmail}", "Project_REPORT_v7.Controllers.HomeController.CheckSession()" );
             if ( LDAPHelper.UserIsMemberOfGroups( User.Identity.Name, new string [] { "CCR_Report_Admin" } ) )
