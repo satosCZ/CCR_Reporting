@@ -44,8 +44,6 @@ namespace Project_REPORT_v7.Controllers
                 Logger.LogInfo( $"Loged in as {ad.MemberName} [{ad.MemberID}] - User", "Project_REPORT_v7.Controllers.HomeController.CheckSession()" );
             }
 
-
-
             if ( !member.CheckMember( ad.MemberID ) )
             {
                 JSConsoleLog.ConsoleLog( $"User ID {ad.MemberID} & User Name {ad.MemberName} is not in local DB" );
@@ -84,7 +82,7 @@ namespace Project_REPORT_v7.Controllers
                 Session ["LoggedUser"] = $"User {IDLogin} logged from {returnUrl}";
 
                 Logger.LogInfo( $"IDLogin - {IDLogin}", "Project_REPORT_v7.Controllers.HomeController.[POST]Login()" );
-                //FormsAuthentication.SetAuthCookie(IDLogin, true);
+                FormsAuthentication.SetAuthCookie(IDLogin, true);
                 if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length> 1 && (returnUrl.StartsWith("/") || (returnUrl.StartsWith("%2f"))) && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                 {
                     Session ["ReturnURL"] = "Return URL: " + returnUrl;
