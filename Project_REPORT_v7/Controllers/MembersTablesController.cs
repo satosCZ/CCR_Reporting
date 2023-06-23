@@ -16,7 +16,6 @@ namespace Project_REPORT_v7.Controllers
         // Add Member from AD to DB        
         public bool AddMember(ADHelper ad)
         {
-            JSConsoleLog.ConsoleLog($"Function AddMember(int {ad.MemberID}, string {ad.MemberName}, string {ad.MemberEmail}");
             Logger.LogInfo($"Function AddMember(int {ad.MemberID}, string {ad.MemberName}, string {ad.MemberEmail}", "Project_REPORT_v7.Controllers.MembersTablesController.AddMember()");
             if (ad.MemberID > 0 && !string.IsNullOrEmpty(ad.MemberName) && !string.IsNullOrEmpty(ad.MemberEmail)) 
             {
@@ -28,12 +27,12 @@ namespace Project_REPORT_v7.Controllers
                 };
                 db.MembersTable.Add(member);
                 db.SaveChanges();
-                JSConsoleLog.ConsoleLog($"AddMember - User was successfuly");
+                Logger.LogInfo($"AddMember - User was successfuly", "Project_REPORT_v7.Controllers.MembersTablesController.AddMember()");
                 return true;
             }
             else
             {
-                JSConsoleLog.ConsoleLog($"AddMember - Error in adding user");
+                Logger.LogInfo($"AddMember - Error in adding user", "Project_REPORT_v7.Controllers.MembersTablesController.AddMember()");
                 return false;
             }
         }
@@ -127,7 +126,7 @@ namespace Project_REPORT_v7.Controllers
             {
                 Name = q.Name,
                 Id = q.MemberID
-            }).Where(q => q.Name.Contains(term));
+            }).Where(q => q.Name.ToLower().Contains(term.ToLower()));
             return Json(members, JsonRequestBehavior.AllowGet);
         }
 
@@ -163,8 +162,7 @@ namespace Project_REPORT_v7.Controllers
             int id = 0;
             if (int.TryParse(term, out id))
             {
-                Debug.WriteLine("Int.TryParse in GetMembersByShiftID success");
-                //JSConsoleLog.ConsoleLog($"GetMembersByShiftID - Int.TryParse got int {id} from {term}.");
+                JSConsoleLog.ConsoleLog($"GetMembersByShiftID - Int.TryParse got int {id} from {term}.");
             }
 
             var members = db.MembersTable.Select(s => new
