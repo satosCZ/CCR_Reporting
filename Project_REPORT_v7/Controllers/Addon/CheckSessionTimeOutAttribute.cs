@@ -32,19 +32,16 @@ namespace Project_REPORT_v7.Controllers.Addon
                         {
                             context.Session ["isAdmin"] = "Admin";
                             context.Session ["Closed"] = "false";
-                            JSConsoleLog.ConsoleLog( $"Loged in as admin {ad.MemberName} [{ad.MemberID}]" );
                             Logger.LogInfo("Loged in as " + ad.MemberName + " [" + ad.MemberID + "]", "Project_REPORT_v7.Controllers.Addon.CheckSessionTimeOutAttribute.OnActionExecuted()");
                         }
                         else
                         {
                             context.Session ["isAdmin"] = "NonAdmin";
-                            JSConsoleLog.ConsoleLog( $"Loged in as nonadmin {ad.MemberName} [{ad.MemberID}]" );
                             Logger.LogInfo("Loged in as " + ad.MemberName + " [" + ad.MemberID + "]", "Project_REPORT_v7.Controllers.Addon.CheckSessionTimeOutAttribute.OnActionExecuted()");
                         }
 
                         if ( !member.CheckMember( ad.MemberID ) )
                         {
-                            JSConsoleLog.ConsoleLog( $"User ID {ad.MemberID} & User Name {ad.MemberName} is not in local DB" );
                             Logger.LogInfo("User ID " + ad.MemberID + " & User Name " + ad.MemberName + " is not in local DB", "Project_REPORT_v7.Controllers.Addon.CheckSessionTimeOutAttribute.OnActionExecuted()");
                             if ( member.AddMember( ad ) )
                             {
@@ -64,7 +61,6 @@ namespace Project_REPORT_v7.Controllers.Addon
                             context.Session ["User"] = $"{ad.MemberName} [{ad.MemberID}]";
                             context.Session ["UserID"] = ad.MemberID;
                         }
-                        JSConsoleLog.ConsoleLog( $"Logged user {ad.MemberName}, ID:{ad.MemberID}" );
                         Logger.LogInfo("Logged user " + ad.MemberName + ", ID:" + ad.MemberID, "Project_REPORT_v7.Controllers.Addon.CheckSessionTimeOutAttribute.OnActionExecuted()");
                         filterContext.HttpContext.Response.Redirect(redirectTo, true);
                     }
