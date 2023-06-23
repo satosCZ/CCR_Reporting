@@ -14,8 +14,8 @@ namespace Project_REPORT_v7.Controllers.Addon
         {
             try
             {
-                string resutl = $"{DateTime.Now.ToString("yyyy-MM-dd")} - {function} - {message}";
-                System.IO.File.AppendAllText(path + infoLog + extension, resutl + Environment.NewLine);
+                string resutl = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} - {function} - {message}";
+                System.IO.File.AppendAllText(path + infoLog + "_" + DateTime.UtcNow.ToString("ddMMyyyy") + extension, resutl + Environment.NewLine);
             }
             catch { }
         }
@@ -24,8 +24,8 @@ namespace Project_REPORT_v7.Controllers.Addon
         {
             try
             {
-                string resutl = $"{DateTime.Now.ToString("yyyy-MM-dd")} - {function} - {message}";
-                System.IO.File.AppendAllText(path + errorLog + extension, resutl + Environment.NewLine);
+                string resutl = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} - {function} - {message}";
+                System.IO.File.AppendAllText(path + errorLog + "_" + DateTime.UtcNow.ToString( "ddMMyyyy" ) + extension, resutl + Environment.NewLine);
             }
             catch { }
         }
@@ -34,8 +34,8 @@ namespace Project_REPORT_v7.Controllers.Addon
         {
             try
             {
-                string resutl = $"{DateTime.Now.ToString("yyyy-MM-dd")} - {function} - {message}";
-                System.IO.File.AppendAllText(path + warningLog + extension, resutl + Environment.NewLine);
+                string resutl = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} - {function} - {message}";
+                System.IO.File.AppendAllText(path + warningLog + "_" + DateTime.UtcNow.ToString( "ddMMyyyy" ) + extension, resutl + Environment.NewLine);
             }
             catch { }
         }
