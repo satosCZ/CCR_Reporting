@@ -112,7 +112,7 @@ namespace Project_REPORT_v7.Controllers
                 ReportTable reportTable = db.ReportTable.OrderByDescending(o => o.Date).First();
                 switch (reportTable.Shift)
                 {
-                    case "Morning":
+                    case "Day":
                         ViewBag.Shift = "A";
                         break;
                     case "Afternoon":
@@ -398,9 +398,20 @@ namespace Project_REPORT_v7.Controllers
             // Remove comments to enable logging
 
             int userID;
-            if (int.TryParse(Session["UserID"].ToString(), out userID))
-                LogHelper.AddLog(DateTime.Now, "ReportTable | Delete", $"ID:{reportTable.ReportID} Date:{reportTable.Date} Shift:{reportTable.Shift} M1:{reportTable.Member_One_ID} M2:{reportTable.Member_Two_ID}", userID);
-            db.SaveChanges();
+            try
+            {
+                db.SaveChanges();
+                if ( int.TryParse( Session ["UserID"].ToString(), out userID ) )
+                    LogHelper.AddLog( DateTime.Now, "ReportTable | Delete", $"ID:{reportTable.ReportID} Date:{reportTable.Date} Shift:{reportTable.Shift} M1:{reportTable.Member_One_ID} M2:{reportTable.Member_Two_ID}", userID );
+
+            }
+            catch (Exception ex)
+            {
+                if ( int.TryParse( Session ["UserID"].ToString(), out userID ) )
+                    LogHelper.AddLog( DateTime.Now, "ReportTable | Error", $"DELETE - GUID: {reportTable.ReportID} | Date: {reportTable.Date} | Message: {ex.Message} ", userID );
+            }
+
+
             return RedirectToAction("Index");
         }
 
