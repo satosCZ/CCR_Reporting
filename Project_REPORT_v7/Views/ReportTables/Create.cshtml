@@ -124,21 +124,6 @@
                     break;
             };
 
-            //$("#ShiftID").change(function () {
-            //    var shiftID = $selectO.value;
-            //    $.ajax({
-            //        url: "../MembersTables/GetMembersByShiftID",
-            //        dataType: "json",
-            //        type: "GET",
-            //        data: {
-            //            term: shiftID
-            //        },
-            //        success: function (data) {
-            //            console.log(data);
-            //            assingMembers(data);
-            //        }
-            //    });
-            //});
             $("#ShiftID").on("change", (function () {
                 var shiftID = $selectO.value;
                 $.ajax({
