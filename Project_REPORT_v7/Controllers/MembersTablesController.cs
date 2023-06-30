@@ -158,20 +158,29 @@ namespace Project_REPORT_v7.Controllers
 
         public JsonResult GetMembersByShiftID(string term)
         {
-            //JSConsoleLog.ConsoleLog($"GetMembersByShiftID - Got term = {term}.");
             int id = 0;
-            if (int.TryParse(term, out id))
-            {
-                JSConsoleLog.ConsoleLog($"GetMembersByShiftID - Int.TryParse got int {id} from {term}.");
-            }
 
-            var members = db.MembersTable.Select(s => new
+            // int.TryParse is fastest converter from string to int. If convert was succesful, get members else show only members from shift 1 = A
+            if ( int.TryParse( term, out id ) )
             {
-                Name = s.Name,
-                ID = s.MemberID,
-                s.ShiftID
-            }).Where(w => w.ShiftID == id);
-            return Json(members, JsonRequestBehavior.AllowGet);
+                var members = db.MembersTable.Select(s => new
+                {
+                    Name = s.Name,
+                    ID = s.MemberID,
+                    s.ShiftID
+                }).Where(w => w.ShiftID == id);
+                return Json( members, JsonRequestBehavior.AllowGet );
+            }
+            else
+            {
+                var members = db.MembersTable.Select(s => new
+                {
+                    Name = s.Name,
+                    ID = s.MemberID,
+                    s.ShiftID
+                }).Where(w => w.ShiftID == 1);
+                return Json( members, JsonRequestBehavior.AllowGet );
+            }
         }
 
         protected override void Dispose(bool disposing)
