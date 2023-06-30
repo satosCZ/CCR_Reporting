@@ -10,9 +10,15 @@
 
 <script>
     $(function () {
+
+        // Activate JqueryUI Checkbox Radio
         $(".radiobtn").checkboxradio({
             icon: false
         });
+
+        // Activate Bootstrap ToolTip
+        $('[data-toggle="tooltip"]').tooltip();
+
         from = $("#fromDT")
             .datepicker({
                 defaultDate: "",
@@ -44,10 +50,7 @@
      });
 </script>
 
-<h2>Index</h2>
-<p>
-    @Html.ActionLink("Create New", "Create", "ReportTables", htmlAttributes: new { @class = "btn btn-primary" })
-</p>
+<h2>Reports</h2>
 
 <div class="navbar navbar-default">
     <div class="container-fluid">
@@ -66,6 +69,10 @@
         }
     </div>
 </div>
+<hr />
+<p>
+    @Html.ActionLink( "Create New", "Create", "ReportTables", htmlAttributes: new { @class = "btn btn-primary" } )
+</p>
 <br />
 <table class="table table-responsive table-striped">
     <tr>
@@ -103,16 +110,16 @@
                 @Html.HiddenFor(modelItem => item.Member_Two_ID)
             </td>
             <td>
-                @if (item.Date >= DateTime.Now.AddHours(-9) || ((string)Session["isAdmin"]) == "Admin")
+                @if ( item.Date >= DateTime.Now.AddHours( -9 ) || (( string )Session ["isAdmin"]) == "Admin" )
                 {
-                    <a href="@Url.Action("Edit", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-cog" aria-hidden="true" /></a>
-                    <a href="@Url.Action("Details", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-pencil" aria-hidden="true" /></a>
-                    <a href="@Url.Action("Delete", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-trash" aria-hidden="true" /></a>
+                    <a href="@Url.Action("Details", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-pencil" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Open"></span></a>
+                    <a href="@Url.Action("Edit", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-cog" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Edit" /></a>
+                    <a href="@Url.Action("Delete", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Delete" /></a>
 
                 }
                 else
                 {
-                    <a href="@Url.Action("Details", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-open" aria-hidden="true"></span></a>
+                    <a href="@Url.Action("Details", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-open" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Open"></span></a>
                 }
             </td>
         </tr>
