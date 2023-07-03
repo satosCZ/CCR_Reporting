@@ -42,8 +42,7 @@ namespace Project_REPORT_v7.Controllers
             else
             {
                 // Close as 
-                Session["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
-                JSConsoleLog.Alert("No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.");
+                Logger.LogError( "No ReportID was found. Refresh the page and fill this form again.", "Project_REPORT_v7.Controllers.PreCheckTablesController" );
                 return Json(this, JsonRequestBehavior.AllowGet);
             }
             if (ModelState.IsValid)
