@@ -72,6 +72,10 @@ namespace Project_REPORT_v7.Controllers.Addon
                             result = result.TrimEnd(' ');
                         }
                     }
+                    else
+                    {
+                        result += item + " ";
+                    }
                 }
             }
             else
