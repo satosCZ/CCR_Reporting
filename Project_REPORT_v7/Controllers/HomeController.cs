@@ -107,7 +107,7 @@ namespace Project_REPORT_v7.Controllers
             return View("Filtered");
         }
 
-        [AuthorizeAD(Groups = "CCR_Report_Admin")]
+        [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin" )]
         public ActionResult Information()
         {
             return PartialView("Information");
