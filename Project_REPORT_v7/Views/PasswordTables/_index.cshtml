@@ -28,7 +28,7 @@
         }
     </tr>
 
-    @foreach (var item in Model.OrderBy(o => o.Time))
+    @foreach (var item in Model.OrderBy( o => o.Time.ToString().StartsWith( "2" ) ? 1 : 2 ).ThenBy( o => o.Time ) )
     {
         <tr>
             <td class="text-center col-md-1">
