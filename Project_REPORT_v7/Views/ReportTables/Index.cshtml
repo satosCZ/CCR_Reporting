@@ -88,7 +88,7 @@
         <th>
             @Html.DisplayName("Member 2")
         </th>
-        <th></th>
+        <th class="col-lg-1"></th>
     </tr>
 
     @foreach (var item in Model)
@@ -109,7 +109,7 @@
                 @Html.DisplayFor(modelItem => item.MembersTable1.Name)
                 @Html.HiddenFor(modelItem => item.Member_Two_ID)
             </td>
-            <td>
+            <td class="col-lg-1 text-center">
                 @if ( item.Date >= DateTime.Now.AddHours( -9 ) || (( string )Session ["isAdmin"]) == "Admin" )
                 {
                     <a href="@Url.Action("Details", "ReportTables", new { id=item.ReportID})"><span class="glyphicon glyphicon-pencil" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Open"></span></a>
