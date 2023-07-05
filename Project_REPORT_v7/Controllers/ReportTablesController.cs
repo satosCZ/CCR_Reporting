@@ -167,7 +167,7 @@ namespace Project_REPORT_v7.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ReportID,Date,Shift,Member_One_ID,Member_Two_ID,ShiftID")] ReportTable reportTable)
+        public ActionResult Create([Bind(Include = "ReportID,Date,Shift,Member_One_ID,Member_Two_ID,ShiftID")] ReportTable reportTable, [Bind(Prefix = "MembersTable.Name")] string MembersTable_Name, [Bind(Prefix = "MembersTable1.Name")] string MembersTable1_Name)
         {
             // Backup DB
             #region DB Backup
@@ -207,6 +207,18 @@ namespace Project_REPORT_v7.Controllers
             if ( ModelState.IsValid)
             {
                 reportTable.ReportID = Guid.NewGuid();
+
+                // Check if MembersTable_Name is same as members name & ID in DB
+                if (db.MembersTable.Any(a => a.Name.ToLower() == MembersTable_Name.ToLower() && a.MemberID != reportTable.Member_One_ID))
+                {
+                    reportTable.Member_One_ID = db.MembersTable.Where(w => w.Name == MembersTable_Name).Select(s => s.MemberID).FirstOrDefault();
+                }
+
+                if (db.MembersTable.Any(a => a.Name.ToLower() == MembersTable1_Name.ToLower() && a.MemberID != reportTable.Member_Two_ID))
+                {
+                    reportTable.Member_Two_ID = db.MembersTable.Where(w => w.Name == MembersTable1_Name).Select(s => s.MemberID).FirstOrDefault();
+                }
+
                 int shiftID = reportTable.ShiftID.Value;
                 if (shiftID != 0)
                 {
