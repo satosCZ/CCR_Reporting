@@ -1,7 +1,7 @@
 ﻿@model Project_REPORT_v7.Models.ReportTable
 
 @{
-    ViewBag.Title = Model.Date;
+    ViewBag.Title = Model.Date.ToString("dd.MM.yyyy") + " - " + Model.Shift + " Shift";
     if (Model.Date >= DateTime.Now.AddHours(-8).AddMinutes(-10))
     { Session["Closed"] = "false"; }
     else
