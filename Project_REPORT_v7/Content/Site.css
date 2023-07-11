@@ -121,3 +121,20 @@ select.input-lg > option {
     border-bottom: 1px solid rgb(48, 49, 51);
     border-right: 1px solid rgb(48, 49, 51);
 }
+
+.GLOVIS {
+    background-color: #ddd0c4!important;
+}
+
+.TRANSYS {
+    background-color: #e4dfec!important;
+}
+
+.HMMC {
+    background-color: #daeef3!important;
+}
+
+.table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+    border: 1px solid #aaa;
+    vertical-align: middle;
+}
