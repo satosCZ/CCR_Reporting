@@ -39,31 +39,46 @@
         }
     </tr>
 
-    @foreach (var item in Model.OrderBy( o => o.Time.ToString().StartsWith( "2" ) ? 1 : 2 ).ThenBy( o => o.Time ) )
+    @foreach (var item in Model.OrderBy( o => o.Time.ToString().StartsWith( "2" ) && o.ReportTable.Shift == "Night" ? 1 : 2 ).ThenBy( o => o.Time ) )
     {
         <tr>
             <td class="text-center" style="vertical-align:middle;">
-                @Html.DisplayFor(modelItem => item.Time)
+                @Html.DisplayFor( modelItem => item.Time )
             </td>
             <td class="text-center" style="vertical-align:middle;">
-                @Html.DisplayFor(modelItem => item.Duration)
+                @Html.DisplayFor( modelItem => item.Duration )
             </td>
+            @if ( item.Shop == "HMMC" )
+            {
+                <td class="text-center HMMC" style="vertical-align:middle;">
+                    @Html.DisplayFor( modelItem => item.Shop )
+                </td>
+            }
+            else if ( item.Shop == "GLOVIS" )
+            {
+                <td class="text-center GLOVIS" style="vertical-align:middle;">
+                    @Html.DisplayFor( modelItem => item.Shop )
+                </td>
+            }
+            else
+            {
+                <td class="text-center TRANSYS" style="vertical-align:middle;">
+                    @Html.DisplayFor( modelItem => item.Shop )
+                </td>
+            }
             <td class="text-center" style="vertical-align:middle;">
-                @Html.DisplayFor(modelItem => item.Shop)
-            </td>
-            <td class="text-center" style="vertical-align:middle;">
-                @Html.DisplayFor(modelItem => item.System)
+                @Html.DisplayFor( modelItem => item.System )
             </td>
             <td class="text-middle-table" style="vertical-align:middle;">
-                @Html.DisplayFor(modelItem => item.Problem)
+                @Html.DisplayFor( modelItem => item.Problem )
             </td>
             <td class="text-middle-table" style="vertical-align:middle;">
-                @Html.DisplayFor(modelItem => item.Solution)
+                @Html.DisplayFor( modelItem => item.Solution )
             </td>
             <td class="text-center" style="vertical-align:middle;">
-                @Html.DisplayFor(modelItem => item.Cooperation)
+                @Html.DisplayFor( modelItem => item.Cooperation )
             </td>
-            @if (Session["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
+            @if ( Session ["Closed"].Equals( "false" ) || (( string )Session ["isAdmin"]) == "Admin" )
             {
                 <td class="text-center" style="vertical-align:middle;">
                     <input type="hidden" value="@item.MainTaskID" class="maintaskID" />
