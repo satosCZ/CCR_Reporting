@@ -81,6 +81,23 @@
         $("#radio input").checkboxradio({
             icon: false
         });
+
+        Dropzone.autoDiscover = false;
+        $("#dropzoneJsForm").dropzone({
+            addRemoveLinks: true,
+            dictMaxFilesExceeded: "Maximum upload limit reached",
+            dictInvalidFileType: "File type not allowed, only JPG/PNG/BMP",
+            acceptedFiles: ".jpg,.png,.bmp,.jpeg",
+            maxFiles: 10,
+            maxFilesize: 50,
+            uploadMultiple: true,
+            parallelUploads: 10,
+            init: function () {
+                this.on("Complete", function (data) {
+                    var res = JSON.parse(data.xhr.responseText);
+                });
+            }
+        });
     });
 </script>
 
@@ -89,7 +106,7 @@
     <h3 class="text-center">Edit Main Task</h3>
 </div>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm( "Edit", "MainTaskTables", FormMethod.Post, htmlAttributes: new { @id = "EditMainTask"}))
 {
     @Html.AntiForgeryToken()
 
@@ -174,6 +191,29 @@
         </div>
     </div>
     <p class="bg-warning">* - Required</p>
+}
+<hr />
+<h6 class="text-center">Uploaded Images</h6>
+<div class="alert alert-warning" role="alert">
+    <p>ATENTION: By clicking on the picture it will permanently delete it form server. This action is irreversible!</p>
+</div> 
+<div class="image_container">
+    @foreach( var image in Model.MT_IMAGES.Where( w => w.ReportID == Model.MainTaskID ))
+    {
+        <div class="image">
+            <a class="link-image" href="@Url.Action("Delete", "MT_IMAGES", new { id = image.ImageID })" title="Delete Image" data-ajax="true" data-ajax-method="POST" data-ajax-confirm="Are you sure you want to delete this image?" data-ajax-success="DeleteImageSuccess" data-ajax-mode="after">
+                <img src="@image.ImagePath" alt="@image.ImageID" title="Delete an image" class="crop img-thumbnail" />
+            </a>
+        </div>
+    }
+</div>
+<hr />
+<div class="jumbotron">
+    @using (Html.BeginForm("UploadImage", "MT_IMAGES", new {mainTaskID = Model.MainTaskID}, FormMethod.Post, htmlAttributes: new { @class="dropzone", @id = "dropzoneJsForm", @style = "background-color:#00BFFF; min-width:50px; min-height: 25px;" } ))
+    {
+            
+    }
+</div>
     <div class="modal-footer">
         <span id="progress" class="text-center center-block">
             <img src="~/Content/Animation/Rhombus.gif" alt="Wait" />
@@ -185,10 +225,10 @@
                 <p class="text-danger">@TempData["ErrorMessage"].ToString();</p>
             </div>
         }
-        <input class="btn btn-primary" type="submit" value="Save" />
+        <input class="btn btn-primary" type="submit" value="Save" form="EditMainTask"/>
         <button class="btn btn-warning" data-dismiss="modal">Close</button>
     </div>
-}
+
 
 <script>
     $('form').removeData("validator").removeData("unobtrusiveValidation");
