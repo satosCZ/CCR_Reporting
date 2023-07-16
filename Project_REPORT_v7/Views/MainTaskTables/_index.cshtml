@@ -78,14 +78,18 @@
             <td class="text-center" style="vertical-align:middle;">
                 @Html.DisplayFor( modelItem => item.Cooperation )
             </td>
-            @if ( Session ["Closed"].Equals( "false" ) || (( string )Session ["isAdmin"]) == "Admin" )
-            {
-                <td class="text-center" style="vertical-align:middle;">
-                    <input type="hidden" value="@item.MainTaskID" class="maintaskID" />
+            <td class="text-center col-lg-1" style="vertical-align:middle;">
+                <input type="hidden" value="@item.MainTaskID" class="maintaskID" />
+                @if ( item.MT_IMAGES.Any( a => a.ReportID == item.MainTaskID ) )
+                {
+                    <a data-modal="" href="/MTImages/Gallery/@item.MainTaskID" id="@item.MainTaskID" title="Gallery" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-picture"></span></a>
+                }
+                @if ( Session ["Closed"].Equals( "false" ) || (( string )Session ["isAdmin"]) == "Admin" )
+                {
                     <a data-modal="" href="/MainTaskTables/Edit/@item.MainTaskID" id="@item.MainTaskID" title="Edit" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
                     <a data-modal="" href="/MainTaskTables/Delete/@item.MainTaskID" id="@item.MainTaskID" title="Delete" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
-                </td>
-            }
+                }
+            </td>
         </tr>
     }
 </table>
