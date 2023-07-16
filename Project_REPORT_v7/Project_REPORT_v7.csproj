@@ -238,6 +238,7 @@
     <Content Include="Content\Images\1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\NSB_Box.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Animation\Rhombus.gif" />
     <Content Include="Content\signin.css" />
@@ -341,6 +342,14 @@
     </Content>
     <None Include="Scripts\jquery-3.6.3.intellisense.js" />
     <Content Include="Scripts\dropzone.min.js" />
+    <Content Include="Scripts\dropzone\basic.css" />
+    <Content Include="Scripts\dropzone\basic.min.css" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.min.js" />
+    <Content Include="Scripts\dropzone\dropzone.css" />
+    <Content Include="Scripts\dropzone\dropzone.js" />
+    <Content Include="Scripts\dropzone\dropzone.min.css" />
+    <Content Include="Scripts\dropzone\dropzone.min.js" />
     <Content Include="Scripts\jquery-3.6.3.js" />
     <Content Include="Scripts\jquery-3.6.3.min.js" />
     <Content Include="Scripts\jquery-3.6.3.slim.js" />
@@ -358,6 +367,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js-cookie.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\NSB_Box.js" />
+    <Content Include="Scripts\NSB_Box_open-to-work.js" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\PreCheckTables\Delete.cshtml" />
     <Content Include="Web.config" />
