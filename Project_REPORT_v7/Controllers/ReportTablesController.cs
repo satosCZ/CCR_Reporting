@@ -309,36 +309,36 @@ namespace Project_REPORT_v7.Controllers
                 // Test: Disabled code bellow in region to temperorary because unnecessary
                 #region Add Time to Date
                 // Check if date in report is withouth a time set
-                //if (reportTable.Date.TimeOfDay.Ticks == 0)
-                //{
-                //    try
-                //    {
+                if ( reportTable.Date.TimeOfDay.Ticks == 0 )
+                {
+                    try
+                    {
 
-                //        switch (reportTable.Shift)
-                //        {
-                //            case "Day":
-                //                reportTable.Date = reportTable.Date.AddHours(6);
-                //                break;
-                //            case "Afternoon":
-                //                reportTable.Date = reportTable.Date.AddHours(14);
-                //                break;
-                //            case "Night":
-                //                reportTable.Date = reportTable.Date.AddHours(22);
-                //                break;
-                //        }
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        Debug.WriteLine("ReportTablesController || Create || " + ex.Message);
-                //        try
-                //        {
-                //            int userID;
-                //            if (int.TryParse(Session["UserID"].ToString(), out userID))
-                //                LogHelper.AddLog(DateTime.Now, "ReportTable | Edit[POST] | Error", $"Error in switch(reportTable.Shift) adding time: {ex.ToString()}", userID);
-                //        }
-                //        catch { }
-                //    }
-                //}
+                        switch ( reportTable.Shift )
+                        {
+                            case "Day":
+                                reportTable.Date = reportTable.Date.AddHours( 6 );
+                                break;
+                            case "Afternoon":
+                                reportTable.Date = reportTable.Date.AddHours( 14 );
+                                break;
+                            case "Night":
+                                reportTable.Date = reportTable.Date.AddHours( 22 );
+                                break;
+                        }
+                    }
+                    catch ( Exception ex )
+                    {
+                        Debug.WriteLine( "ReportTablesController || Edit || " + ex.Message );
+                        try
+                        {
+                            int userID;
+                            if ( int.TryParse( Session ["UserID"].ToString(), out userID ) )
+                                LogHelper.AddLog( DateTime.Now, "ReportTable | Edit | Error", $"Error in switch(reportTable.Shift) adding time: {ex.ToString()}", userID );
+                        }
+                        catch { }
+                    }
+                }
                 // Remove comments to enable logging
                 #endregion
 
