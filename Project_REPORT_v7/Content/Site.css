@@ -122,6 +122,10 @@ select.input-lg > option {
     border-right: 1px solid rgb(48, 49, 51);
 }
 
+.gallery {
+    background-color: #ebebeb!important;
+}
+
 .GLOVIS {
     background-color: #ddd0c4!important;
 }
@@ -137,4 +141,30 @@ select.input-lg > option {
 .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
     border: 1px solid #aaa;
     vertical-align: middle;
+}
+
+.left-aligh{
+    float: left;
+}
+
+.crop {
+    object-fit: cover;
+    width: 111px;
+    height: 111px;
+}
+
+.image_container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 80%;
+    margin: 10px auto;
+    position: relative;
+    text-align: center;
+}
+
+.image {
+    height: 111px;
+    width: 111px;
+    margin: 10px;
 }
