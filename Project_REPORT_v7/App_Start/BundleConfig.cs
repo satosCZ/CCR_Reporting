@@ -17,7 +17,9 @@ namespace Project_REPORT_v7
                         "~/Scripts/jquery-ui-{version}.js",
                         "~/Scripts/jquery.validate*",
                         "~/Scripts/jquery.unobtrusive-ajax.js",
-                        "~/Scripts/js-cookie.js"));
+                        "~/Scripts/js-cookie.js",
+                        "~/Scripts/dropzone/dropzone.min.js",
+                        "~/Scripts/NSB_Box.js" ) );
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
@@ -26,8 +28,10 @@ namespace Project_REPORT_v7
 
             bundles.Add(new Bundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/NSB_Box.css",
                       "~/Content/site.css",
-                      "~/Content/themes/base/all.css"));
+                      "~/Content/themes/base/all.css",
+                      "~/Scripts/dropzone/dropzone.min.css" ) );
         }
     }
 }
