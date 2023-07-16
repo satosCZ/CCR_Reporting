@@ -164,6 +164,7 @@
     <Compile Include="Controllers\LogTablesController.cs" />
     <Compile Include="Controllers\MainTaskTablesController.cs" />
     <Compile Include="Controllers\MembersTablesController.cs" />
+    <Compile Include="Controllers\MT_IMAGESController.cs" />
     <Compile Include="Controllers\PasswordTablesController.cs" />
     <Compile Include="Controllers\PreCheckTablesController.cs" />
     <Compile Include="Controllers\PrintersTablesController.cs" />
@@ -431,6 +432,7 @@
     <Content Include="Views\MembersTables\Index.cshtml" />
     <Content Include="Views\LogTables\Delete.cshtml" />
     <Content Include="Views\MembersTables\Delete.cshtml" />
+    <Content Include="Views\MT_IMAGES\Gallery.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
