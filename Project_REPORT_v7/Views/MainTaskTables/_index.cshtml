@@ -10,6 +10,10 @@
     </p>
 }
 
+@{ 
+    bool gallery = false;
+}
+
 <table class="table table-bordered table-condensed table-striped table-responsive" id="MainTaskTable">
     <tr>
         <th class="text-center">
@@ -41,7 +45,15 @@
 
     @foreach (var item in Model.OrderBy( o => o.Time.ToString().StartsWith( "2" ) && o.ReportTable.Shift == "Night" ? 1 : 2 ).ThenBy( o => o.Time ) )
     {
-        <tr>
+        if ( item.MT_IMAGES.Any( a => a.ReportID == item.MainTaskID))
+                {
+                    @:<tr class="gallery">
+                    gallery = true;
+                }
+        else
+                {
+                    @:<tr>
+                }
             <td class="text-center" style="vertical-align:middle;">
                 @Html.DisplayFor( modelItem => item.Time )
             </td>
@@ -82,7 +94,7 @@
                 <input type="hidden" value="@item.MainTaskID" class="maintaskID" />
                 @if ( item.MT_IMAGES.Any( a => a.ReportID == item.MainTaskID ) )
                 {
-                    <a data-modal="" href="/MTImages/Gallery/@item.MainTaskID" id="@item.MainTaskID" title="Gallery" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-picture"></span></a>
+                    <a data-modal="" href="/MT_IMAGES/Gallery/@item.MainTaskID" id="@item.MainTaskID" title="Gallery" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-picture"></span></a>
                 }
                 @if ( Session ["Closed"].Equals( "false" ) || (( string )Session ["isAdmin"]) == "Admin" )
                 {
@@ -90,6 +102,8 @@
                     <a data-modal="" href="/MainTaskTables/Delete/@item.MainTaskID" id="@item.MainTaskID" title="Delete" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
                 }
             </td>
-        </tr>
+            {
+        @:</tr>
+            }
     }
 </table>
