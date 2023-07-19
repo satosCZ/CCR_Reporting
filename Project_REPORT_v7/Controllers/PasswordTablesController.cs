@@ -11,6 +11,7 @@ using Project_REPORT_v7.Models;
 namespace Project_REPORT_v7.Controllers
 {
     //[AuthorizeAD(Groups = "CCR_Report")]
+    [CheckSessionTimeOut]
     public class PasswordTablesController : Controller
     {
         private ReportDBEntities1 db = new ReportDBEntities1();

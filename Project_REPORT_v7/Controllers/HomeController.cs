@@ -8,7 +8,7 @@ using System.Web.Security;
 
 namespace Project_REPORT_v7.Controllers
 {
-
+    [CheckSessionTimeOut]
     public class HomeController : Controller
     {
         private ReportDBEntities1 db = new ReportDBEntities1();

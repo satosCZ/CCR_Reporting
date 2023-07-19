@@ -10,7 +10,7 @@ using Project_REPORT_v7.Models;
 
 namespace Project_REPORT_v7.Controllers
 {
-
+    [CheckSessionTimeOut]
     public class ReIssueTablesController : Controller
     {
         private ReportDBEntities1 db = new ReportDBEntities1();

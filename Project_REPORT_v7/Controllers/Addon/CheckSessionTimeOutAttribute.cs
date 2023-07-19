@@ -8,12 +8,12 @@ namespace Project_REPORT_v7.Controllers.Addon
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public class CheckSessionTimeOutAttribute : ActionFilterAttribute
     {
-        public override void OnActionExecuted(ActionExecutedContext filterContext)
+        public override void OnActionExecuted( ActionExecutedContext filterContext )
         {
             var context = filterContext.HttpContext;
-            if (context.Session != null)
+            if ( context.Session != null )
             {
-                if (context.Session.IsNewSession)
+                if ( context.Session.IsNewSession || context.Session ["UserID"] == null )
                 {
                     string sessionCookie = context.Request.Headers["Cookie"];
                     if ((sessionCookie != null) && (sessionCookie.IndexOf("ASP.NET&#95;SessionId") >= 0))
