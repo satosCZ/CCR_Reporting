@@ -1,41 +1,51 @@
 ﻿@model IEnumerable<Project_REPORT_v7.Models.ReportTable>
-<p class="h3">Latest Report</p>
-<hr />
-<table class="table table-condensed table-responsive">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Shift)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MembersTable.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MembersTable1.Name)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Shift)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MembersTable.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MembersTable1.Name)
-        </td>
-        <td>
-            <a href="@Url.Action("Details", "ReportTables", new { id = item.ReportID })"><span class="glyphicon glyphicon-open" aria-hidden="true"/></a>
-        </td>
-    </tr>
-}
+<script>
+    $(function () {
+        $(".clickable-row").click(function () {
+            window.location = $(this).data("href");
+        });
+    });
+</script>
 
-</table>
+<div class="display-reports">
+    <p class="h3">Latest Report</p>
+    <table class="table table-condensed table-responsive">
+        <tr class="table-dark">
+            <th class="text-center">
+                @Html.DisplayNameFor( model => model.Date )
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor( model => model.Shift )
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor( model => model.MembersTable.Name )
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor( model => model.MembersTable1.Name )
+            </th>
+        </tr>
+
+        @foreach ( var item in Model )
+        {
+            <tr class="clickable-row text-center" data-href="@Url.Action("Details", "ReportTables", new { id = item.ReportID })">
+                <td>
+                    @Html.DisplayFor( modelItem => item.Date )
+                </td>
+                <td>
+                    @Html.DisplayFor( modelItem => item.Shift )
+                </td>
+                <td>
+                    @Html.DisplayFor( modelItem => item.MembersTable.Name )
+                </td>
+                <td>
+                    @Html.DisplayFor( modelItem => item.MembersTable1.Name )
+                </td>
+                @*<td>
+                    <a href="@Url.Action("Details", "ReportTables", new { id = item.ReportID })"><span class="glyphicon glyphicon-open" aria-hidden="true" /></a>
+                </td>*@
+            </tr>
+        }
+
+    </table>
+</div>
