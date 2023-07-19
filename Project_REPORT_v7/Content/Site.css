@@ -168,3 +168,21 @@ select.input-lg > option {
     width: 111px;
     margin: 10px;
 }
+
+.clickable-row {
+    cursor: pointer;
+}
+
+.clickable-row:hover {
+    background-color: #469eff!important;
+}
+
+.display-reports {
+    width: 75%;
+    margin: 0 auto;
+}
+
+.table-dark {
+    background-color: #343a40!important;
+    color: #fff!important;
+}
