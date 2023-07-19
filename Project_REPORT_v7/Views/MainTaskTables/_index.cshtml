@@ -17,66 +17,66 @@
 <table class="table table-bordered table-condensed table-striped table-responsive" id="MainTaskTable">
     <tr>
         <th class="text-center">
-            @Html.DisplayNameFor(model => model.Time)
+            @Html.DisplayNameFor( model => model.Time )
         </th>
         <th class="text-center">
-            @Html.DisplayNameFor(model => model.Duration)
+            @Html.DisplayNameFor( model => model.Duration )
         </th>
         <th class="text-center">
-            @Html.DisplayNameFor(model => model.Shop)
+            @Html.DisplayNameFor( model => model.Shop )
         </th>
         <th class="text-center">
-            @Html.DisplayNameFor(model => model.System)
+            @Html.DisplayNameFor( model => model.System )
         </th>
         <th class="text-center">
-            @Html.DisplayNameFor(model => model.Problem)
+            @Html.DisplayNameFor( model => model.Problem )
         </th>
         <th class="text-center">
-            @Html.DisplayNameFor(model => model.Solution)
+            @Html.DisplayNameFor( model => model.Solution )
         </th>
         <th class="text-center">
-            @Html.DisplayNameFor(model => model.Cooperation)
+            @Html.DisplayNameFor( model => model.Cooperation )
         </th>
-        @if (Session["Closed"].Equals("false") || ((string)Session["isAdmin"]) == "Admin")
+        @if ( Session ["Closed"].Equals( "false" ) || (( string )Session ["isAdmin"]) == "Admin" )
         {
             <th class="text-center">Actions</th>
         }
     </tr>
 
-    @foreach (var item in Model.OrderBy( o => o.Time.ToString().StartsWith( "2" ) && o.ReportTable.Shift == "Night" ? 1 : 2 ).ThenBy( o => o.Time ) )
+    @foreach ( var item in Model.OrderBy( o => o.Time.ToString().StartsWith( "2" ) && o.ReportTable.Shift == "Night" ? 1 : 2 ).ThenBy( o => o.Time ) )
     {
-        if ( item.MT_IMAGES.Any( a => a.ReportID == item.MainTaskID))
-                {
-                    @:<tr class="gallery">
-                    gallery = true;
-                }
-        else
-                {
-                    @:<tr>
-                }
+        if ( item.MT_IMAGES.Any( a => a.ReportID == item.MainTaskID ) )
+        {
+            @:<tr class="gallery">
+                gallery = true;
+            }
+            else
+            {
+                @:<tr>
+            }
             <td class="text-center" style="vertical-align:middle;">
                 @Html.DisplayFor( modelItem => item.Time )
             </td>
             <td class="text-center" style="vertical-align:middle;">
                 @Html.DisplayFor( modelItem => item.Duration )
             </td>
-            @if ( item.Shop == "HMMC" )
+            if ( item.Shop == "HMMC" )
             {
-                <td class="text-center HMMC" style="vertical-align:middle;">
+                @:<td class="text-center HMMC" style="vertical-align:middle;">
                     @Html.DisplayFor( modelItem => item.Shop )
-                </td>
+                @:</td>
             }
             else if ( item.Shop == "GLOVIS" )
             {
-                <td class="text-center GLOVIS" style="vertical-align:middle;">
+                @:<td class="text-center GLOVIS" style="vertical-align:middle;">
                     @Html.DisplayFor( modelItem => item.Shop )
-                </td>
+                @:</td>
             }
             else
             {
-                <td class="text-center TRANSYS" style="vertical-align:middle;">
+                @:<td class="text-center TRANSYS" style="vertical-align:middle;">
                     @Html.DisplayFor( modelItem => item.Shop )
-                </td>
+                @:</td>
             }
             <td class="text-center" style="vertical-align:middle;">
                 @Html.DisplayFor( modelItem => item.System )
@@ -103,7 +103,7 @@
                 }
             </td>
             {
-        @:</tr>
-            }
+            @:</tr>
+        }
     }
 </table>
