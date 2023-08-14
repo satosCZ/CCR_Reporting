@@ -71,6 +71,7 @@ namespace Project_REPORT_v7.Controllers
 
 
         // GET: MainTaskTables/Create
+        [CheckSessionTimeOut]
         [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         [HttpGet]
         public ActionResult Create()
@@ -82,6 +83,7 @@ namespace Project_REPORT_v7.Controllers
         // POST: MainTaskTables/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [CheckSessionTimeOut]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "MainTaskID,Time,Duration,Shop,System,Problem,Solution,Cooperation,ReportID")] MainTaskTable mainTaskTable)
@@ -130,6 +132,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: MainTaskTables/Edit/5
+        [CheckSessionTimeOut]
         [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         [HttpGet]
         public ActionResult Edit(Guid? id)
@@ -150,6 +153,7 @@ namespace Project_REPORT_v7.Controllers
         // POST: MainTaskTables/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [CheckSessionTimeOut]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MainTaskID,Time,Duration,Shop,System,Problem,Solution,Cooperation,ReportID")] MainTaskTable mainTaskTable)
@@ -216,6 +220,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // POST: MainTaskTables/Delete/5
+        [CheckSessionTimeOut]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)

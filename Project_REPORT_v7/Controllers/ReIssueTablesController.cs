@@ -24,6 +24,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: ReIssueTables/CreateMultiple
+        [CheckSessionTimeOut]
         [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         [HttpGet]
         public ActionResult CreateMultiple()
@@ -34,6 +35,7 @@ namespace Project_REPORT_v7.Controllers
 
         // POST: ReIssueTables/CreateMultiple
         // To protect from overposting attacks, enable the specific properties you want to bind to, for more details se https://go.microsoft.com/fwlink/?LinkId=317598 .
+        [CheckSessionTimeOut]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult CreateMultiple(TimeSpan time, string user, string objective, string bodyNum)
@@ -118,6 +120,7 @@ namespace Project_REPORT_v7.Controllers
 
         // GET: ReIssueTables/Edit/5
         //[AuthorizeAD(Groups = "CCR_Report_Control")]
+        [CheckSessionTimeOut]
         [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         [HttpGet]
         public ActionResult Edit(Guid? id)
@@ -139,6 +142,7 @@ namespace Project_REPORT_v7.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         //[AuthorizeAD(Groups = "CCR_Report_Control")]
+        [CheckSessionTimeOut]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ReIssueID,Time,User,Objective,BodyNum,ReportID")] ReIssueTable reIssueTable)
@@ -205,6 +209,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // POST: ReIssueTables/Delete/5
+        [CheckSessionTimeOut]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)

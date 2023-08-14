@@ -25,6 +25,7 @@ namespace Project_REPORT_v7.Controllers
 
         // GET: HourOvertimeTables/Create
         //[AuthorizeAD(Groups = "CCR_Report_Control")]
+        [CheckSessionTimeOut]
         [HttpGet]
         [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Create()
@@ -36,6 +37,7 @@ namespace Project_REPORT_v7.Controllers
         // POST: HourOvertimeTables/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [CheckSessionTimeOut]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "OvertimeID,Time,Duration,Shop,Type,Description,Cooperation,ReportID")] HourOvertimeTable hourOvertimeTable)
@@ -85,6 +87,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // GET: HourOvertimeTables/Edit/5
+        [CheckSessionTimeOut]
         [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         [HttpGet]
         public ActionResult Edit(Guid? id)
@@ -105,6 +108,7 @@ namespace Project_REPORT_v7.Controllers
         // POST: HourOvertimeTables/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [CheckSessionTimeOut]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "OvertimeID,Time,Duration,Shop,Type,Description,Cooperation,ReportID")] HourOvertimeTable hourOvertimeTable)
@@ -169,6 +173,7 @@ namespace Project_REPORT_v7.Controllers
         }
 
         // POST: HourOvertimeTables/Delete/5
+        [CheckSessionTimeOut]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
