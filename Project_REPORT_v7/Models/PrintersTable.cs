@@ -26,7 +26,7 @@ namespace Project_REPORT_v7.Models
         public string User { get; set; }
         [Required]
         [DisplayName("What")]
-        [MaxLength( 50, ErrorMessage = "Maximum length can't be more than 50 characters." )]
+        [MaxLength( 100, ErrorMessage = "Maximum length can't be more than 100 characters." )]
         public string Objective { get; set; }
         [Required]
         [DisplayName("Printer")]
