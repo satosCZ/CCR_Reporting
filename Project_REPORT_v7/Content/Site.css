@@ -178,8 +178,10 @@ select.input-lg > option {
 }
 
 .display-reports {
-    width: 75%;
     margin: 0 auto;
+}
+.light-offset {
+    margin-left: 60px;
 }
 
 .table-dark {
