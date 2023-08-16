@@ -103,6 +103,36 @@ namespace Project_REPORT_v7.Controllers
             return View(reportTable);
         }
 
+        // GET: ReportTables/PreviousReport/5
+        public ActionResult PreviousReport(Guid id)
+        {
+            var reportTable = db.ReportTable.Include(r => r.MembersTable).Include(r => r.MembersTable1).OrderByDescending(s => s.Date).ThenBy(t => t.Shift);
+            int index = reportTable.ToList().FindIndex(f => f.ReportID == id);
+            if (index == 0)
+            {
+                return RedirectToAction("Details", new { id = id} );
+            }
+            else
+            {
+                return RedirectToAction("Details", new { id = reportTable.ToList() [index - 1].ReportID });
+            }
+        }
+
+        // GET: ReportTables/NextReport/5
+        public ActionResult NextReport(Guid id)
+        {
+            var reportTable = db.ReportTable.Include(r => r.MembersTable).Include(r => r.MembersTable1).OrderByDescending(s => s.Date).ThenBy(t => t.Shift);
+            int index = reportTable.ToList().FindIndex(f => f.ReportID == id);
+            if (index == reportTable.ToList().Count - 1)
+            {
+                return RedirectToAction("Details", new { id = id });
+            }
+            else
+            {
+                return RedirectToAction("Details", new { id = reportTable.ToList() [index + 1].ReportID });
+            }
+        }
+
         // GET: ReportTables/Create
         [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Create()
@@ -180,7 +210,7 @@ namespace Project_REPORT_v7.Controllers
                     {
                         var sqlcon = new EntityConnectionStringBuilder(ConfigurationManager.ConnectionStrings["ReportDBEntities1"].ConnectionString);
                         var curDB = "[C:\\MES\\WWWROOT\\APP_DATA\\REPORTDB.MDF]";
-                        var queryString = "BACKUP DATABASE " + curDB + " TO DISK = 'C:\\DB BACKUP\\REPORTDB_"+ DateTime.Now.ToString("yyyyMMdd") + ".BAK' WITH FORMAT, MEDIANAME = 'Z_SQLServerBackups', NAME = 'Full Backup of " + curDB + "';";
+                        var queryString = "BACKUP DATABASE " + curDB + " TO DISK = 'D:\\DB BACKUP\\REPORTDB_"+ DateTime.Now.ToString("yyyyMMdd") + ".BAK' WITH FORMAT, MEDIANAME = 'Z_SQLServerBackups', NAME = 'Full Backup of " + curDB + "';";
                         //var queryString = "BACKUP DATABASE " + curDB + " TO DISK = 'C:\\MES\\WWWROOT\\APP_DATA\\REPORTDB.BAK' WITH FORMAT, MEDIANAME = 'Z_SQLServerBackups', NAME = 'Full Backup of " + curDB + "';";
 
                         using ( var con = new System.Data.SqlClient.SqlConnection( sqlcon.ProviderConnectionString ) )
@@ -191,14 +221,11 @@ namespace Project_REPORT_v7.Controllers
                                 cmd.ExecuteNonQuery();
                             }
                         }
-                        BLogData.Log = "Backup DB Success";
-                        BLogData.IsError = false;
-                        JSConsoleLog.ConsoleLog( BLogData.Log );
+                        Logger.LogInfo( BLogData.Log, "Create|POST");
                     }
                     catch ( Exception ex )
                     {
-                        BLogData.Log = "Backup DB Failed: " + ex.Message;
-                        BLogData.IsError = true;
+                        Logger.LogError( BLogData.Log, "Create|POST");
                     }
                 }
             }
