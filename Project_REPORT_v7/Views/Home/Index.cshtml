@@ -6,12 +6,14 @@
 
 <div class="jumbotron">
     <h1>CCR Report</h1>
-    <p class="lead">Web page style</p>
-    <p>All problems or error please send an email with screenshots of error and how it could be repeated.</p>
-    <p>Email:<strong>jiri.kukuczka@hyundai-autoever.cz</strong></p>
-    <hr/>
+    <hr />
+    <p>Web page style report system based on old Excel done for IT MES.</p>
+    <p>Done in ASP.NET MVC. Although it works well, there is still room for improvement. I would appreciate it if you could report to me bugs or ideas for improvement.</p>
+    <p>Working things are auto backup database, importing images, browsing reports within, some security with LDAP etc.</p>
+    <p>Design is default by Bootstrap and few other things. Minimal graphics from me. That's not my forte. :)</p>
+    <hr />
     <div>
-        @Html.ActionLink("Create Report", "Create", "ReportTables", null, htmlAttributes: new { @class = "btn btn-primary" })
+        @Html.ActionLink( "Create Report", "Create", "ReportTables", null, htmlAttributes: new { @class = "btn btn-primary" } )
     </div>
 </div>
 
