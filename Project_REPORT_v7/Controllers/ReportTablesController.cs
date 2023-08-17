@@ -103,8 +103,8 @@ namespace Project_REPORT_v7.Controllers
             return View(reportTable);
         }
 
-        // GET: ReportTables/PreviousReport/5
-        public ActionResult PreviousReport(Guid id)
+        // GET: ReportTables/NextReport/5
+        public ActionResult NextReport(Guid id)
         {
             var reportTable = db.ReportTable.Include(r => r.MembersTable).Include(r => r.MembersTable1).OrderByDescending(s => s.Date).ThenBy(t => t.Shift);
             int index = reportTable.ToList().FindIndex(f => f.ReportID == id);
@@ -118,8 +118,8 @@ namespace Project_REPORT_v7.Controllers
             }
         }
 
-        // GET: ReportTables/NextReport/5
-        public ActionResult NextReport(Guid id)
+        // GET: ReportTables/PreviousReport/5
+        public ActionResult PreviousReport(Guid id)
         {
             var reportTable = db.ReportTable.Include(r => r.MembersTable).Include(r => r.MembersTable1).OrderByDescending(s => s.Date).ThenBy(t => t.Shift);
             int index = reportTable.ToList().FindIndex(f => f.ReportID == id);
