@@ -110,7 +110,7 @@ namespace Project_REPORT_v7.Controllers
             int index = reportTable.ToList().FindIndex(f => f.ReportID == id);
             if (index == 0)
             {
-                return RedirectToAction("Details", new { id = id} );
+                return RedirectToAction("Index");
             }
             else
             {
@@ -125,7 +125,7 @@ namespace Project_REPORT_v7.Controllers
             int index = reportTable.ToList().FindIndex(f => f.ReportID == id);
             if (index == reportTable.ToList().Count - 1)
             {
-                return RedirectToAction("Details", new { id = id });
+                return RedirectToAction("Index");
             }
             else
             {
