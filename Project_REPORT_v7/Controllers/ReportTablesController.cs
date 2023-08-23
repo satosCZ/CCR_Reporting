@@ -19,13 +19,20 @@ namespace Project_REPORT_v7.Controllers
         public static bool IsError { get; set; } = false;
     }
 
-
-    //[AuthorizeAD(Groups ="CCR_Report")]
+    /// <summary>
+    /// ReportTablesController is the main controller for the application.
+    /// </summary>
     [CheckSessionTimeOut]
     public class ReportTablesController : Controller
     {
+        // Private variable for db connection.
         private ReportDBEntities1 db = new ReportDBEntities1();
 
+        /// <summary>
+        /// GET: Index page for the reports.
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
         [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         public ViewResult Index(int? page)
         {
@@ -43,6 +50,10 @@ namespace Project_REPORT_v7.Controllers
             return View(reportTable.OrderByDescending(s => s.Date).ToPagedList(pageNumber, pageSize));
         }
 
+        /// <summary>
+        /// GET: Index page with the latest 5 reports showed on home page.
+        /// </summary>
+        /// <returns></returns>
         [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult IndexHome()
         {
@@ -50,6 +61,13 @@ namespace Project_REPORT_v7.Controllers
             return PartialView("IndexHome", reportTable.Take(5));
         }
 
+        /// <summary>
+        /// POST: Filter the reports by date.
+        /// </summary>
+        /// <param name="fromDT"></param>
+        /// <param name="toDT"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
         [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Filter(DateTime? fromDT, DateTime? toDT, int? page)
         {
@@ -57,28 +75,38 @@ namespace Project_REPORT_v7.Controllers
             int pageSize = 20;
             int pageNumber = (page ?? 1);
 
+            // Filter by date. If fromDT is not null and toDT is null, filter by fromDT.
             if ((fromDT != null && toDT == null))
             {
                 var filteredDate = reportTable.Where(w => w.Date >= fromDT).OrderByDescending(s => s.Date);
                 return View("Index", filteredDate.ToPagedList(pageNumber, pageSize));
             }
+            // Filter by date. If fromDT is null and toDT is not null, filter by toDT.
             else if ((fromDT == null && toDT != null))
             {
                 var filteredDate = reportTable.Where(w => w.Date <= toDT).OrderByDescending(s => s.Date);
                 return View("Index", filteredDate.ToPagedList(pageNumber, pageSize));
             }
+
+            // Filter by date. If fromDT and toDT are not null, filter by both.
             else if ((fromDT != null && toDT != null))
             {
                 var filteredDate = reportTable.Where(w => w.Date >= fromDT && w.Date <= toDT).OrderByDescending(s => s.Date);
                 return View("Index", filteredDate.ToPagedList(pageNumber, pageSize));
             }
+
+            // If fromDT and toDT are null, return the whole list.
             else
             {
                 return View("Index",reportTable.OrderByDescending(s =>s.Date).ThenBy(t => t.Shift).ToPagedList(pageNumber, pageSize));
             }
         }
 
-        // GET: ReportTables/Details/5
+        /// <summary>
+        /// GET: Details page with the report details. Inside the details page, there is a partial views for other index pages such as Re-Issue, Printers, PreCheck, Password, Hour OverTime, MainTask
+        /// </summary>
+        /// <param name="id">ID of the reportID</param>
+        /// <returns></returns>
         [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Details(Guid id)
         {
@@ -103,7 +131,11 @@ namespace Project_REPORT_v7.Controllers
             return View(reportTable);
         }
 
-        // GET: ReportTables/NextReport/5
+        /// <summary>
+        /// GET: Method to get the next reportID and redirect to the details page.
+        /// </summary>
+        /// <param name="id">ID of the current opened report</param>
+        /// <returns></returns>
         public ActionResult NextReport(Guid id)
         {
             var reportTable = db.ReportTable.Include(r => r.MembersTable).Include(r => r.MembersTable1).OrderByDescending(s => s.Date).ThenBy(t => t.Shift);
@@ -118,7 +150,11 @@ namespace Project_REPORT_v7.Controllers
             }
         }
 
-        // GET: ReportTables/PreviousReport/5
+        /// <summary>
+        /// GET: Method to get the previous reportID and redirect to the details page.
+        /// </summary>
+        /// <param name="id">ID of the current opened report</param>
+        /// <returns></returns>
         public ActionResult PreviousReport(Guid id)
         {
             var reportTable = db.ReportTable.Include(r => r.MembersTable).Include(r => r.MembersTable1).OrderByDescending(s => s.Date).ThenBy(t => t.Shift);
@@ -133,13 +169,19 @@ namespace Project_REPORT_v7.Controllers
             }
         }
 
-        // GET: ReportTables/Create
+        /// <summary>
+        /// GET: Create page with the current date and shift calculated by last created report.
+        /// </summary>
+        /// <returns></returns>
         [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Create()
         {
             try
             {
+                // Get the last created report.
                 ReportTable reportTable = db.ReportTable.OrderByDescending(o => o.Date).First();
+
+                // Calculate the next shift.
                 switch (reportTable.Shift)
                 {
                     case "Day":
@@ -156,6 +198,7 @@ namespace Project_REPORT_v7.Controllers
                         break;
                 }
 
+                // Get the next shift by ID of ShiftTable
                 int tempShift;
                 switch (reportTable.ShiftID)
                 {
@@ -173,6 +216,7 @@ namespace Project_REPORT_v7.Controllers
                         break;
                 }
 
+                // Get the members of the next shift.
                 var members = db.MembersTable.Where(w => w.ShiftID == tempShift).ToList();
 
                 // Save selected members for assigning to members select as default.
@@ -192,7 +236,13 @@ namespace Project_REPORT_v7.Controllers
             return View();
         }
 
-        // POST: ReportTables/Create
+        /// <summary>
+        /// POST: Create after submit the form with auto backup DB.
+        /// </summary>
+        /// <param name="reportTable"></param>
+        /// <param name="MembersTable_Name"></param>
+        /// <param name="MembersTable1_Name"></param>
+        /// <returns></returns>
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -202,17 +252,25 @@ namespace Project_REPORT_v7.Controllers
             // Backup DB
             #region DB Backup
             bool doBackup;
+            // Check if getting data from Web.config is successfully parsed as boolean
             if ( bool.TryParse( ConfigurationManager.AppSettings ["DoDBBackup"].ToString(), out doBackup ) )
             {
+                // Check if doBackup is true aka backup is enabled
                 if ( doBackup )
                 {
                     try
                     {
+                        // Get the connection string from Web.config
                         var sqlcon = new EntityConnectionStringBuilder(ConfigurationManager.ConnectionStrings["ReportDBEntities1"].ConnectionString);
+
+                        // Get the current DB name
                         var curDB = "[C:\\MES\\WWWROOT\\APP_DATA\\REPORTDB.MDF]";
+
+                        // Create the query string
                         var queryString = "BACKUP DATABASE " + curDB + " TO DISK = 'D:\\DB BACKUP\\REPORTDB_"+ DateTime.Now.ToString("yyyyMMdd") + ".BAK' WITH FORMAT, MEDIANAME = 'Z_SQLServerBackups', NAME = 'Full Backup of " + curDB + "';";
                         //var queryString = "BACKUP DATABASE " + curDB + " TO DISK = 'C:\\MES\\WWWROOT\\APP_DATA\\REPORTDB.BAK' WITH FORMAT, MEDIANAME = 'Z_SQLServerBackups', NAME = 'Full Backup of " + curDB + "';";
 
+                        // Execute the query string
                         using ( var con = new System.Data.SqlClient.SqlConnection( sqlcon.ProviderConnectionString ) )
                         {
                             using ( var cmd = new System.Data.SqlClient.SqlCommand( queryString, con ) )
@@ -231,8 +289,10 @@ namespace Project_REPORT_v7.Controllers
             }
             #endregion
 
+            // Check if the model is valid
             if ( ModelState.IsValid)
             {
+                // Create new GUID for ReportID
                 reportTable.ReportID = Guid.NewGuid();
 
                 // Check if MembersTable_Name is same as members name & ID in DB
@@ -246,11 +306,14 @@ namespace Project_REPORT_v7.Controllers
                     reportTable.Member_Two_ID = db.MembersTable.Where(w => w.Name == MembersTable1_Name).Select(s => s.MemberID).FirstOrDefault();
                 }
 
+                // Check if the shift is not null
                 int shiftID = reportTable.ShiftID.Value;
                 if (shiftID != 0)
                 {
                     reportTable.ShiftID = shiftID;
                 }
+
+                // Adding time for the date based on the shift
                 try
                 {
                     switch (reportTable.Shift)
@@ -293,8 +356,14 @@ namespace Project_REPORT_v7.Controllers
                     }
 
                 }
+
+                // Add the report to DB
                 db.ReportTable.Add(reportTable);
+
+                // Save changes
                 db.SaveChanges();
+
+                // Redirect to Index
                 return RedirectToAction("Index");
             }
 
@@ -304,7 +373,11 @@ namespace Project_REPORT_v7.Controllers
         }
 
 
-        // GET: ReportTables/Edit/5
+        /// <summary>
+        /// GET: Search for a reportID in DB and open it for editing
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Edit(Guid? id)
         {
@@ -321,7 +394,11 @@ namespace Project_REPORT_v7.Controllers
             return View(reportTable);
         }
 
-        // POST: ReportTables/Edit/5
+        /// <summary>
+        /// POST: After editing a report, save the changes to DB
+        /// </summary>
+        /// <param name="reportTable"></param>
+        /// <returns></returns>
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         //[AuthorizeAD(Groups = "CCR_Report_Control")]
@@ -384,7 +461,11 @@ namespace Project_REPORT_v7.Controllers
             return View(reportTable);
         }
 
-        // GET: ReportTables/Delete/5
+        /// <summary>
+        /// GET: Get a reportID from DB and open it for deleting
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Delete(Guid? id)
         {
@@ -400,7 +481,11 @@ namespace Project_REPORT_v7.Controllers
             return View(reportTable);
         }
 
-        // POST: ReportTables/Delete/5
+        /// <summary>
+        /// POST: Deleteing a report from DB also deletes all the data related to it
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         //[AuthorizeAD(Groups = "CCR_Report_Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

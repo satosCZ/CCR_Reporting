@@ -4,6 +4,12 @@
 //
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
+//
+//     Entity Framework Version:6.1.3
+//
+//     Edited by: Jiri Kukuczka
+//     Added Attributes: DisplayName
+//     DisplayNanme - 2x (Member ID, Shift) - for better readability in Views
 // </auto-generated>
 //------------------------------------------------------------------------------
 

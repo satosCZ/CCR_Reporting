@@ -2,8 +2,16 @@
 
 namespace Project_REPORT_v7.Controllers.Addon
 {
+    /// <summary>
+    /// String extension custom static class.
+    /// </summary>
     public static class StringExtension
     {
+        /// <summary>
+        /// Converts all letters to Uppercase.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static string ToUpperCaps( this string str )
         {
             return str.ToUpper();

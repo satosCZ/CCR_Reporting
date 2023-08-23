@@ -4,13 +4,22 @@ using System.Web.Mvc;
 
 namespace Project_REPORT_v7.Controllers.Addon
 {
+    /// <summary>
+    /// AuthorizeADAttribute class for Active Directory authorization. Used class from StackOverflow
+    /// </summary>
     public class AuthorizeADAttribute : AuthorizeAttribute
     {
+        // Private variables
         private bool _authenticated;
         private bool _authorized;
 
+        // Public property
         public string Groups { get; set; }
 
+        /// <summary>
+        /// Handle unauthorized request method for these that are authenticated but not authorized
+        /// </summary>
+        /// <param name="filterContext"></param>
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
             base.HandleUnauthorizedRequest(filterContext);
@@ -21,6 +30,11 @@ namespace Project_REPORT_v7.Controllers.Addon
             }
         }
 
+        /// <summary>
+        /// AuthorizeCore method for Active Directory authorization
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             _authenticated = base.AuthorizeCore(httpContext);
@@ -33,9 +47,12 @@ namespace Project_REPORT_v7.Controllers.Addon
                 }
 
                 var groups = Groups.Split(',');
+
+                // get the user name from the requested user (after logging in)
                 string username = httpContext.User.Identity.Name;
                 try
                 {
+                    // check if the user is a member of the specified groups
                     _authorized = LDAPHelper.UserIsMemberOfGroups(username, groups);
                     return _authorized;
                 }

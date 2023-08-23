@@ -4,6 +4,12 @@
 //
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
+//
+//     Entity Framework Version: 6.2.0-61023
+//
+//     Edited by: Jiri Kukuczka
+//     Added Attribute: DisplayName
+//           DisplanName - is used for displaying the name of the column in the view
 // </auto-generated>
 //------------------------------------------------------------------------------
 

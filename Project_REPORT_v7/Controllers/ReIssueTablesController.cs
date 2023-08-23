@@ -10,12 +10,19 @@ using Project_REPORT_v7.Models;
 
 namespace Project_REPORT_v7.Controllers
 {
+    /// <summary>
+    /// ReIssueTablesController is a controller class for ReIssueTable model.
+    /// </summary>
     [CheckSessionTimeOut]
     public class ReIssueTablesController : Controller
     {
+        // Private variables for database connection and session
         private ReportDBEntities1 db = new ReportDBEntities1();
 
-        // GET: ReIssueTables
+        /// <summary>
+        /// GET: ReIssueTables - Index page for ReIssueTable model.
+        /// </summary>
+        /// <returns></returns>
         [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         public PartialViewResult _index()
         {
@@ -23,7 +30,10 @@ namespace Project_REPORT_v7.Controllers
             return PartialView(reIssueTable.ToList());
         }
 
-        // GET: ReIssueTables/CreateMultiple
+        /// <summary>
+        /// GET: CreateMultiple - modal window page with inputs
+        /// </summary>
+        /// <returns></returns>
         [CheckSessionTimeOut]
         [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         [HttpGet]
@@ -33,7 +43,16 @@ namespace Project_REPORT_v7.Controllers
             return PartialView("CreateMultiple");
         }
 
-        // POST: ReIssueTables/CreateMultiple
+        /// <summary>
+        /// POST: Create multiple ReIssueTable records from modal window inputs with checking for input errors. Due to the fact that the modal window is not a form, the data is passed through the ajax request.
+        /// By default, the modal window is closed after the request is completed. If the request is successful, the page is reloaded. If the request is unsuccessful, the modal window remains open and the error message is displayed.
+        /// Inputs: time, user, objective, bodyNum are separated due to possibility of multiple bodyNum inputs.
+        /// </summary>
+        /// <param name="time">input Time</param>
+        /// <param name="user">input User</param>
+        /// <param name="objective">input Objective</param>
+        /// <param name="bodyNum">input Body Number/s</param>
+        /// <returns></returns>
         // To protect from overposting attacks, enable the specific properties you want to bind to, for more details se https://go.microsoft.com/fwlink/?LinkId=317598 .
         [CheckSessionTimeOut]
         [HttpPost]
@@ -42,6 +61,7 @@ namespace Project_REPORT_v7.Controllers
         {
             Session["ErrorMessage"] = "";
             Guid passID;
+            // Check if ReportID is not null
             if (Session["ActiveGUID"] != null)
                 passID = (Guid)Session["ActiveGUID"];
             else
@@ -51,16 +71,27 @@ namespace Project_REPORT_v7.Controllers
                 return Json(this, JsonRequestBehavior.AllowGet);
             }
 
+            // Check if inputs are not null
             if (ModelState.IsValid)
             {
+                // Convert inputs to uppercase
                 user = user.ToUpperCaps();
                 objective = objective.ToUpperCaps();
                 bodyNum = bodyNum.ToUpperCaps();
+
+                // Check if bodyNum contains multiple body numbers separated by new line
                 if (bodyNum.Contains("\r\n"))
                 {
+                    // Split bodyNum by new line
                     string[] separators = new string[] { "\r\n" };
+
+                    // Create list of ReIssueTable records
                     List<ReIssueTable> multiple = new List<ReIssueTable>();
+
+                    // Add each body number to the list
                     List<string> bodys = bodyNum.Split(separators, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                    // Add each body number to the list
                     foreach (string body in bodys)
                     {
                         multiple.Add(new ReIssueTable()
@@ -80,13 +111,19 @@ namespace Project_REPORT_v7.Controllers
                         }
                         catch { }
                     }
+                    // Add list of ReIssueTable records to the database
                     db.ReIssueTable.AddRange(multiple);
-
+                    
+                    // Save changes
                     db.SaveChanges();
+
+                    // Return success message
                     return Json(new { success = true });
                 }
+                // If bodyNum contains only one body number
                 else
                 {
+                    // Create new ReIssueTable record
                     ReIssueTable reIssueTable = new ReIssueTable();
                     reIssueTable.ReIssueID = Guid.NewGuid();
                     reIssueTable.ReportID = passID;
@@ -94,6 +131,8 @@ namespace Project_REPORT_v7.Controllers
                     reIssueTable.User= user.ToUpperCaps();
                     reIssueTable.Objective = objective.ToUpperCaps();
                     reIssueTable.BodyNum = bodyNum.ToUpperCaps();
+
+                    // Add ReIssueTable record to the database
                     db.ReIssueTable.Add(reIssueTable);
                     // Remove comments to enable logging
 
@@ -101,7 +140,9 @@ namespace Project_REPORT_v7.Controllers
                     if (int.TryParse(Session["UserID"].ToString(), out userID))
                         LogHelper.AddLog(DateTime.Now, "ReIssueTable | Create", $"Time:{time} Who:{user} Where:{objective} BodyNum:{bodyNum}", userID);
 
+                    // Save changes
                     db.SaveChanges();
+                    // Return success message
                     return Json(new { success = true });
                 }
             }
@@ -115,10 +156,16 @@ namespace Project_REPORT_v7.Controllers
                 }
                 catch { }
             }
+
+            // Return error message
             return Json(this, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: ReIssueTables/Edit/5
+        /// <summary>
+        /// GET: Edit - modal window page with inputs
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         //[AuthorizeAD(Groups = "CCR_Report_Control")]
         [CheckSessionTimeOut]
         [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
@@ -138,7 +185,11 @@ namespace Project_REPORT_v7.Controllers
             return PartialView(reIssueTable);
         }
 
-        // POST: ReIssueTables/Edit/5
+        /// <summary>
+        /// POST: Edit - save changes to the database and close modal window
+        /// </summary>
+        /// <param name="reIssueTable"></param>
+        /// <returns></returns>
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         //[AuthorizeAD(Groups = "CCR_Report_Control")]
@@ -149,6 +200,8 @@ namespace Project_REPORT_v7.Controllers
         {
             Session["ErrorMessage"] = "";
             Guid passID;
+
+            // Check if ReportID is not null from session data
             if (Session["ActiveGUID"] != null)
             {
                 passID = (Guid)Session["ActiveGUID"];
@@ -159,6 +212,8 @@ namespace Project_REPORT_v7.Controllers
                 Session["ErrorMessage"] = "No ReportID was found. Refresh the page and fill this form again. If it's happen again, contact web administrator/developer.";
                 return Json(this, JsonRequestBehavior.AllowGet);
             }
+
+            // Check if inputs are not null and valid
             if (ModelState.IsValid)
             {
                 reIssueTable.ReportID = passID;
@@ -166,7 +221,11 @@ namespace Project_REPORT_v7.Controllers
                 reIssueTable.User = reIssueTable.User.ToUpperCaps();
                 reIssueTable.Objective = reIssueTable.Objective.ToUpperCaps();
                 reIssueTable.BodyNum = reIssueTable.BodyNum.ToUpperCaps();
+
+                // Set entity state to modified
                 db.Entry(reIssueTable).State = EntityState.Modified;
+
+                // Save changes
                 db.SaveChanges();
                 try
                 {
@@ -175,6 +234,8 @@ namespace Project_REPORT_v7.Controllers
                         LogHelper.AddLog(DateTime.Now, "ReIssueTable | Edit", $"Time:{reIssueTable.Time} Who:{reIssueTable.User} Where:{reIssueTable.Objective} BodyNum:{reIssueTable.BodyNum}", userID);
                 }
                 catch { }
+
+                // Return success message
                 return Json(new { success = true });
             }
             else
@@ -188,10 +249,16 @@ namespace Project_REPORT_v7.Controllers
                 catch { }
             }
             ViewBag.ReportID = new SelectList(db.ReportTable, "ReportID", "Shift", reIssueTable.ReportID);
+
+            // Return error message
             return PartialView("Edit", reIssueTable);
         }
 
-        // GET: ReIssueTables/Delete/5
+        /// <summary>
+        /// GET: Delete - modal window page
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Delete(Guid? id)
         {
@@ -208,7 +275,11 @@ namespace Project_REPORT_v7.Controllers
             return PartialView("Delete", reIssueTable);
         }
 
-        // POST: ReIssueTables/Delete/5
+        /// <summary>
+        /// POST: Delete - delete record from the database and close modal window
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [CheckSessionTimeOut]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -229,6 +300,12 @@ namespace Project_REPORT_v7.Controllers
             return Json(new { success = true });
         }
 
+        /// <summary>
+        /// AJAX: GetWho - get data for autocomplete input from the database column "User"
+        /// </summary>
+        /// <param name="term">Term from autocomplete input</param>
+        /// <param name="cnt">Number of displayed results</param>
+        /// <returns>Strings of "cnt" from searchable "term"</returns>
         public JsonResult GetWho(string term, int cnt)
         {
             var data = db.ReIssueTable.Select(q => new
@@ -238,6 +315,12 @@ namespace Project_REPORT_v7.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);      
         }
 
+        /// <summary>
+        /// AJAX: GetWhat - get data for autocomplete input from the database column "Objective"
+        /// </summary>
+        /// <param name="term">Term from autocomplete input</param>
+        /// <param name="cnt">Number of displayed results</param>
+        /// <returns>Strings of "cnt" from searchable "term"</returns>
         public JsonResult GetWhat(string term, int cnt)
         {
             var data = db.ReIssueTable.Select(q => new

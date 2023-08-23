@@ -4,6 +4,15 @@
 //
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
+//
+//     Entity Framework Version:6.1.3
+//
+//     Edited by: Jiri Kukuczka
+//     Added Attributes: Required, MaxLength, DisplayName, DataType
+//           Required: 4x (Time, Duration, Shop, System) - prevents from saving empty values
+//           MaxLength: 1x (System) - prevents from saving more than 150 characters
+//           DisplayName: 2x (Problem, Solution) - changes the name of the column in the database
+//           DataType: 2x (Time, Duration) - changes the type of the column in the database
 // </auto-generated>
 //------------------------------------------------------------------------------
 

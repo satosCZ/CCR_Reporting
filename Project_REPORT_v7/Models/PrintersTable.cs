@@ -4,6 +4,15 @@
 //
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
+//
+//     Entity Framework Version:6.1.3
+//
+//     Edited by: Jiri Kukuczka
+//     Added Attributes: Required, DataType, DisplayName, MaxLength
+//           Required - 4x (Time, User, Objective, Printer) - prevents saving empty record
+//           DataType - 1x (Time) - sets the format of the time
+//           DisplayName - 4x (Who, What, Printer, ReportID) - sets the display name of the column
+//           MaxLength - 4x (User, Objective, Printer, ReportID) - sets the maximum length of the column
 // </auto-generated>
 //------------------------------------------------------------------------------
 

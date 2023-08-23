@@ -4,6 +4,14 @@
 //
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
+//
+//     Entity Framework Version:6.1.3
+//
+//     Edited by: Jiri Kukuczka
+//     Added Attributes: Required, DataType, DisplayFormat
+//          Required - Specifies that the property is a required field and not nullable.
+//          DataType - Specifies the data type of the field.
+//          DisplayFormat - Specifies the display format for the field value.
 // </auto-generated>
 //------------------------------------------------------------------------------
 

@@ -5,9 +5,17 @@ using System.Web.Security;
 
 namespace Project_REPORT_v7.Controllers.Addon
 {
+    /// <summary>
+    /// CheckSessionTimeOutAttribute class
+    ///     test to catch session timeout and redirect user to login in next action
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public class CheckSessionTimeOutAttribute : ActionFilterAttribute
     {
+        /// <summary>
+        /// Execute on user clicked action such as button, link, etc. Basically anything that require core method to be executed.
+        /// </summary>
+        /// <param name="filterContext"></param>
         public override void OnActionExecuted( ActionExecutedContext filterContext )
         {
             var context = filterContext.HttpContext;

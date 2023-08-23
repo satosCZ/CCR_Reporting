@@ -2,6 +2,9 @@
 
 namespace Project_REPORT_v7.Controllers
 {
+    /// <summary>
+    /// Error Controller class - debating if this is needed
+    /// </summary>
     public class ErrorController : Controller
     {
         public ActionResult Error(HandleErrorInfo exception)

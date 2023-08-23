@@ -4,6 +4,16 @@
 //
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
+//
+//     Entity Framework Version:6.1.3
+//
+//     Edited by: Jiri Kukuczka
+//     Added Attributes: Required, DataType, DisplayFormat, DisplayName, MaxLength
+//           Required - 4x (Time, FullName, UserID, System) - Prevents from saving empty values
+//           DataType - 1x (Time) - Sets the type of the data
+//           DisplayFormat - 1x (Time) - Sets the format of the data
+//           DisplayName - 3x (Name, User ID, System) - Sets the display name of the data
+//           MaxLength - 3x (Name, User ID, System) - Sets the maximum length of the data
 // </auto-generated>
 //------------------------------------------------------------------------------
 
