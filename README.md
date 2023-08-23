@@ -17,3 +17,6 @@ Like:
  
 ScreenShot one of the pages - This page is whole purpose of this project
 ![Whole purpose of this project](https://github.com/satosCZ/CCR_Reporting/blob/master/SS_022023.png)
+
+Database Schema
+![DB schepa](https://github.com/satosCZ/CCR_Reporting/blob/master/DB_schema.png)
