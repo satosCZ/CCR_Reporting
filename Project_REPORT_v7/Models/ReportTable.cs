@@ -4,15 +4,6 @@
 //
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
-//
-//     Created by: Entity Framework 6.1.3 Tools version 6.1.3.40302
-//
-//     Edited by Jiri Kukuczka
-//     Added Attributes: Required, DisplayName, DataType, DisplayFormat
-//          Required: 2x Member_ID, ShiftID - to prevent null values in database
-//          DisplayName: Member 1, Member 2 - to change the name of the column in the view
-//          DataType: Date - to change the type of the column in the view
-//          DisplayFormat: Date - to change the format of the column in the view
 // </auto-generated>
 //------------------------------------------------------------------------------
 
@@ -20,9 +11,7 @@ namespace Project_REPORT_v7.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class ReportTable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -37,19 +26,10 @@ namespace Project_REPORT_v7.Models
         }
     
         public System.Guid ReportID { get; set; }
-        [Required]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         public System.DateTime Date { get; set; }
-        [Required]
         public string Shift { get; set; }
-        [Required]
-        [DisplayName("Member 1")]
         public Nullable<int> Member_One_ID { get; set; }
-        [Required]
-        [DisplayName("Member 2")]
         public Nullable<int> Member_Two_ID { get; set; }
-        [DisplayName("Shift ID")]
         public Nullable<int> ShiftID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

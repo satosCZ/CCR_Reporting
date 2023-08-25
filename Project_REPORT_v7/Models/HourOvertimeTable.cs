@@ -4,38 +4,21 @@
 //
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
-//
-//     Entity Framework Version:6.1.3
-//
-//     Edited by: Jiri Kukuczka
-//     Added Attributes: Required, DataType, DisplayFormat
-//          Required - Specifies that the property is a required field and not nullable.
-//          DataType - Specifies the data type of the field.
-//          DisplayFormat - Specifies the display format for the field value.
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-
 namespace Project_REPORT_v7.Models
 {
-
+    using System;
+    using System.Collections.Generic;
+    
     public partial class HourOvertimeTable
     {
         public System.Guid OvertimeID { get; set; }
-        [Required]
-        [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         public System.TimeSpan Time { get; set; }
-        [Required]
-        [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         public System.TimeSpan Duration { get; set; }
-        [Required]
         public string Shop { get; set; }
-        [Required]
         public string Type { get; set; }
-        [Required]
         public string Description { get; set; }
         public string Cooperation { get; set; }
         public System.Guid ReportID { get; set; }

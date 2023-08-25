@@ -4,42 +4,20 @@
 //
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
-//
-//     Entity Framework Version:6.1.3
-//
-//     Edited by: Jiri Kukuczka
-//     Added Attributes: Required, DataType, DisplayName, MaxLength
-//           Required - 4x (Time, User, Objective, Printer) - prevents saving empty record
-//           DataType - 1x (Time) - sets the format of the time
-//           DisplayName - 4x (Who, What, Printer, ReportID) - sets the display name of the column
-//           MaxLength - 4x (User, Objective, Printer, ReportID) - sets the maximum length of the column
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-
 namespace Project_REPORT_v7.Models
 {
-
+    using System;
+    using System.Collections.Generic;
+    
     public partial class PrintersTable
     {
         public System.Guid PrinterID { get; set; }
-        [Required]
-        [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         public System.TimeSpan Time { get; set; }
-        [Required]
-        [DisplayName("Who")]
-        [MaxLength( 50, ErrorMessage = "Maximum length can't be more than 50 characters." )]
         public string User { get; set; }
-        [Required]
-        [DisplayName("What")]
-        [MaxLength( 100, ErrorMessage = "Maximum length can't be more than 100 characters." )]
         public string Objective { get; set; }
-        [Required]
-        [DisplayName("Printer")]
-        [MaxLength( 50, ErrorMessage = "Maximum length can't be more than 50 characters." )]
         public string Printer { get; set; }
         public System.Guid ReportID { get; set; }
     

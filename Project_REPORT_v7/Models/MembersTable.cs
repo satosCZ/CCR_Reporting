@@ -4,12 +4,6 @@
 //
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
-//
-//     Entity Framework Version:6.1.3
-//
-//     Edited by: Jiri Kukuczka
-//     Added Attributes: DisplayName
-//     DisplayNanme - 2x (Member ID, Shift) - for better readability in Views
 // </auto-generated>
 //------------------------------------------------------------------------------
 
@@ -17,8 +11,7 @@ namespace Project_REPORT_v7.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-
+    
     public partial class MembersTable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -27,12 +20,10 @@ namespace Project_REPORT_v7.Models
             this.ReportTable = new HashSet<ReportTable>();
             this.ReportTable1 = new HashSet<ReportTable>();
         }
-
-        [DisplayName("Member ID")]
+    
         public int MemberID { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        [DisplayName("Shift")]
         public Nullable<int> ShiftID { get; set; }
     
         public virtual ShiftTable ShiftTable { get; set; }

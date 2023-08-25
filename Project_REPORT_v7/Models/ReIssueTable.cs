@@ -4,42 +4,20 @@
 //
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
-//
-//     Entity Framework Version:6.1.3
-//
-//     Edited by: Jiri Kukuczka
-//     Added Attributes: Required, DataType, DisplayFormat, DisplayName, MaxLength
-//           Required - 4x (Time, User, Objective, BodyNum) - Prevents from saving empty record
-//           DataType - 1x (Time) - Sets the type of data
-//           DisplayFormat - 1x (Time) - Sets the format of data
-//           DisplayName - 3x (Who, What, Body Num.) - Sets the name of the column
-//           MaxLength - 3x (Who, What, Body Num.) - Sets the maximum length of the column
 // </auto-generated>
 //------------------------------------------------------------------------------
 
 namespace Project_REPORT_v7.Models
 {
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-
+    using System;
+    using System.Collections.Generic;
+    
     public partial class ReIssueTable
     {
         public System.Guid ReIssueID { get; set; }
-        [Required]
-        [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         public System.TimeSpan Time { get; set; }
-        [Required]
-        [DisplayName("Who")]
-        [MaxLength(50, ErrorMessage = "Maximum length can't be more than 50 characters.")]
         public string User { get; set; }
-        [Required]
-        [DisplayName("What")]
-        [MaxLength( 50, ErrorMessage = "Maximum length can't be more than 50 characters." )]
         public string Objective { get; set; }
-        [Required]
-        [DisplayName("Body Num.")]
-        [MaxLength( 50, ErrorMessage = "Maximum length can't be more than 50 characters." )]
         public string BodyNum { get; set; }
         public System.Guid ReportID { get; set; }
     
