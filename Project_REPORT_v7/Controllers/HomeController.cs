@@ -11,7 +11,6 @@ namespace Project_REPORT_v7.Controllers
     /// <summary>
     /// Home Controller class derived from Controller
     /// </summary>
-    [CheckSessionTimeOut]
     public class HomeController : Controller
     {
         // Private variable for DB connection
@@ -151,6 +150,7 @@ namespace Project_REPORT_v7.Controllers
         /// Acion method GET to open page with filtered maintask and password tables
         /// </summary>
         /// <returns></returns>
+        [CheckSessionTimeOut]
         [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         public ActionResult Filtered()
         {
@@ -161,10 +161,20 @@ namespace Project_REPORT_v7.Controllers
         /// Action method GET to open information page
         /// </summary>
         /// <returns></returns>
+        [CheckSessionTimeOut]
         [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin" )]
         public ActionResult Information()
         {
             return PartialView("Information");
+        }
+
+        [AuthorizeAD( Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin" )]
+        public ActionResult SessionRenew()
+        {
+            #region Check Session
+            CheckSession();
+            #endregion
+            return PartialView("SessionRenew");
         }
     }
 }
