@@ -22,6 +22,7 @@ namespace Project_REPORT_v7.Controllers
         /// GET: Index page for the log table.
         /// </summary>
         /// <returns></returns>
+        [CheckSessionTimeOut]
         [AuthorizeAD(Groups = "CCR_Report_Admin")]
         public async Task<ActionResult> Index()
         {
@@ -37,6 +38,7 @@ namespace Project_REPORT_v7.Controllers
         /// <param name="dateTo">Filter to date</param>
         /// <param name="page">Page of showed data</param>
         /// <returns></returns>
+        [CheckSessionTimeOut]
         public async Task<ActionResult> Filter(string FilterLog, string UserDD, DateTime? dateFrom, DateTime? dateTo, int? page)
         {
             // Get the log table variable

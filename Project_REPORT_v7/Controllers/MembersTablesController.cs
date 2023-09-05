@@ -12,7 +12,6 @@ namespace Project_REPORT_v7.Controllers
     /// <summary>
     /// MembersTablesController is controller for MembersTable model.
     /// </summary>
-    [CheckSessionTimeOut]
     public class MembersTablesController : Controller
     {
         // Private variable for database connection
@@ -53,6 +52,7 @@ namespace Project_REPORT_v7.Controllers
         /// GET: Index page for MembersTable
         /// </summary>
         /// <returns></returns>
+        [CheckSessionTimeOut]
         public ActionResult Index()
         {
             var memberTable = db.MembersTable;
@@ -64,6 +64,7 @@ namespace Project_REPORT_v7.Controllers
         /// </summary>
         /// <param name="MemberID">Integer: Member ID same as in LDAP</param>
         /// <returns>Show details page with data saved in DB about said member</returns>
+        [CheckSessionTimeOut]
         public ActionResult Details(int MemberID) 
         {
             // check if MemberID is not 0
@@ -95,6 +96,7 @@ namespace Project_REPORT_v7.Controllers
         /// </summary>
         /// <param name="id">Integer: Member ID same as in LDAP</param>
         /// <returns>Show new page with editing possible</returns>
+        [CheckSessionTimeOut]
         [HttpGet]
         public ActionResult Edit(int id)
         {
@@ -115,7 +117,8 @@ namespace Project_REPORT_v7.Controllers
         /// POST: Edit page for MembersTable
         /// </summary>
         /// <param name="membersTable">MembersTable: parameters from inputs assigned by their HTML ID</param>
-        /// <returns>Index page for MembersTable</returns>
+        /// <returns>Index page for MembersTable</returns> 
+        [CheckSessionTimeOut]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MemberID, Name, Email, ShiftID")] MembersTable membersTable)
@@ -138,6 +141,7 @@ namespace Project_REPORT_v7.Controllers
         /// </summary>
         /// <param name="id">Integer: id for row id</param>
         /// <returns></returns>
+        [CheckSessionTimeOut]
         [HttpGet]
         public ActionResult Delete(int? id)
         {
