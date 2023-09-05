@@ -96,7 +96,6 @@ namespace Project_REPORT_v7.Controllers
         /// GET: Create page of PasswordTables
         /// </summary>
         /// <returns></returns>
-        [CheckSessionTimeOut]
         [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         [HttpGet]
         public ActionResult Create()
@@ -110,7 +109,6 @@ namespace Project_REPORT_v7.Controllers
         /// </summary>
         /// <param name="passwordTable">Data from html form</param>
         /// <returns></returns>
-        [CheckSessionTimeOut]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult Create([Bind(Include = "PasswordID,Time,FullName,UserID,System,ReportID")] PasswordTable passwordTable)
@@ -173,7 +171,6 @@ namespace Project_REPORT_v7.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [CheckSessionTimeOut]
         [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
         [HttpGet]
         public ActionResult Edit(Guid? id)
@@ -200,7 +197,6 @@ namespace Project_REPORT_v7.Controllers
         /// <returns></returns>
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [CheckSessionTimeOut]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "PasswordID,Time,FullName,UserID,System,ReportID")] PasswordTable passwordTable)
@@ -284,7 +280,6 @@ namespace Project_REPORT_v7.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [CheckSessionTimeOut]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)

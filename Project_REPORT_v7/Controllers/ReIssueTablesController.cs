@@ -34,7 +34,6 @@ namespace Project_REPORT_v7.Controllers
         /// GET: CreateMultiple - modal window page with inputs
         /// </summary>
         /// <returns></returns>
-        [CheckSessionTimeOut]
         [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         [HttpGet]
         public ActionResult CreateMultiple()
@@ -54,7 +53,6 @@ namespace Project_REPORT_v7.Controllers
         /// <param name="bodyNum">input Body Number/s</param>
         /// <returns></returns>
         // To protect from overposting attacks, enable the specific properties you want to bind to, for more details se https://go.microsoft.com/fwlink/?LinkId=317598 .
-        [CheckSessionTimeOut]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult CreateMultiple(TimeSpan time, string user, string objective, string bodyNum)
@@ -167,7 +165,6 @@ namespace Project_REPORT_v7.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         //[AuthorizeAD(Groups = "CCR_Report_Control")]
-        [CheckSessionTimeOut]
         [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin")]
         [HttpGet]
         public ActionResult Edit(Guid? id)
@@ -193,7 +190,6 @@ namespace Project_REPORT_v7.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         //[AuthorizeAD(Groups = "CCR_Report_Control")]
-        [CheckSessionTimeOut]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ReIssueID,Time,User,Objective,BodyNum,ReportID")] ReIssueTable reIssueTable)
@@ -280,7 +276,6 @@ namespace Project_REPORT_v7.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [CheckSessionTimeOut]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
