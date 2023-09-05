@@ -11,13 +11,27 @@ namespace Project_REPORT_v7.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class PrintersTable
     {
         public System.Guid PrinterID { get; set; }
+        [Required]
+        [DataType( DataType.Time )]
+        [DisplayFormat( DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true )]
         public System.TimeSpan Time { get; set; }
+        [Required]
+        [DisplayName( "Who" )]
+        [MaxLength( 50, ErrorMessage = "Maximum length can't be more than 50 characters." )]
         public string User { get; set; }
+        [Required]
+        [DisplayName( "What" )]
+        [MaxLength( 100, ErrorMessage = "Maximum length can't be more than 50 characters." )]
         public string Objective { get; set; }
+        [Required]
+        [DisplayName( "Printer" )]
+        [MaxLength( 50, ErrorMessage = "Maximum length can't be more than 50 characters." )]
         public string Printer { get; set; }
         public System.Guid ReportID { get; set; }
     

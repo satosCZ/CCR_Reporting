@@ -11,14 +11,24 @@ namespace Project_REPORT_v7.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class HourOvertimeTable
     {
         public System.Guid OvertimeID { get; set; }
+        [Required]
+        [DataType( DataType.Time )]
+        [DisplayFormat( DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true )]
         public System.TimeSpan Time { get; set; }
+        [Required]
+        [DataType( DataType.Time )]
+        [DisplayFormat( DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true )]
         public System.TimeSpan Duration { get; set; }
+        [Required]
         public string Shop { get; set; }
+        [Required]
         public string Type { get; set; }
+        [Required]
         public string Description { get; set; }
         public string Cooperation { get; set; }
         public System.Guid ReportID { get; set; }

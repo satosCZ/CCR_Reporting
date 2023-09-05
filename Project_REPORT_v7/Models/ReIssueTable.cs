@@ -11,13 +11,26 @@ namespace Project_REPORT_v7.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class ReIssueTable
     {
         public System.Guid ReIssueID { get; set; }
+        [Required]
+        [DataType( DataType.Time )]
+        [DisplayFormat( DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true )]
         public System.TimeSpan Time { get; set; }
+        [Required]
+        [DisplayName( "Who" )]
+        [MaxLength( 50, ErrorMessage = "Maximum length can't be more than 50 characters." )]
         public string User { get; set; }
+        [Required]
+        [DisplayName( "What" )]
+        [MaxLength( 50, ErrorMessage = "Maximum length can't be more than 50 characters." )]
         public string Objective { get; set; }
+        [Required]
+        [DisplayName( "Body Num." )]
         public string BodyNum { get; set; }
         public System.Guid ReportID { get; set; }
     

@@ -11,7 +11,9 @@ namespace Project_REPORT_v7.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class ReportTable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -26,10 +28,19 @@ namespace Project_REPORT_v7.Models
         }
     
         public System.Guid ReportID { get; set; }
+        [Required]
+        [DataType( DataType.Date )]
+        [DisplayFormat( DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true )]
         public System.DateTime Date { get; set; }
+        [Required]
         public string Shift { get; set; }
+        [Required]
+        [DisplayName( "Member 1" )]
         public Nullable<int> Member_One_ID { get; set; }
+        [Required]
+        [DisplayName( "Member 2" )]
         public Nullable<int> Member_Two_ID { get; set; }
+        [DisplayName( "Shift ID" )]
         public Nullable<int> ShiftID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
