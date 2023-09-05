@@ -433,6 +433,7 @@
     <Content Include="Views\LogTables\Delete.cshtml" />
     <Content Include="Views\MembersTables\Delete.cshtml" />
     <Content Include="Views\MT_IMAGES\Gallery.cshtml" />
+    <Content Include="Views\Home\SessionRenew.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
