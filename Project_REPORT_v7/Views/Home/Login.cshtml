@@ -3,6 +3,15 @@
     Layout = null;
 }
 
+<script type="text/javascript">
+    $(function () {
+        var message = @Html.Raw(Json.Encode(ViewBag.Message));
+        if (message != null) {
+            alert(message);
+        }
+    })
+</script>
+
 <!DOCTYPE html>
 <html lang="cs-CZ">
 <head>

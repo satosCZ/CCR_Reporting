@@ -112,7 +112,7 @@ namespace Project_REPORT_v7.Controllers
                 Logger.LogInfo( $"IDLogin - {IDLogin}", "Project_REPORT_v7.Controllers.HomeController.[POST]Login()" );
                 // Set authentication cookie
                 FormsAuthentication.SetAuthCookie(IDLogin, true);
-                
+                ViewBag.Message = "";
                 // Check returnUrl and redirect to it
                 if (this.Url.IsLocalUrl(returnUrl) && returnUrl.Length> 1 && (returnUrl.StartsWith("/") || (returnUrl.StartsWith("%2f"))) && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                 {
@@ -122,6 +122,10 @@ namespace Project_REPORT_v7.Controllers
                 }
                 // Go to homepage
                 return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ViewBag.Message = "Wrong ID or Password. Use your Windows ID and Password. If still wrong that you can't access this page.";
             }
             return View();
         }
