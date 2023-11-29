@@ -3,14 +3,7 @@
     Layout = null;
 }
 
-<script type="text/javascript">
-    $(function () {
-        var message = @Html.Raw(Json.Encode(ViewBag.Message));
-        if (message != null) {
-            alert(message);
-        }
-    })
-</script>
+
 
 <!DOCTYPE html>
 <html lang="cs-CZ">
@@ -28,6 +21,12 @@
     @Scripts.Render("~/bundles/bootstrap")
 <script>
     console.log(@Html.Raw(Json.Encode(Request.QueryString ["ReturnUrl"])));
+    $(function () {
+        var message = @Html.Raw(Json.Encode(ViewBag.Message));
+        if (message != null || message.length > 5 || !message) {
+            alert(message);
+        }
+    });
 </script>
 </head>
 <body>
