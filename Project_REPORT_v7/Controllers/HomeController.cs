@@ -155,7 +155,7 @@ namespace Project_REPORT_v7.Controllers
         /// </summary>
         /// <returns></returns>
         [CheckSessionTimeOut]
-        [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
+        [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin" )]
         public ActionResult Filtered()
         {
             return View("Filtered");

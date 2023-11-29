@@ -41,7 +41,7 @@ namespace Project_REPORT_v7.Controllers
         /// <param name="pwToDT">Date to</param>
         /// <param name="pwPage">Pagination</param>
         /// <returns></returns>
-        [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
+        [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin" )]
         public PartialViewResult FilterIndex(string filterPW, DateTime? pwFromDT, DateTime? pwToDT, int? pwPage)
         {
             var passwordTable = db.PasswordTable.Include(p => p.ReportTable);

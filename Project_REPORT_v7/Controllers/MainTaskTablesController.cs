@@ -40,7 +40,7 @@ namespace Project_REPORT_v7.Controllers
         /// <param name="mtFulltext">string - Fulltext filter</param>
         /// <param name="mtPage">Integer: page number - nullable</param>
         /// <returns></returns>
-        [AuthorizeAD(Groups = "CCR_Report_Control,CCR_Report_Admin")]
+        [AuthorizeAD(Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin" )]
         public PartialViewResult FilterIndex(string filterMT, DateTime? mtFromDT, DateTime? mtToDT, string mtFulltext, int? mtPage)
         {
             // Get all data from MainTaskTable
