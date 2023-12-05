@@ -32,10 +32,18 @@
             <div class="form-horizontal">
 
                 <div class="form-group">
-                    <label for="SpinNumber" class="col-md-2">Number of logs to delete:</label>
-                    <div class="col-md-1">
-                        @*@Html.TextBox("SpinNumber", 0, htmlAttributes: new { @class = "form-control", @id = "SpinNumber" })*@
-                        <input type="number" name="SpinNumber" id="SpinNumber" value="0" class="form-control" />
+                    <div class="number col-md-3">
+                        <label for="SpinNumber" class="form-control-label">Number of logs to delete:</label>
+                        <div class="controlSpin">
+                            @*@Html.TextBox("SpinNumber", 0, htmlAttributes: new { @class = "form-control", @id = "SpinNumber" })*@
+                            <input type="number" name="SpinNumber" id="SpinNumber" value="0" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="oldest">
+                        <label for="OldestCHKBX" class="form-control-label">Delete the oldest logs:</label>
+                        <div class="col-md-1">
+                            @Html.CheckBox("OldestCHKBX", true, htmlAttributes: new { @class = "form-control ckbx" })
+                        </div>
                     </div>
                 </div>
             </div>

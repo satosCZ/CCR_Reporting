@@ -117,13 +117,25 @@ namespace Project_REPORT_v7.Controllers
         /// <returns></returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int SpinNumber)
+        public async Task<ActionResult> DeleteConfirmed(int? SpinNumber, bool? OldestCHKBX)
         {
-            if (SpinNumber > 0) 
-            { 
-                var logTable = await db.LogTable.OrderBy(o => o.L_DATE).Take(SpinNumber).ToListAsync();
-                db.LogTable.RemoveRange(logTable.ToList());
-                await db.SaveChangesAsync();
+            if ( OldestCHKBX.Value )
+            {
+                if ( SpinNumber.Value > 0 )
+                {
+                    var logTable = await db.LogTable.OrderBy(o => o.L_DATE).Take(SpinNumber.Value).ToListAsync();
+                    db.LogTable.RemoveRange( logTable.ToList() );
+                    await db.SaveChangesAsync();
+                }
+            }
+            else
+            {
+                if ( SpinNumber.Value > 0 )
+                {
+                    var logTable = await db.LogTable.OrderByDescending(o => o.L_DATE).Take(SpinNumber.Value).ToListAsync();
+                    db.LogTable.RemoveRange( logTable.ToList() );
+                    await db.SaveChangesAsync();
+                }
             }
             return RedirectToAction("Index");
         }
