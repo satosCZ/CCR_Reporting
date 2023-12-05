@@ -188,3 +188,23 @@ select.input-lg > option {
     background-color: #343a40!important;
     color: #fff!important;
 }
+
+.number {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.controlSpin {
+    width: 100px;
+    margin: 0 auto;
+}
+
+.oldest {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.ckbx {
+    margin: 0 auto;
+    height: 32px;
+}
