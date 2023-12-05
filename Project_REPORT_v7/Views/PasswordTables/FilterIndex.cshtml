@@ -44,7 +44,7 @@
 
     <div class="navbar navbar-default">
         <div class="container-fluid">
-            @using (Ajax.BeginForm("FilterIndex", "PasswordTables", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "tab_Password" }, htmlAttributes: new { @class = "navbar-form", @style = "padding: 5px 0 0 0;" }))
+            @using (Ajax.BeginForm("FilterIndex", "PasswordTables", new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "tab_Password" }, htmlAttributes: new { @class = "navbar-form", @style = "padding: 5px 0 0 0;" }))
             {
                 <div class="navbar navbar-left" style="padding-top:3px;">
                     <div class="form-group">
@@ -131,25 +131,25 @@
 
         @*@Html.PagedListPager(Model, pwPage => Url.Action("FilterIndex", new { pwPage, filterPW = Request.QueryString["FilterPW"], pwFromDT = Request.QueryString["pwFromDT"], pwToDT = Request.QueryString["pwToDT"] }), new PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "tab_Password", InsertionMode = InsertionMode.ReplaceWith, }) { Display = PagedListDisplayMode.IfNeeded, DisplayItemSliceAndTotal = true});*@
         @Html.PagedListPager(Model, pwPage => Url.Action(
-                "FilterIndex", 
-                new 
-                { 
-                    pwPage, 
-                    filterPW = Request.QueryString["FilterPW"], 
-                    pwFromDT = Request.QueryString["pwFromDT"], 
-                    pwToDT = Request.QueryString["pwToDT"] 
-                }), 
+                "FilterIndex",
+                new
+                {
+                    filterPW = Request.QueryString["FilterPW"],
+                    pwFromDT = Request.QueryString["pwFromDT"],
+                    pwToDT = Request.QueryString["pwToDT"],
+                    pwPage
+                } ),
                 PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
-                    new PagedListRenderOptions() 
-                    { 
-                        Display = PagedListDisplayMode.IfNeeded, 
-                        DisplayItemSliceAndTotal = true 
-                    }, 
-                    new AjaxOptions() 
-                    { 
-                        HttpMethod = "GET", 
-                        UpdateTargetId = "tab_Password", 
-                        InsertionMode = InsertionMode.ReplaceWith, 
+                    new PagedListRenderOptions()
+                    {
+                        Display = PagedListDisplayMode.IfNeeded,
+                        DisplayItemSliceAndTotal = true
+                    },
+                    new AjaxOptions()
+                    {
+                        HttpMethod = "GET",
+                        UpdateTargetId = "tab_Password",
+                        InsertionMode = InsertionMode.ReplaceWith,
                     }));
     </div>
 </div>
