@@ -88,7 +88,14 @@
                 @Html.DisplayFor( modelItem => item.Solution )
             </td>
             <td class="text-center" style="vertical-align:middle;">
-                @Html.DisplayFor( modelItem => item.Cooperation )
+                @{
+                    string cooperation = "";
+                    if ( item.Cooperation != null )
+                    {
+                        cooperation = item.Cooperation.Replace( ". ", ".\u00A0" );
+                    }
+                }
+                @Html.DisplayFor( modelItem => cooperation )
             </td>
             <td class="text-center col-lg-1" style="vertical-align:middle;">
                 <input type="hidden" value="@item.MainTaskID" class="maintaskID" />
