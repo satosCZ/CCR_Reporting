@@ -268,7 +268,7 @@ namespace Project_REPORT_v7.Controllers
                     Graphics g = Graphics.FromImage(bitmap);
 
                     // Compress by extensions
-                    if ( extension == ".png" || extension == ".gif" )
+                    if ( extension == ".png" || extension == ".gif" || extension == ".PNG" || extension == ".GIF" )
                     {
                         g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                         g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
@@ -280,7 +280,7 @@ namespace Project_REPORT_v7.Controllers
                         g.Dispose();
                         originalBMP.Dispose();
                     }
-                    else if ( extension == ".jpg" )
+                    else if ( extension == ".jpg" || extension == ".JPG" || extension == ".jpeg" || extension == ".JPEG" )
                     {
                         g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                         g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
