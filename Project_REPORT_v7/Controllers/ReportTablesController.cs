@@ -6,6 +6,7 @@ using System.Data.Entity.Core.EntityClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web.Mvc;
 using PagedList;
 using Project_REPORT_v7.Controllers.Addon;
@@ -59,6 +60,38 @@ namespace Project_REPORT_v7.Controllers
         {
             var reportTable = db.ReportTable.Include(r => r.MembersTable).Include(r => r.MembersTable1).OrderByDescending(s => s.Date).ThenBy(t => t.Shift);
             return PartialView("IndexHome", reportTable.Take(5));
+        }
+
+        [AuthorizeAD( Groups = "CCR_Report,CCR_Report_Control,CCR_Report_Admin" )]
+        public void SendEmail()
+        {
+            try
+            {
+                string From = "jiri.kukuczka@hyundai-motor.cz";
+                string To = "jiri.kukuczka@hyundai-motor.cz";
+                string subject = "Test";
+                string body = "Test in body for CCR_Report with an address: " + this.Url.ToString();
+
+                MailMessage mail = new MailMessage( From, To, subject, body );
+                mail.IsBodyHtml = false;
+
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "mail.hyundai-motor.cz";
+                smtp.Port = 25;
+
+                smtp.Send( mail );
+            }
+            catch ( Exception ex )
+            {
+                Debug.WriteLine( ex.ToString() );
+                try
+                {
+                    int userID;
+                    if ( int.TryParse( Session ["UserID"].ToString(), out userID ) )
+                        LogHelper.AddLog( DateTime.Now, "ReportTable | Create[GET] | Error", $"Message: {ex.ToString()}", userID );
+                }
+                catch { }
+            }
         }
 
         /// <summary>
