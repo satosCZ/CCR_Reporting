@@ -22,8 +22,8 @@ namespace Project_REPORT_v7.Models
         [DisplayFormat( DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true )]
         public System.TimeSpan Time { get; set; }
         [Required]
-        [DisplayName( "Name" )]
-        [MaxLength( 50, ErrorMessage = "Maximum length can't be more than 50 characters." )]
+        [DisplayName ("Name")]
+        [MaxLength(100, ErrorMessage = "Maximum length can't be more than 100 characters.")]
         public string FullName { get; set; }
         [Required]
         [DisplayName( "User ID" )]

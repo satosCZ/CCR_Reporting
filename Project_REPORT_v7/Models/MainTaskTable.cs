@@ -34,7 +34,7 @@ namespace Project_REPORT_v7.Models
         [Required]
         public string Shop { get; set; }
         [Required]
-        [MaxLength( 150, ErrorMessage = "Maximum length can't be more than 150 characters." )]
+        [MaxLength( 150, ErrorMessage = "Maximum length is 150 characters." )]
         public string System { get; set; }
         [Required]
         [DisplayName( "What happened" )]

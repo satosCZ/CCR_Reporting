@@ -11,7 +11,6 @@ namespace Project_REPORT_v7.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     public partial class PreCheckTable
@@ -22,12 +21,10 @@ namespace Project_REPORT_v7.Models
         [DisplayFormat( DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true )]
         public System.TimeSpan Time { get; set; }
         [Required]
-        [DisplayName( "System" )]
-        [MaxLength( 50, ErrorMessage = "Maximum length can't be more than 50 characters." )]
+        [MaxLength(50, ErrorMessage = "Maximum length can't be more than 50 characters.")]
         public string System { get; set; }
         [Required]
-        [DisplayName( "Check" )]
-        [MaxLength( 5, ErrorMessage = "Maximum length can't be more than 5 characters." )]
+        [MaxLength( 10, ErrorMessage = "Maximum length can't be more than 10 characters." )]
         public string Check { get; set; }
         [DataType( DataType.Time )]
         [DisplayFormat( DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true )]

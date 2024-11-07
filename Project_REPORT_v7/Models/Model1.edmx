@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ReportDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ReportDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="HourOvertimeTable">
           <Key>
             <PropertyRef Name="OvertimeID" />
@@ -36,9 +36,9 @@
           <Property Name="Time" Type="time" Precision="7" Nullable="false" />
           <Property Name="Duration" Type="time" Precision="7" Nullable="false" />
           <Property Name="Shop" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="System" Type="varchar" MaxLength="150" Nullable="false"/>
-          <Property Name="Problem" Type="nvarchar(max)" Nullable="false"/>
-          <Property Name="Solution" Type="nvarchar(max)" Nullable="false"/>
+          <Property Name="System" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Problem" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Solution" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Cooperation" Type="nvarchar(max)" />
           <Property Name="ReportID" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
@@ -50,6 +50,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="ShiftID" Type="int" />
+          <Property Name="SendEmail" Type="int" />
         </EntityType>
         <EntityType Name="MT_IMAGES">
           <Key>
@@ -310,8 +311,7 @@
             <End Role="ReportTable" EntitySet="ReportTable" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ReportDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -366,6 +366,7 @@
           <NavigationProperty Name="ShiftTable" Relationship="Self.FK_MembersTable" FromRole="MembersTable" ToRole="ShiftTable" />
           <NavigationProperty Name="ReportTable" Relationship="Self.FK_ReportTable_Member_One_ID" FromRole="MembersTable" ToRole="ReportTable" />
           <NavigationProperty Name="ReportTable1" Relationship="Self.FK_ReportTable_Member_Two_ID" FromRole="MembersTable" ToRole="ReportTable" />
+          <Property Name="SendEmail" Type="Int32" />
         </EntityType>
         <EntityType Name="MT_IMAGES">
           <Key>
@@ -394,7 +395,7 @@
           </Key>
           <Property Name="PreCheckID" Type="Guid" Nullable="false" />
           <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="System" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="System" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Check" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="EmailTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ReportID" Type="Guid" Nullable="false" />
@@ -691,6 +692,7 @@
           <EntitySetMapping Name="MembersTable">
             <EntityTypeMapping TypeName="ReportDBModel.MembersTable">
               <MappingFragment StoreEntitySet="MembersTable">
+                <ScalarProperty Name="SendEmail" ColumnName="SendEmail" />
                 <ScalarProperty Name="MemberID" ColumnName="MemberID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Email" ColumnName="Email" />

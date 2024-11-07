@@ -35,9 +35,8 @@ namespace Project_REPORT_v7.Models
         [Required]
         public string Shift { get; set; }
         [Required]
-        [DisplayName( "Member 1" )]
+        [DisplayName("Member 1")]
         public Nullable<int> Member_One_ID { get; set; }
-        [Required]
         [DisplayName( "Member 2" )]
         public Nullable<int> Member_Two_ID { get; set; }
         [DisplayName( "Shift ID" )]
