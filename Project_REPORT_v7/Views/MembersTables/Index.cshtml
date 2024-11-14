@@ -18,6 +18,9 @@
         <th>
             @Html.DisplayName("Shift")
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SetEmail)  
+        </th>
         <th></th>
     </tr>
 
@@ -33,6 +36,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ShiftTable.ShiftName)
                 @Html.HiddenFor(modelItem => item.ShiftTable.ShiftID)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.SetEmail)*@
+                @Html.CheckBoxFor(modelItem => item.SetEmail, htmlAttributes: new {@class="form-control, disabled"})
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.MemberID }) | 

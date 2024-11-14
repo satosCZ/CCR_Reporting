@@ -28,9 +28,21 @@ namespace Project_REPORT_v7.Models
         public string Email { get; set; }
         [DisplayName( "Shift" )]
         public Nullable<int> ShiftID { get; set; }
-        [DisplayName( "Receive Email" )]
+        
         public Nullable<int> SendEmail { get; set; }
-    
+        [DisplayName( "Receive Email" )]
+        public bool SetEmail
+        {
+            get
+            {
+                return SendEmail == 1;
+            }
+            set
+            {
+                SendEmail = value ? 1 : 0;
+            }
+        }
+
         public virtual ShiftTable ShiftTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReportTable> ReportTable { get; set; }

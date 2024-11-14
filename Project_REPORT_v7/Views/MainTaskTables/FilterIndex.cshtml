@@ -90,31 +90,34 @@
             <table class="table table-responsive table-striped table-condensed table-hover">
                 <tr>
                     <th class="text-center">
-                        @Html.DisplayName("Date")
+                        @Html.DisplayName( "Date" )
                     </th>
                     <th class="text-center">
-                        @Html.DisplayName("Shift")
+                        @Html.DisplayName( "Shift" )
                     </th>
                     <th class="text-center">
-                        @Html.DisplayName("CCR")
+                        @Html.DisplayName( "CCR" )
                     </th>
                     <th class="text-center">
-                        @Html.DisplayName("Office")
+                        @Html.DisplayName( "Office" )
                     </th>
                     <th class="text-center">
-                        @Html.DisplayName("Time")
+                        @Html.DisplayName( "Time" )
                     </th>
                     <th class="text-center">
-                        @Html.DisplayName("Shop")
+                        @Html.DisplayName( "Duration" )
                     </th>
                     <th class="text-center">
-                        @Html.DisplayName("System")
+                        @Html.DisplayName( "Shop" )
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayName( "System" )
                     </th>
                     <th class="text-center col-md-3">
-                        @Html.DisplayName("What happened")
+                        @Html.DisplayName( "What happened" )
                     </th>
                     <th class="text-center col-md-4">
-                        @Html.DisplayName("How it was solved")
+                        @Html.DisplayName( "How it was solved" )
                     </th>
                 </tr>
 
@@ -122,32 +125,35 @@
                 {
                     <tr>
                         <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.ReportTable.Date)
+                            @Html.DisplayFor( modelItem => item.ReportTable.Date )
                         </td>
                         <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.ReportTable.Shift[0])
+                            @Html.DisplayFor( modelItem => item.ReportTable.Shift [0] )
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.ReportTable.MembersTable.Name) <br />
-                            @Html.DisplayFor(modelItem => item.ReportTable.MembersTable1.Name)
+                            @Html.DisplayFor( modelItem => item.ReportTable.MembersTable.Name ) <br />
+                            @Html.DisplayFor( modelItem => item.ReportTable.MembersTable1.Name )
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Cooperation)
+                            @Html.DisplayFor( modelItem => item.Cooperation )
                         </td>
                         <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.Duration)
+                            @Html.DisplayFor( modelItem => item.Time )
                         </td>
                         <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.Shop)
+                            @Html.DisplayFor( modelItem => item.Duration )
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor( modelItem => item.Shop )
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.System)
+                            @Html.DisplayFor( modelItem => item.System )
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Problem)
+                            @Html.DisplayFor( modelItem => item.Problem )
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Solution)
+                            @Html.DisplayFor( modelItem => item.Solution )
                         </td>
                     </tr>
                 }

@@ -67,19 +67,57 @@ namespace Project_REPORT_v7.Controllers
         {
             try
             {
-                string From = "jiri.kukuczka@hyundai-motor.cz";
-                string To = "jiri.kukuczka@hyundai-motor.cz";
-                string subject = "Test";
-                string body = "Test in body for CCR_Report with an address: " + this.Url.ToString();
+                // ToDo: Get the email from the user by the user ID
+                string defaultUser = "90000090";
+                string activeUser = Session ["UserID"].ToString();
+                string from = "";
+                if (activeUser.StartsWith("90"))
+                {
+                    from = db.MembersTable.Where( w => w.MemberID == int.Parse( activeUser ) ).Select( s => s.Email ).FirstOrDefault();
+                }
+                else
+                {
+                    from = db.MembersTable.Where( w => w.MemberID == int.Parse( defaultUser ) ).Select( s => s.Email ).FirstOrDefault();
+                }
 
-                MailMessage mail = new MailMessage( From, To, subject, body );
-                mail.IsBodyHtml = false;
+                // Get the list of emails from the members table
+                var mailList = db.MembersTable.Where(w => w.SendEmail == 1).Select(user => user.Email).ToList();
 
-                SmtpClient smtp = new SmtpClient();
-                smtp.Host = "mail.hyundai-motor.cz";
-                smtp.Port = 25;
+                // Get the last created report
+                var temp = db.ReportTable.OrderByDescending(o => o.Date).ThenBy(t => t.Shift).First();
 
-                smtp.Send( mail );
+                // Create the subject and body of the email
+                string subject = "Report - " + temp.Date.ToString("yyyy_MM_dd") + "_Shift_" + temp.Shift;
+                string body = "Hello, <br /><br />Please in link is recently created report by CCR member from " + temp.Shift + " shift. <br />Link: " + this.Url.ToString() + "<br /><br />Best Regards";
+
+                // Creating the mail message
+                using ( MailMessage mail = new MailMessage() )
+                {
+                    // Set the email from
+                    mail.From = new MailAddress( from );
+
+                    // Add the list of emails to the mail
+                    foreach ( var item in mailList )
+                    {
+                        mail.To.Add( item );
+                    }
+
+                    // Set the subject and body of the email
+                    mail.Subject = subject;
+                    mail.Body = body;
+                    mail.IsBodyHtml = true;
+
+                    // Create the smtp client
+                    using ( SmtpClient smtp = new SmtpClient() )
+                    {
+                        // Set the host and port of the smtp client
+                        smtp.Host = "mail.hyundai-motor.cz";
+                        smtp.Port = 25;
+
+                        // Send the email
+                        smtp.Send( mail );
+                    }
+                }
             }
             catch ( Exception ex )
             {

@@ -36,6 +36,7 @@ namespace Project_REPORT_v7.Controllers
                     Name = ad.MemberName,
                     Email = ad.MemberEmail
                 };
+                member.SendEmail = 0;
                 db.MembersTable.Add(member);
                 db.SaveChanges();
                 Logger.LogInfo($"AddMember - User was successfuly", "Project_REPORT_v7.Controllers.MembersTablesController.AddMember()");
@@ -121,7 +122,7 @@ namespace Project_REPORT_v7.Controllers
         [CheckSessionTimeOut]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MemberID, Name, Email, ShiftID")] MembersTable membersTable)
+        public ActionResult Edit([Bind(Include = "MemberID, Name, Email, ShiftID, SendEmail")] MembersTable membersTable)
         {
             // check if model is valid
             if (ModelState.IsValid)

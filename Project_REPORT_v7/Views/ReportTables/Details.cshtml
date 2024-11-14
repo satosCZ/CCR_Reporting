@@ -6,6 +6,75 @@
     { Session["Closed"] = "false"; }
     else
     { Session["Closed"] = "true"; }
+
+    // Getting time, it's for activating button for sending an email.
+    // Global variables dt - in use in condition bellow, same use for format, enableBtn globaly use for enabling button
+    DateTime dt = DateTime.Now;
+    bool enabledBtn = false;
+    string format = "HH:mm";
+
+    // Global variables for saving CultureInfo nad DateTimeStyles, for intializing only once
+    System.Globalization.CultureInfo ci = System.Globalization.CultureInfo.InvariantCulture;
+    System.Globalization.DateTimeStyles dts = System.Globalization.DateTimeStyles.None;
+
+    // Discovering which shift is active and if the time is in correct timeframe for activating a button
+    switch (Model.Shift)
+    {
+        case "Morning":
+        {
+            var endStart = "13:30";
+            var endEnd = "14:15";
+            DateTime dt1, dt2;
+            if ( (DateTime.TryParseExact( endStart, format, ci, dts, out dt1 )) && (DateTime.TryParseExact( endEnd, format, ci, dts, out dt2 )) )
+            {
+                if ( dt1 < dt && dt < dt2)
+                {
+                    enabledBtn = true;
+                }
+                else
+                {
+                    enabledBtn = false;
+                }
+            }
+        }
+        break;
+        case "Afternoon":
+        {
+            var endStart = "21:30";
+            var endEnd = "22:15";
+            DateTime dt1, dt2;
+            if ( (DateTime.TryParseExact( endStart, format, ci, dts, out dt1 )) && (DateTime.TryParseExact( endEnd, format, ci, dts, out dt2 )) )
+            {
+                if ( dt1 < dt && dt < dt2 )
+                {
+                    enabledBtn = true;
+                }
+                else
+                {
+                    enabledBtn = false;
+                }
+            }
+        }
+        break;
+        case "Night":
+        {
+            var endStart = "5:30";
+            var endEnd = "6:15";
+            DateTime dt1, dt2;
+            if ( (DateTime.TryParseExact( endStart, format, ci, dts, out dt1 )) && (DateTime.TryParseExact( endEnd, format, ci, dts, out dt2 )) )
+            {
+                if ( dt1 < dt && dt < dt2 )
+                {
+                    enabledBtn = true;
+                }
+                else
+                {
+                    enabledBtn = false;
+                }
+            }
+        }
+        break;
+    }
 }
 
 <script>
@@ -68,7 +137,6 @@
             $('#Time').focus();
         });
 
-
         $("body").keypress(function (event) {
             event = event || window.event;
             var target = event.target || event.srcElement;
@@ -107,9 +175,15 @@
 <div class="panel panel-info center-block">
     <div class="panel-heading">
         <h1 class="text-center">ReportTable</h1>
-        <div class="col-lg-1 col-lg-offset-11" style="margin-top: -60px;">
-            <a class="btn btn-info btn-lg pull-right" data-modal="" href="/Home/Information" id="btnShortcuts"> <strong>Information</strong> </a>
-            <a class="btn btn-info btn-lg pull-right" href="/ReportTables/SendEmail" id="sendEmail"> <strong>Send an Email</strong> </a>
+        <div class="col-lg-2 col-lg-offset-10" style="margin-top: -60px;">
+            <a class="btn btn-info btn-lg pull-right col-lg-1" data-modal="" href="/Home/Information" id="btnShortcuts"> <strong>Information</strong> </a>            
+            @{
+                if ( enabledBtn )
+                {
+                    Ajax.ActionLink( "Send Email", "SendEmail", "ReportTables", new { id = Model.ReportID }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "MainTask", InsertionMode = InsertionMode.Replace, OnSuccess = "SendEmailSuccess" }, new { @class = "btn btn-info btn-lg pull-right col-lg-1", @style = "margin-right: 10px;", @id = "btnSendEmail" } );
+                }
+
+            }
         </div>
     </div>
     <div class="panel-body" style="padding-bottom:15px;   ">
