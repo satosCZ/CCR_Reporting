@@ -89,7 +89,7 @@ namespace Project_REPORT_v7.Controllers
 
                 // Create the subject and body of the email
                 string subject = "Report - " + temp.Date.ToString("yyyy_MM_dd") + "_Shift_" + temp.Shift;
-                string body = "Hello, <br /><br />Please in link is recently created report by CCR member from " + temp.Shift + " shift. <br />Link: " + this.Url.ToString() + "<br /><br />Best Regards";
+                string body = "Hello, <br /><br />Please in link is recently created report by CCR member from " + temp.Shift + " shift. <br />Link: " + this.Request.UrlReferrer.ToString() + "<br /><br />Best Regards <br />" + Session["User"].ToString();
 
                 // Creating the mail message
                 using ( MailMessage mail = new MailMessage() )
