@@ -122,7 +122,7 @@ namespace Project_REPORT_v7.Controllers
         [CheckSessionTimeOut]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MemberID, Name, Email, ShiftID, SendEmail")] MembersTable membersTable)
+        public ActionResult Edit([Bind(Include = "MemberID, Name, Email, ShiftID, SetEmail")] MembersTable membersTable)
         {
             // check if model is valid
             if (ModelState.IsValid)
@@ -134,7 +134,7 @@ namespace Project_REPORT_v7.Controllers
                 db.SaveChanges();
             }
             // return index page
-            return View("Index");
+            return RedirectToAction( "Index" );
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace Project_REPORT_v7.Controllers
             MembersTable membersTable = db.MembersTable.Find(id);
             db.MembersTable.Remove(membersTable);
             db.SaveChanges();
-            return View("Index");
+            return RedirectToAction( "Index" );
         }
 
         /// <summary>
