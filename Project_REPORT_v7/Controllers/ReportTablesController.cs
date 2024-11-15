@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Web.Mvc;
+using Microsoft.SqlServer.Server;
 using PagedList;
 using Project_REPORT_v7.Controllers.Addon;
 using Project_REPORT_v7.Models;
@@ -68,16 +69,16 @@ namespace Project_REPORT_v7.Controllers
             try
             {
                 // ToDo: Get the email from the user by the user ID
-                string defaultUser = "90000090";
-                string activeUser = Session ["UserID"].ToString();
+                int defaultUser = 90000090;
+                //string activeUser = Session["UserID"].ToString();
                 string from = "";
-                if (activeUser.StartsWith("90"))
+                if (int.TryParse( Session ["UserID"].ToString(), out int userID ) )
                 {
-                    from = db.MembersTable.Where( w => w.MemberID == int.Parse( activeUser ) ).Select( s => s.Email ).FirstOrDefault();
+                    from = db.MembersTable.Where( w => w.MemberID == userID ).Select( s => s.Email ).FirstOrDefault();
                 }
                 else
                 {
-                    from = db.MembersTable.Where( w => w.MemberID == int.Parse( defaultUser ) ).Select( s => s.Email ).FirstOrDefault();
+                    from = db.MembersTable.Where( w => w.MemberID == defaultUser ).Select( s => s.Email ).FirstOrDefault();
                 }
 
                 // Get the list of emails from the members table
