@@ -63,6 +63,11 @@
         });
         
     });
+
+    function SendEmailSuccess() {
+        alert("Email was send.");
+    }
+
     $(document).ready(function () {
         $("#ModalPopup").on('shown.bs.modal', function () {
             $('#Time').focus();
@@ -99,10 +104,6 @@
         function showAcc(id) {
             $(".ui-accordion-content").hide();
             $(id).show();
-        }
-
-        function SendEmailSuccess() {
-            alert("Email was send.");
         }
     });
 </script>
