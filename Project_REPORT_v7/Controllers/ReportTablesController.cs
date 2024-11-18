@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Core.EntityClient;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -93,9 +94,25 @@ namespace Project_REPORT_v7.Controllers
                 #region tableBodyFill
                 var maintask = db.MainTaskTable.Where(w => w.ReportID == temp.ReportID).ToList();
                 string mtBody = "";
+                string background = "";
                 foreach ( var mt in maintask )
                 {
-                    mtBody += "<tr>" + "<td style=\"border:1px black solid; width:55px; padding: 3px 3px 3px 3px; text-align:center\">" + mt.Time.ToString( "hh\\:mm" ) + "</td>" + "<td style=\"border:1px black solid; width:55px; padding: 3px 3px 3px 3px; text-align:center\">" + mt.Duration.ToString( "hh\\:mm" ) + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + mt.Shop + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + mt.System + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + mt.Problem + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + mt.Solution + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + mt.Cooperation + "</td>" + "</tr>";
+                    switch ( mt.Shop )
+                    {
+                        case "HMMC":
+                            background = "background-color: #daeef3;";
+                            break;
+                        case "GLOVIS":
+                            background = "background-color: #ddd0c4;";
+                            break;
+                        case "TRANSYS":
+                            background = "background-color: #e4dfec;";
+                            break;
+                        default:
+                            background = "background-color: #daeef3;";
+                            break;
+                    }
+                    mtBody += "<tr>" + "<td style=\"border:1px black solid; width:55px; padding: 3px 3px 3px 3px; text-align:center\">" + mt.Time.ToString( "hh\\:mm" ) + "</td>" + "<td style=\"border:1px black solid; width:55px; padding: 3px 3px 3px 3px; text-align:center\">" + mt.Duration.ToString( "hh\\:mm" ) + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;" + background + "\">" + mt.Shop + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + mt.System + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + mt.Problem + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + mt.Solution + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + mt.Cooperation + "</td>" + "</tr>";
                 }
 
                 var reissue = db.ReIssueTable.Where(w => w.ReportID == temp.ReportID).ToList();
@@ -198,8 +215,8 @@ namespace Project_REPORT_v7.Controllers
                     "<tr>" +
                     "<th style=\"border:1px black solid; width:55px; text-align:center\">Time</th>" +
                     "<th style=\"border:1px black solid; width:auto; text-align:center\">Name</th>" +
-                    "<th style=\"border:1px black solid; width:160px; text-align:center\">User ID</th>" +
-                    "<th style=\"border:1px black solid; width:75px; text-align:center\">System</th>" +
+                    "<th style=\"border:1px black solid; width:180px; text-align:center\">User ID</th>" +
+                    "<th style=\"border:1px black solid; width:135px; text-align:center\">System</th>" +
                     "</tr>" + pwBody +
                     "</tbody>" +
                     "</table>" +
