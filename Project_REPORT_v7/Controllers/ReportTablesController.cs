@@ -72,13 +72,16 @@ namespace Project_REPORT_v7.Controllers
                 int defaultUser = 90000090;
                 //string activeUser = Session["UserID"].ToString();
                 string from = "";
+                string fullName = "";
                 if (int.TryParse( Session ["UserID"].ToString(), out int userID ) )
                 {
                     from = db.MembersTable.Where( w => w.MemberID == userID ).Select( s => s.Email ).FirstOrDefault();
+                    fullName = db.MembersTable.Where(w => w.MemberID == userID).Select(s => s.Name ).FirstOrDefault();
                 }
                 else
                 {
                     from = db.MembersTable.Where( w => w.MemberID == defaultUser ).Select( s => s.Email ).FirstOrDefault();
+                    fullName = db.MembersTable.Where( w => w.MemberID == userID ).Select( s => s.Name ).FirstOrDefault();
                 }
 
                 // Get the list of emails from the members table
@@ -87,9 +90,136 @@ namespace Project_REPORT_v7.Controllers
                 // Get the last created report
                 var temp = db.ReportTable.OrderByDescending(o => o.Date).ThenBy(t => t.Shift).First();
 
-                // Create the subject and body of the email
-                string subject = "Report - " + temp.Date.ToString("yyyy_MM_dd") + "_Shift_" + temp.Shift;
-                string body = "Hello, <br /><br />Please in link is recently created report by CCR member from " + temp.Shift + " shift. <br />Link: " + this.Request.UrlReferrer.ToString() + "<br /><br />Best Regards <br />" + Session["User"].ToString();
+                #region tableBodyFill
+                var maintask = db.MainTaskTable.Where(w => w.ReportID == temp.ReportID).ToList();
+                string mtBody = "";
+                foreach ( var mt in maintask )
+                {
+                    mtBody += "<tr>" + "<td style=\"border:1px black solid; width:55px; padding: 3px 3px 3px 3px; text-align:center\">" + mt.Time.ToString( "hh\\:mm" ) + "</td>" + "<td style=\"border:1px black solid; width:55px; padding: 3px 3px 3px 3px; text-align:center\">" + mt.Duration.ToString( "hh\\:mm" ) + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + mt.Shop + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + mt.System + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + mt.Problem + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + mt.Solution + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + mt.Cooperation + "</td>" + "</tr>";
+                }
+
+                var reissue = db.ReIssueTable.Where(w => w.ReportID == temp.ReportID).ToList();
+                string riBody = "";
+                foreach ( var ri in reissue )
+                {
+                    riBody += "<tr>" + "<td style=\"border:1px black solid; width:55px; padding: 3px 3px 3px 3px; text-align:center\">" + ri.Time.ToString( "hh\\:mm" ) + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + ri.User + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + ri.Objective + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + ri.BodyNum + "</td>" + "</tr>";
+                }
+
+                var printers = db.PrintersTable.Where(w => w.ReportID == temp.ReportID).ToList();
+                string ptBody = "";
+                foreach ( var pt in printers )
+                {
+                    ptBody += "<tr>" + "<td style=\"border:1px black solid; width:55px; padding: 3px 3px 3px 3px; text-align:center\">" + pt.Time.ToString( "hh\\:mm" ) + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + pt.User + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + pt.Objective + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + pt.Printer + "</td>" + "</tr>";
+                }
+
+                var precheck = db.PreCheckTable.Where(w => w.ReportID == temp.ReportID).ToList();
+                string pcBody = "";
+                foreach ( var pc in precheck )
+                {
+                    pcBody += "<tr>" + "<td style=\"border:1px black solid; width:55px; padding: 3px 3px 3px 3px; text-align:center\">" + pc.Time.ToString( "hh\\:mm" ) + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + pc.System + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px; text-align:center\">" + pc.Check + "</td>" + "<td style=\"border:1px black solid; width:55px; padding: 3px 3px 3px 3px; text-align:center\">" + pc.EmailTime + "</td>" + "</tr>";
+                }
+
+                var password = db.PasswordTable.Where(w => w.ReportID == temp.ReportID).ToList();
+                string pwBody = "";
+                foreach ( var pw in password )
+                {
+                    pwBody += "<tr>" + "<td style=\"border:1px black solid; width:55px; padding: 3px 3px 3px 3px; text-align:center\">" + pw.Time.ToString( "hh\\:mm" ) + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px; text-align:center\">" + pw.FullName + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px; text-align:center\">" + pw.UserID + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + pw.System + "</td>" + "</tr>";
+                }
+
+                var hourOvertime = db.HourOvertimeTable.Where(w => w.ReportID == temp.ReportID).ToList();
+                string hoBody = "";
+                foreach ( var ho in hourOvertime )
+                {
+                    hoBody += "<tr>" + "<td style=\"border:1px black solid; width:55px; padding: 3px 3px 3px 3px; text-align:center\"> " + ho.Time.ToString( "hh\\:mm" ) + "</td>" + "<td style=\"border:1px black solid; width:55px; padding: 3px 3px 3px 3px; text-align:center\">" + ho.Duration.ToString( "hh\\:mm" ) + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + ho.Shop + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + ho.Type + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + ho.Description + "</td>" + "<td style=\"border:1px black solid; padding: 3px 3px 3px 3px;\">" + ho.Cooperation + "</td>" + "</tr>";
+                }
+                #endregion
+
+                string subject = "CCR Report " + temp.Date.ToString("yyyy-MM-dd") + " " + (temp.Shift=="Day"? "Morning" : temp.Shift);
+                string body = "Hello <br />" +
+                    "<br />" +
+                    "bellow you can se current shift's CCR report. <br />" +
+                    "<br />" +
+                    "Should you have any questions, feel free to ask for more information through this email or CCR telephone number 999.<br />" +
+                    "<br />" +
+                    "<strong>Main Task</strong> <br />" +
+                    "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"width:774.65pt; border-collapse:collapse\" width=\"1033\">" +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th style=\"border:1px black solid; width:55px; text-align:center\">Time</th>" +
+                    "<th style=\"border:1px black solid; width:55px; text-align:center\">Duration</th>" +
+                    "<th style=\"border:1px black solid; width:75px; text-align:center\">Shop</th>" +
+                    "<th style=\"border:1px black solid; width:148px; text-align:center\">System</th>" +
+                    "<th style=\"border:1px black solid; width:325px; text-align:center\">What Happened</th>" +
+                    "<th style=\"border:1px black solid; width:325px; text-align:center\">How it was solved</th>" +
+                    "<th style=\"border:1px black solid; width:70px; text-align:center\">Cooperation</th>" +
+                    "</tr>" + mtBody +
+                    "</tbody>" +
+                    "</table>" +
+                    "<br />" +
+                    "<strong>Re-Issue</strong> <br />" +
+                    "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse:collapse\" width=\"974\">" +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th style=\"border:1px black solid; width:55px; text-align:center\">Time</th>" +
+                    "<th style=\"border:1px black solid; width:75px; text-align:center\">Who</th>" +
+                    "<th style=\"border:1px black solid; width:auto; text-align:center\">What</th>" +
+                    "<th style=\"border:1px black solid; width:120px; text-align:center\">Body Num.</th>" +
+                    "</tr>" + riBody +
+                    "</tbody>" +
+                    "</table>" +
+                    "<br />" +
+                    "<strong>Printers</strong> <br />" +
+                    "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse:collapse\" width=\"974\"> " +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th style=\"border:1px black solid; width:55px; text-align:center\">Time</th>" +
+                    "<th style=\"border:1px black solid; width:75px; text-align:center\">Who</th>" +
+                    "<th style=\"border:1px black solid; width:auto; text-align:center\">What</th>" +
+                    "<th style=\"border:1px black solid; width:120px; text-align:center\">Printer</th>" +
+                    "</tr>" + ptBody +
+                    "</tbody>" +
+                    "</table>" +
+                    "<br />" +
+                    "<strong>PreCheck</strong> <br />" +
+                    "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse:collapse\" width=\"974\">" +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th style=\"border:1px black solid; width:55px; text-align:center\">Time</th>" +
+                    "<th style=\"border:1px black solid; width:auto; text-align:center\">System</th>" +
+                    "<th style=\"border:1px black solid; width:75px; text-align:center\">Check</th>" +
+                    "<th style=\"border:1px black solid; width:95px; text-align:center\">Email Time</th>" +
+                    "</tr>" + pcBody +
+                    "</tbody>" +
+                    "</table>" +
+                    "<br />" +
+                    "<strong>Password</strong> <br />" +
+                    "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse:collapse\" width=\"974\">" +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th style=\"border:1px black solid; width:55px; text-align:center\">Time</th>" +
+                    "<th style=\"border:1px black solid; width:auto; text-align:center\">Name</th>" +
+                    "<th style=\"border:1px black solid; width:160px; text-align:center\">User ID</th>" +
+                    "<th style=\"border:1px black solid; width:75px; text-align:center\">System</th>" +
+                    "</tr>" + pwBody +
+                    "</tbody>" +
+                    "</table>" +
+                    "<br />" +
+                    "<strong>Hour Overtime</strong> <br />" +
+                    "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"width:774.65pt; border-collapse:collapse\" width=\"1033\">" +
+                    "<tbody>" +
+                    "<tr>" +
+                    "<th style=\"border:1px black solid; width:55px; text-align:center\">Time</th>" +
+                    "<th style=\"border:1px black solid; width:55px; text-align:center\">Duration</th>" +
+                    "<th style=\"border:1px black solid; width:75px; text-align:center\">Shop</th>" +
+                    "<th style=\"border:1px black solid; width:140px; text-align:center\">Type</th>" +
+                    "<th style=\"border:1px black solid; width:auto; text-align:center\">Description</th>" +
+                    "<th style=\"border:1px black solid; width:120px; text-align:center\">Cooperation</th>" +
+                    "</tr>" + hoBody +
+                    "</tbody>" +
+                    "</table>" +
+                    "<br/ ><br />" +
+                    "Best regards,<br />" + fullName;
+
 
                 // Creating the mail message
                 using ( MailMessage mail = new MailMessage() )
