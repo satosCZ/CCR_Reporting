@@ -88,8 +88,12 @@ namespace Project_REPORT_v7.Controllers
                 // Get the list of emails from the members table
                 var mailList = db.MembersTable.Where(w => w.SendEmail == 1).Select(user => user.Email).ToList();
 
-                // Get the last created report
-                var temp = db.ReportTable.OrderByDescending(o => o.Date).ThenBy(t => t.Shift).First();
+                // Get the last created report - obsolete
+                // var temp = db.ReportTable.OrderByDescending(o => o.Date).ThenBy(t => t.Shift).First();
+
+                // Get the requested Report GUID
+                string repGUID = this.Request.UrlReferrer.Segments[3].ToString();
+                var temp = db.ReportTable.Where(w => w.ReportID.ToString() == repGUID).First();
 
                 #region tableBodyFill
                 var maintask = db.MainTaskTable.Where(w => w.ReportID == temp.ReportID).ToList();
