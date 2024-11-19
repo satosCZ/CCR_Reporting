@@ -111,9 +111,9 @@
 <div class="panel panel-info center-block">
     <div class="panel-heading">
         <h1 class="text-center">ReportTable</h1>
-        <div class="col-lg-2 col-lg-offset-10" style="margin-top: -60px;">
+        <div class="col-lg-4 col-lg-offset-8" style="margin-top: -60px;">
             <a class="btn btn-info btn-lg pull-right" data-modal="" href="/Home/Information" id="btnShortcuts"> <strong>Information</strong> </a>            
-            @Ajax.ActionLink( "Send Email", "SendEmail", "ReportTables", new { id = Model.ReportID }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "SendEmailSuccess" }, new { @class = "btn btn-info btn-lg pull-right", @style = "margin-right: 10px;", @id = "btnSendEmail" } );   
+            @Ajax.ActionLink( "Send Email", "SendEmail", "ReportTables", new { id = Model.ReportID }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "SendEmailSuccess" }, new { @class = "btn btn-primary btn-lg pull-right", @style = "margin-right: 10px;", @id = "btnSendEmail" } );   
         </div>
     </div>
     <div class="panel-body" style="padding-bottom:15px;   ">
